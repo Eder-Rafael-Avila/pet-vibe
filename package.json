@@ -1,0 +1,25 @@
+{
+  "name": "pet-vibe",
+  "version": "1.0.0",
+  "description": "Projeto de TCC - o PetVibe é um site de adoção de animais.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eder-Rafael-Avila/pet-vibe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Eder-Rafael-Avila/pet-vibe/issues"
+  },
+  "homepage": "https://github.com/Eder-Rafael-Avila/pet-vibe#readme",
+  "dependencies": {
+    "react-router-dom": "^7.18.4",
+    "sass": "^1.105.0"
+  }
+}
