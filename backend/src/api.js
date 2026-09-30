@@ -1,7 +1,7 @@
 import 'dotenv/config.js';
 import cors from 'cors';
 import express from 'express';
-import {NovasRotas} from './routes.js';
+import NovasRotas from './routes.js';
 
 const api = express()
 
