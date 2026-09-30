@@ -72,7 +72,7 @@ export default function Header({
             {!logado ? (
                 <div className="buttons">
                     <button>
-                        Entrar
+                        <NavLink to="/Login">Entrar</NavLink>
                     </button>
                     <button id='cadastro'>
                         Cadastrar
