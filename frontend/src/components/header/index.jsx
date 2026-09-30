@@ -1,12 +1,15 @@
 import './index.scss';
 
-import { Link } from 'react';
+import { NavLink } from 'react-router-dom';
 
-export default function Header() {
+export default function Header({ 
+    logado
+ }) {
+
     return (
         <header className='comp-header'>
             <div className="imagem">
-                <img src="" alt="" />
+                <img src="/assets/images/logo.png" alt="Logo PetVibe" />
             </div>
             <div className="title">
                 <h1>Pet<span>Vibe</span></h1>
@@ -14,30 +17,73 @@ export default function Header() {
             <nav>
                 <ul>
                     <li>
-                        <Link></Link>
+                        <NavLink
+                        to="/"
+                        style={({ isActive }) => ({
+                            fontWeight: 'bold',
+                            color: isActive ? '#F8561F' : '#0F3D5E',
+                            textDecoration: 'none'
+                        })}
+                        ><p>Início</p></NavLink>
                     </li>
                     <li>
-
+                        <NavLink
+                        to="/sobreNos"
+                        style={({ isActive }) => ({
+                            fontWeight: 'bold',
+                            color: isActive ? '#F8561F' : '#0F3D5E',
+                            textDecoration: 'none'
+                        })}
+                        ><p>Sobre Nós</p></NavLink>
                     </li>
                     <li>
-
+                        <NavLink
+                        to="/comoFunciona"
+                        style={({ isActive }) => ({
+                            fontWeight: 'bold',
+                            color: isActive ? '#F8561F' : '#0F3D5E',
+                            textDecoration: 'none'
+                        })}
+                        ><p>Como funciona</p></NavLink>
                     </li>
                     <li>
-
+                        <NavLink
+                        to="/animais"
+                        style={({ isActive }) => ({
+                            fontWeight: 'bold',
+                            color: isActive ? '#F8561F' : '#0F3D5E',
+                            textDecoration: 'none'
+                        })}
+                        ><p>Animais</p></NavLink>
                     </li>
                     <li>
-
+                        <NavLink
+                        to="/ongsParceiras"
+                        style={({ isActive }) => ({
+                            fontWeight: 'bold',
+                            color: isActive ? '#F8561F' : '#0F3D5E',
+                            textDecoration: 'none'
+                        })}
+                        ><p>ONGs Parceiras</p></NavLink>
                     </li>
                 </ul>
             </nav>
-            <div className="buttons">
-                <button>
-                    Entrar
-                </button>
-                <button>
-                    Cadastrar
-                </button>
-            </div>
+
+            {!logado ? (
+                <div className="buttons">
+                    <button>
+                        Entrar
+                    </button>
+                    <button id='cadastro'>
+                        Cadastrar
+                    </button>
+                </div>
+            ) : (
+                <>
+                    {/* Aqui quando o usuário estiver logado. */}
+                </>
+            )}
+            
         </header>
     );
 }
