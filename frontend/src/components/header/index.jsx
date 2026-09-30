@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 export default function Header({ 
     logado
  }) {
-
+    
     return (
         <header className='comp-header'>
             <div className="imagem">
