@@ -6,7 +6,6 @@ SELECT
 nome,
 email,
 telefone,
-cnpj,
 descricao,
 site
 FROM ong
@@ -22,7 +21,6 @@ SELECT
 nome,
 email,
 telefone,
-cnpj,
 descricao,
 site
 FROM ong

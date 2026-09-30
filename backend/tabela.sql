@@ -1,7 +1,7 @@
 create database petvibe;
 use petvibe;
 
-select*from usuarios;
+
 
 create table usuarios(
 id_usuario INT PRIMARY KEY AUTO_INCREMENT,
@@ -9,6 +9,7 @@ imagem VARCHAR(800),
 nome VARCHAR(200) NOT NULL,
 email VARCHAR(200) NOT NULL UNIQUE,
 telefone VARCHAR(20) UNIQUE,
+senha VARCHAR(100),
 cpf varchar(14) UNIQUE,
 data_nascimento DATE
 );
@@ -34,6 +35,7 @@ nome VARCHAR(150) NOT NULL,
 email VARCHAR(150) NOT NULL UNIQUE,
 telefone VARCHAR(20) NOT NULL UNIQUE,
 cnpj VARCHAR(18) UNIQUE,
+senha VARCHAR(100),
 descricao TEXT,
 site VARCHAR(255)
 );
@@ -51,6 +53,7 @@ estado VARCHAR(100),
 
     FOREIGN KEY (id_ong) REFERENCES ong(id_ong)
 );
+
 
 create table perfil_animal(
 id_animal int primary key auto_increment,
@@ -84,7 +87,7 @@ CREATE TABLE adocoes(
 id_adocao INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT,  
 id_animal INT,
-situacao VARCHAR(100),
+situação ENUM('Reprovada','Pendente','Aprovada'),
 FOREIGN KEY (id_usuario) References usuarios(id_usuario),
 FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal)
 ); 
