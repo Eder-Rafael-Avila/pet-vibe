@@ -72,7 +72,13 @@ export default function Header({
             {!logado ? (
                 <div className="buttons">
                     <button>
-                        <NavLink to="/Login">Entrar</NavLink>
+                        <NavLink 
+                        to="/Login"
+                        style={() => ({
+                            color: 'white',
+                            textDecoration: 'none'
+                        })}
+                        >Entrar</NavLink>
                     </button>
                     <button id='cadastro'>
                         Cadastrar
