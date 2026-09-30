@@ -1,36 +1,45 @@
 import './index.scss'
 import { Link } from 'react-router-dom'
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { useState } from 'react';
 
 export default function Login(){
+
+    const[mostrarSenha, setMostrarSenha] = useState(false);
 
     return(
 
         <div className="page-login">
-            <div class="corpo">
+            <div className="corpo">
             <form>
-                <h1>Login</h1>
+                <h1>Acesse a sua conta</h1>
+                <p>Bem-vindo de volta!</p>
                 <div className="input">
                 <input type="email" placeholder='exempleemail@gmail.com' />
                 
                 </div>
                 <div className="input">
-                    <input type="password" placeholder='Senha' />
-                    
+                    <input type={mostrarSenha ? "text" : "password"} placeholder='Senha' /> 
+
+                     <button type='button' className='olhoBotao' onClick={() => setMostrarSenha(!mostrarSenha)}>
+                    {mostrarSenha ? <FaEyeSlash /> : <FaEye/>}
+                 </button>
                 </div>
-                <div className='LembrarSenha'>
+                
+                
                     <label>
-                        <input type="checkbox"  />
+                        <input type="checkbox" className='input-senha' />
                         Lembrar minha senha?
                     </label>
-                        <Link to="#"> Esqueci minha senha</Link>
-                    </div>
-                    <button type="submit">Login</button>
+                        <Link to="#" id='senha' className='link-senha'> Esqueci minha senha</Link>
+                    <button type="submit" className='Login'>Login</button>
 
                     <div className='Cadastrar'> 
-                        <p>Não tem uma conta? <Link to="#">Cadastre-se</Link></p>
+                        <p>Não tem uma conta? <Link to="#" >Cadastre-se</Link></p>
                     </div>
+                    
             </form>
         </div>
-        </div>
+       </div>
     )
 }
