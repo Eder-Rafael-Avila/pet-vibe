@@ -1,14 +1,11 @@
-import { useState } from 'react'
-import './index.scss'
+import './index.scss';
 
-function App() {
-  const [count, setCount] = useState(0)
+import Header from '../../components/header/index.jsx'
 
-  return (
-    <>
-      <h1>Olá, mundo!</h1>
-    </>
-  )
+export default function Home() {
+    return (
+        <>
+            <Header />
+        </>
+    )
 }
-
-export default App
