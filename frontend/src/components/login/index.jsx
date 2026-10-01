@@ -1,6 +1,6 @@
 import './index.scss'
 import { Link } from 'react-router-dom'
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaUser,FaArrowRight,FaKey, FaEnvelope } from "react-icons/fa";
 import { useState } from 'react';
 
 export default function Login(){
@@ -15,10 +15,13 @@ export default function Login(){
                 <h1>Acesse a sua conta</h1>
                 <p>Bem-vindo de volta!</p>
                 <div className="input">
-                <input type="email" placeholder='exempleemail@gmail.com' />
+                    <FaEnvelope className='icone-email' />
+                <input  type="email" placeholder='exempleemail@gmail.com' /> 
+                
                 
                 </div>
                 <div className="input">
+                    <FaLock  className='icone-senha'/>
                     <input type={mostrarSenha ? "text" : "password"} placeholder='Senha' /> 
 
                      <button type='button' className='olhoBotao' onClick={() => setMostrarSenha(!mostrarSenha)}>
@@ -31,7 +34,7 @@ export default function Login(){
                         <input type="checkbox" className='input-senha' />
                         Lembrar minha senha?
                     </label>
-                        <Link to="#" id='senha' className='link-senha'> Esqueci minha senha</Link>
+                        <Link to="#" id='senha'> Esqueci minha senha</Link>
                     <button type="submit" className='Login'>Login</button>
 
                     <div className='Cadastrar'> 
