@@ -44,7 +44,7 @@ export default function Header({
                             color: isActive ? '#F8561F' : '#0F3D5E',
                             textDecoration: 'none'
                         })}
-                        ><p>Como funciona</p></NavLink>
+                        ><p>Marketplace</p></NavLink>
                     </li>
                     <li>
                         <NavLink
@@ -54,7 +54,7 @@ export default function Header({
                             color: isActive ? '#F8561F' : '#0F3D5E',
                             textDecoration: 'none'
                         })}
-                        ><p>Animais</p></NavLink>
+                        ><p>Adoção</p></NavLink>
                     </li>
                     <li>
                         <NavLink
