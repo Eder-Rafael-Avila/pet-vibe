@@ -77,14 +77,14 @@ export async function CriarUsuario(usuario){
     return resposta.insertId
 }
 
+// UsuarioRepository.js
 export async function BuscarPorEmail(email) {
     const command = `
-        SELECT id, nome, email, senha
+        SELECT id_usuario, nome, email, senha
         FROM usuarios
         WHERE email = ?
     `;
 
     const [linhas] = await con.query(command, [email]);
-
     return linhas[0];
 }

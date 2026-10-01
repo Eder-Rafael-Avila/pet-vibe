@@ -36,16 +36,18 @@ endpoints.post('/usuario/cadastrar' , async (req,resp) => {
 endpoints.post('/usuario/login' , async (req,resp) => {
         const {email, senha } = req.body;
 
- const usuario = await DbUsuario.BuscarPorEmail(email);
-    const token = gerarToken({
-        id: usuario.id,
-        email: usuario.email,
-        senha: usuario.senha
-    })
+const usuario = await DBUsuario.BuscarPorEmail(email);
 
-    resp.send({
-        token: token
-    })
+if (!usuario || usuario.senha !== senha) {
+    return resp.status(401).send({ erro: 'E-mail ou senha inválidos' });
+}
+
+const token = gerarToken({
+    id_usuario: usuario.id_usuario
+});
+
+resp.send({ token });
+
 })
 
 export default endpoints
