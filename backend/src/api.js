@@ -7,6 +7,7 @@ const api = express()
 
 api.use(cors());
 api.use(express.json());
+api.use('/uploads', express.static('src/uploads'));
 NovasRotas(api);
 
 

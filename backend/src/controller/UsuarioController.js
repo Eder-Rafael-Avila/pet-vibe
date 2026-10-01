@@ -2,6 +2,9 @@ import {Router} from 'express';
 const endpoints = Router();
 import * as DBUsuario from '../repository/UsuarioRepository.js';
 import { gerarToken } from '../utils/TokenUsuario.js';
+import multer from 'multer';
+import { validarToken } from '../utils/TokenUsuario.js';
+const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
 endpoints.get('/usuarios' , async (req,resp) => {
 
@@ -49,5 +52,26 @@ const token = gerarToken({
 resp.send({ token });
 
 })
+
+endpoints.put('/usuario/imagem',validarToken,uploadUsuario.single('imagem'),async (req, resp) => {
+        if (!req.file) {
+            return resp.status(400).send({
+                erro: 'Imagem não enviada'
+            });
+        }
+
+        const imagem = `/uploads/ImagemUsuarios/${req.file.filename}`;
+
+        await DBUsuario.AlterarImagem(
+            req.usuario.id_usuario,
+            imagem
+        );
+
+        resp.send({ imagem });
+
+    });
+
+
+
 
 export default endpoints

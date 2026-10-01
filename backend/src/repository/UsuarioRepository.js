@@ -88,3 +88,13 @@ export async function BuscarPorEmail(email) {
     const [linhas] = await con.query(command, [email]);
     return linhas[0];
 }
+
+export async function AlterarImagem(idUsuario, imagem) {
+    const command = `
+        UPDATE usuarios
+        SET imagem = ?
+        WHERE id_usuario = ?
+    `;
+
+    await con.query(command, [imagem, idUsuario]);
+}

@@ -6,4 +6,5 @@ export default function NovasRotas(api) {
     api.use(usuario);
     api.use(ong)
     api.use(enderecoUsuario);
+
 }
