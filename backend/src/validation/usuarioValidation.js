@@ -46,3 +46,16 @@ export function LoginUsuarioErrors(email,senha,usuario) {
         throw new Error("Senha inválida");
     }
 }
+
+
+export function ImagemUsuarioErrors(file){
+        if (!file) {
+throw new Error("Imagem não enviada");
+
+    }
+}
+
+export function ExcluirUsuarioErrors(idUsuario) {
+    if (!idUsuario) throw new Error("O ID do usuário é obrigatório");
+    if (isNaN(idUsuario)) throw new Error("O ID do usuário deve ser número");
+}

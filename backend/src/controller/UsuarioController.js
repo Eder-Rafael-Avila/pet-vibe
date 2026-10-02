@@ -11,12 +11,17 @@ const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 import {
     ListarUsuarioErrors,
     CriarUsuarioErrors,
-    LoginUsuarioErrors
+    LoginUsuarioErrors,
+    ImagemUsuarioErrors,
+    ExcluirUsuarioErrors
 } from '../validation/usuarioValidation.js';
 
 import {
     ListarUsuarioService,
-    CriarUsuarioService
+    CriarUsuarioService,
+    LoginUsuarioService,
+    ImagemUsuarioService,
+    ExcluirUsuarioService
 } from '../service/UsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
@@ -71,9 +76,9 @@ endpoints.post('/usuario/login', async (req, resp) => {
     try {
         const { email, senha } = req.body;
 
-        const usuario = await DBUsuario.BuscarPorEmail(email);
+        const usuario = LoginUsuarioService(email)
 
-        LoginUsuarioErrors(email,senha,usuario);
+        LoginUsuarioErrors(email, senha, usuario);
 
         const token = gerarToken({
             id_usuario: usuario.id_usuario
@@ -89,33 +94,36 @@ endpoints.post('/usuario/login', async (req, resp) => {
 })
 
 endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
-    if (!req.file) {
-        return resp.status(400).send({
-            erro: 'Imagem não enviada'
-        });
+    try {
+
+        ImagemUsuarioErrors(req.file);
+
+        const imagem = await DBUsuario.AlterarImagem(req.usuario.id_usuario, req.file)
+
+        resp.send({ imagem });
     }
-
-    const imagem = `/uploads/ImagemUsuarios/${req.file.filename}`;
-
-    await DBUsuario.AlterarImagem(
-        req.usuario.id_usuario,
-        imagem
-    );
-
-    resp.send({ imagem });
-
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
 });
 
 endpoints.delete('/usuarios/excluir', validarToken, async (req, resp) => {
-    const idUsuario = req.usuario.id_usuario;
+    try {
+        const idUsuario = req.usuario.id_usuario;
 
-    const linhasAfetadas = await DBUsuario.ExcluirUsuario(idUsuario);
+        ExcluirUsuarioErrors(idUsuario);
 
-    if (linhasAfetadas === 0) {
-        return resp.status(404).send({ erro: 'Usuário não encontrado' });
+        const resposta = await ExcluirUsuarioService(idUsuario);
+
+        resp.send({
+            resposta: resposta
+        });
     }
-
-    resp.status(204).send();
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
 });
 
 
