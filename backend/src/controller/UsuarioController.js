@@ -76,7 +76,7 @@ endpoints.post('/usuario/login', async (req, resp) => {
     try {
         const { email, senha } = req.body;
 
-        const usuario = LoginUsuarioService(email)
+        const usuario = await LoginUsuarioService(email)
 
         LoginUsuarioErrors(email, senha, usuario);
 
@@ -98,7 +98,7 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
 
         ImagemUsuarioErrors(req.file);
 
-        const imagem = await DBUsuario.AlterarImagem(req.usuario.id_usuario, req.file)
+        const imagem = await ImagemUsuarioService(req.usuario.id_usuario,req.file);
 
         resp.send({ imagem });
     }
@@ -108,7 +108,7 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
     }
 });
 
-endpoints.delete('/usuarios/excluir', validarToken, async (req, resp) => {
+endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
     try {
         const idUsuario = req.usuario.id_usuario;
 
