@@ -5,7 +5,6 @@ import * as DBUsuario from '../repository/UsuarioRepository.js';
 import { gerarToken } from '../utils/TokenUsuario.js';
 import { validarToken } from '../utils/TokenUsuario.js';
 
-
 import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
@@ -15,7 +14,10 @@ import {
     LoginUsuarioErrors,
     ImagemUsuarioErrors,
     ExcluirUsuarioErrors,
-    AlterarSenhaUsuarioErrors
+    AlterarSenhaUsuarioErrors,
+    AlterarTelefoneUsuarioErrors,
+    AlterarEmailUsuarioErrors,
+    AlterarImagemUsuarioErrors
 } from '../validation/usuarioValidation.js';
 
 import {
@@ -24,7 +26,10 @@ import {
     LoginUsuarioService,
     ImagemUsuarioService,
     ExcluirUsuarioService,
-    AlterarSenhaUsuarioService
+    AlterarSenhaUsuarioService,
+    AlterarTelefoneUsuarioService,
+    AlterarEmailUsuarioService,
+    AlterarImagemUsuarioService
 } from '../service/UsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
@@ -148,9 +153,64 @@ endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 });
+endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
+    try {
+        const { telefone } = req.body;
+        const idUsuario = req.usuario.id_usuario;
+
+        AlterarTelefoneUsuarioErrors(telefone);
+
+        const resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
+
+        resp.send({
+            resposta: resposta
+        });
+
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+
+    endpoints.put('/usuario/alterarEmail', validarToken, async (req, resp) => {
+        try {
+            const { email } = req.body;
+            const idUsuario = req.usuario.id_usuario;
+
+            AlterarEmailUsuarioErrors(email);
+
+            const resposta = await AlterarEmailUsuarioService(email, idUsuario);
+
+            resp.send({
+                resposta: resposta
+            });
+
+            
+        }   
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }}
+)
 
 
+endpoints.put('/usuario/alterarImagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
+    try {
 
+        AlterarImagemUsuarioErrors(req.file);
+        const idUsuario = req.usuario.id_usuario;
 
+        const imagem = await AlterarImagemUsuarioService(idUsuario, req.file);
+        resp.send({ imagem });
+
+}
+
+catch (err) {
+    logError(err);
+    resp.status(400).send(erroJson(err));
+}
+
+})
 
 export default endpoints
