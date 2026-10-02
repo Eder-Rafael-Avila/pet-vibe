@@ -8,11 +8,13 @@ export default function Header({
     
     return (
         <header className='comp-header'>
-            <div className="imagem">
-                <img src="/assets/images/logo3.png" alt="Logo PetVibe" />
-            </div>
-            <div className="title">
-                <h1>Pet<span>Vibe</span></h1>
+            <div className='identity'>
+                <div className="imagem">
+                    <img src="/assets/images/logo3.png" alt="Logo PetVibe" />
+                </div>
+                <div className="title">
+                    <h1>Pet<span>Vibe</span></h1>
+                </div>
             </div>
             <nav>
                 <ul>
