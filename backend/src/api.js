@@ -2,6 +2,7 @@ import 'dotenv/config.js';
 import cors from 'cors';
 import express from 'express';
 import NovasRotas from './routes.js';
+import './utils/global.js'; //Import apenas para a var global funcionar em todas pastas
 
 const api = express()
 
