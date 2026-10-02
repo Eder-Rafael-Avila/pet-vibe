@@ -59,3 +59,10 @@ export function ExcluirUsuarioErrors(idUsuario) {
     if (!idUsuario) throw new Error("O ID do usuário é obrigatório");
     if (isNaN(idUsuario)) throw new Error("O ID do usuário deve ser número");
 }
+
+export function AlterarSenhaUsuarioErrors(senha) {
+    if (!senha) throw new Error("O campo de senha é obrigatório");
+
+
+    if (senha.length < 8) throw new Error("A senha deve conter no mínimo 8 caracteres");
+}

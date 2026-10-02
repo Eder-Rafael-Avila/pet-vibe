@@ -13,7 +13,8 @@ import {
     CriarUsuarioErrors,
     LoginUsuarioErrors,
     ImagemUsuarioErrors,
-    ExcluirUsuarioErrors
+    ExcluirUsuarioErrors,
+    AlterarSenhaUsuarioErrors
 } from '../validation/usuarioValidation.js';
 
 import {
@@ -21,7 +22,8 @@ import {
     CriarUsuarioService,
     LoginUsuarioService,
     ImagemUsuarioService,
-    ExcluirUsuarioService
+    ExcluirUsuarioService,
+    AlterarSenhaUsuarioService
 } from '../service/UsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
@@ -98,7 +100,7 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
 
         ImagemUsuarioErrors(req.file);
 
-        const imagem = await ImagemUsuarioService(req.usuario.id_usuario,req.file);
+        const imagem = await ImagemUsuarioService(req.usuario.id_usuario, req.file);
 
         resp.send({ imagem });
     }
@@ -125,6 +127,27 @@ endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 });
+
+endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
+    try {
+        const { senha } = req.body;
+        const idUsuario = req.usuario.id_usuario;
+
+        AlterarSenhaUsuarioErrors(senha);
+
+        const resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
+
+        resp.send({
+            resposta: resposta
+        });
+
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+
 
 
 

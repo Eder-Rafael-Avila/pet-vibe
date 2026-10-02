@@ -108,3 +108,14 @@ export async function ExcluirUsuario(idUsuario) {
     const [resposta] = await con.query(command, [idUsuario]);
     return resposta.affectedRows;
 }
+
+export async function AlterarSenha(senha, idUsuario) {
+    const command = `
+    UPDATE usuarios
+    SET senha = ?
+    WHERE id_usuario = ?
+    `
+
+    const [resposta] = await con.query(command, [senha, idUsuario]);
+    return resposta.affectedRows;
+}

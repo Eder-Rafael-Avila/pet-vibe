@@ -28,3 +28,8 @@ export async function ExcluirUsuarioService(idUsuario) {
     const resposta = await DBUsuario.ExcluirUsuario(idUsuario);
     return resposta;
 }
+
+export async function AlterarSenhaUsuarioService(usuarioSenha, idUsuario){
+    const resposta = await DBUsuario.AlterarSenha(usuarioSenha, idUsuario);
+    return resposta;
+}
