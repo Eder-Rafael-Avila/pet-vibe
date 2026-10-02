@@ -1,6 +1,7 @@
 import { Router } from 'express';
 const endpoints = Router();
 
+import * as DBUsuario from '../repository/UsuarioRepository.js';
 import { gerarToken } from '../utils/TokenUsuario.js';
 import { validarToken } from '../utils/TokenUsuario.js';
 
@@ -8,11 +9,14 @@ import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
 import {
-    ListarUsuarioErrors
+    ListarUsuarioErrors,
+    CriarUsuarioErrors,
+    LoginUsuarioErrors
 } from '../validation/usuarioValidation.js';
 
 import {
-    ListarUsuarioService
+    ListarUsuarioService,
+    CriarUsuarioService
 } from '../service/UsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
@@ -45,29 +49,42 @@ endpoints.get('/usuario/:id', async (req, resp) => {
 })
 
 endpoints.post('/usuario/cadastrar', async (req, resp) => {
-    let usuario = req.body;
+    try {
+        let usuario = req.body;
 
-    let resposta = await DBUsuario.CriarUsuario(usuario)
+        CriarUsuarioErrors(usuario);
 
-    resp.send({
-        resposta: resposta
-    })
+
+        let resposta = await CriarUsuarioService(usuario);
+
+        resp.send({
+            resposta: resposta
+        })
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
 })
 
 endpoints.post('/usuario/login', async (req, resp) => {
-    const { email, senha } = req.body;
+    try {
+        const { email, senha } = req.body;
 
-    const usuario = await DBUsuario.BuscarPorEmail(email);
+        const usuario = await DBUsuario.BuscarPorEmail(email);
 
-    if (!usuario || usuario.senha !== senha) {
-        return resp.status(401).send({ erro: 'E-mail ou senha inválidos' });
+        LoginUsuarioErrors(email,senha,usuario);
+
+        const token = gerarToken({
+            id_usuario: usuario.id_usuario
+        });
+
+        resp.send({ token });
     }
-
-    const token = gerarToken({
-        id_usuario: usuario.id_usuario
-    });
-
-    resp.send({ token });
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
 
 })
 
