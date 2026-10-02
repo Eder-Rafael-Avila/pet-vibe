@@ -66,3 +66,20 @@ export function AlterarSenhaUsuarioErrors(senha) {
 
     if (senha.length < 8) throw new Error("A senha deve conter no mínimo 8 caracteres");
 }
+
+
+export function AlterarTelefoneUsuarioErrors(telefone) {
+    if (!telefone) throw new Error("O campo de telefone é obrigatório");
+
+    if (!regexCelular.test(telefone)) throw new Error("Telefone inválido");
+}
+
+export function AlterarEmailUsuarioErrors(email) {
+    if (!email) throw new Error("O campo de email é obrigatório");
+
+    if (!regexEmail.test(email)) throw new Error("Email inválido");
+}
+
+export function AlterarImagemUsuarioErrors(file) {
+    if (!file) throw new Error("O campo de imagem é obrigatório");
+}
