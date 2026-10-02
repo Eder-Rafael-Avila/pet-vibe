@@ -71,6 +71,18 @@ endpoints.put('/usuario/imagem',validarToken,uploadUsuario.single('imagem'),asyn
 
     });
 
+endpoints.delete('/usuarios/excluir', validarToken, async (req, resp) => {
+    const idUsuario = req.usuario.id_usuario;
+
+    const linhasAfetadas = await DBUsuario.ExcluirUsuario(idUsuario);
+
+    if (linhasAfetadas === 0) {
+        return resp.status(404).send({ erro: 'Usuário não encontrado' });
+    }
+
+    resp.status(204).send();
+});
+
 
 
 

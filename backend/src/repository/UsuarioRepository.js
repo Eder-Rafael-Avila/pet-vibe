@@ -98,3 +98,13 @@ export async function AlterarImagem(idUsuario, imagem) {
 
     await con.query(command, [imagem, idUsuario]);
 }
+
+export async function ExcluirUsuario(idUsuario) {
+    const command = `
+        DELETE FROM usuarios
+        WHERE id_usuario = ?
+    `;
+
+    const [resposta] = await con.query(command, [idUsuario]);
+    return resposta.affectedRows;
+}
