@@ -89,7 +89,7 @@ export async function BuscarPorEmail(email) {
     return linhas[0];
 }
 
-export async function AlterarImagem(idUsuario, imagem) {
+export async function ImagemUsuario(idUsuario, imagem) {
     const command = `
         UPDATE usuarios
         SET imagem = ?
@@ -118,4 +118,36 @@ export async function AlterarSenha(senha, idUsuario) {
 
     const [resposta] = await con.query(command, [senha, idUsuario]);
     return resposta.affectedRows;
+}
+
+export async function AlterarTelefone(telefone, idUsuario) {
+    const command = `
+    UPDATE usuarios
+    SET telefone = ?
+    WHERE id_usuario = ?
+    `
+
+    const [resposta] = await con.query(command, [telefone, idUsuario]);
+    return resposta.affectedRows;
+}
+
+export async function AlterarEmail(email, idUsuario) {
+    const command = `
+    UPDATE usuarios
+    SET email = ?
+    WHERE id_usuario = ?
+    `
+    const [resposta] = await con.query(command, [email, idUsuario]);
+    return resposta.affectedRows;
+}
+
+export async function  AlterarImagem(params) {
+    const command = `
+    UPDATE usuarios
+    SET imagem = ?
+    WHERE id_usuario = ?
+    `
+    const [resposta] = await con.query(command, [params.imagem, params.idUsuario]);
+    return resposta.affectedRows;
+    
 }
