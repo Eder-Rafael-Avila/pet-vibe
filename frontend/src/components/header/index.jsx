@@ -10,7 +10,7 @@ export default function Header({
         <header className='comp-header'>
             <div className='identity'>
                 <div className="imagem">
-                    <img src="/assets/images/logo3.png" alt="Logo PetVibe" />
+                    <img src="/assets/images/logo4.png" alt="Logo PetVibe" />
                 </div>
                 <div className="title">
                     <h1>Pet<span>Vibe</span></h1>
@@ -23,7 +23,7 @@ export default function Header({
                         to="/"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#17636d',
+                            color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
                         ><p>Início</p></NavLink>
@@ -33,7 +33,7 @@ export default function Header({
                         to="/sobreNos"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#17636d',
+                            color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
                         ><p>Sobre Nós</p></NavLink>
@@ -43,7 +43,7 @@ export default function Header({
                         to="/comoFunciona"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#17636d',
+                            color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
                         ><p>Marketplace</p></NavLink>
@@ -53,7 +53,7 @@ export default function Header({
                         to="/animais"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#17636d',
+                            color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
                         ><p>Adoção</p></NavLink>
@@ -63,7 +63,7 @@ export default function Header({
                         to="/ongsParceiras"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#17636d',
+                            color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
                         ><p>ONGs Parceiras</p></NavLink>
