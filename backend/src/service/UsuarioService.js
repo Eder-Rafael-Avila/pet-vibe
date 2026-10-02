@@ -33,3 +33,18 @@ export async function AlterarSenhaUsuarioService(usuarioSenha, idUsuario){
     const resposta = await DBUsuario.AlterarSenha(usuarioSenha, idUsuario);
     return resposta;
 }
+export async function AlterarTelefoneUsuarioService(telefone, idUsuario){
+    const resposta = await DBUsuario.AlterarTelefone(telefone, idUsuario);
+    return resposta;
+}
+
+export async function AlterarEmailUsuarioService(email, idUsuario){
+    const resposta = await DBUsuario.AlterarEmail(email, idUsuario);
+    return resposta;
+}
+
+export async function AlterarImagemUsuarioService(idUsuario, file){
+    const imagem = `/uploads/ImagemUsuarios/${file.filename}`;
+    await DBUsuario.AlterarImagem(idUsuario, imagem);
+    return imagem;
+}
