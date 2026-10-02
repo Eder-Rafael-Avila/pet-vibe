@@ -25,9 +25,6 @@ export default function MainPanel() {
                         </button>
                     </div>
                 </div>
-                <div className="img-area">
-                    <img src='/assets/images/main-panel-img.png' alt='Imagem de cachorro e gato' />
-                </div>
             </section>
         </>
     );
