@@ -4,11 +4,20 @@
     align-items: center;
     gap: 5rem;
     
-    height: 70.35rem;
+    max-height: 70.35rem;
+    min-height: 87vh;
 
     background: linear-gradient(160deg, var(--corAzulTerciario), #13347a);
 
     max-width: 100%;
+
+    padding: 1rem;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+
+        margin-bottom: 1rem;
+    }
 
     .text-area {
         display: flex;
@@ -17,6 +26,10 @@
         gap: 3.5rem;
 
         width: 42.5%;
+
+        @media (max-width: 768px) {
+            align-items: center;
+        }
 
         .balloon-text {
             display: flex;
@@ -61,6 +74,10 @@
         .buttons {
             display: flex;
             gap: 1rem;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+            }
 
             button {
                 background-color: var(--corLaranjaSecundario);
