@@ -43,8 +43,3 @@ export async function AlterarEmailUsuarioService(email, idUsuario){
     return resposta;
 }
 
-export async function AlterarImagemUsuarioService(idUsuario, file){
-    const imagem = `/uploads/ImagemUsuarios/${file.filename}`;
-    await DBUsuario.AlterarImagem(idUsuario, imagem);
-    return imagem;
-}

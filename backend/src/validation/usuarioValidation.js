@@ -79,7 +79,3 @@ export function AlterarEmailUsuarioErrors(email) {
 
     if (!regexEmail.test(email)) throw new Error("Email inválido");
 }
-
-export function AlterarImagemUsuarioErrors(file) {
-    if (!file) throw new Error("O campo de imagem é obrigatório");
-}

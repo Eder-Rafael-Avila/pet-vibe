@@ -140,14 +140,3 @@ export async function AlterarEmail(email, idUsuario) {
     const [resposta] = await con.query(command, [email, idUsuario]);
     return resposta.affectedRows;
 }
-
-export async function  AlterarImagem(params) {
-    const command = `
-    UPDATE usuarios
-    SET imagem = ?
-    WHERE id_usuario = ?
-    `
-    const [resposta] = await con.query(command, [params.imagem, params.idUsuario]);
-    return resposta.affectedRows;
-    
-}

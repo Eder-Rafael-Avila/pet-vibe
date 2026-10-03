@@ -16,8 +16,7 @@ import {
     ExcluirUsuarioErrors,
     AlterarSenhaUsuarioErrors,
     AlterarTelefoneUsuarioErrors,
-    AlterarEmailUsuarioErrors,
-    AlterarImagemUsuarioErrors
+    AlterarEmailUsuarioErrors
 } from '../validation/usuarioValidation.js';
 
 import {
@@ -28,8 +27,7 @@ import {
     ExcluirUsuarioService,
     AlterarSenhaUsuarioService,
     AlterarTelefoneUsuarioService,
-    AlterarEmailUsuarioService,
-    AlterarImagemUsuarioService
+    AlterarEmailUsuarioService
 } from '../service/UsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
@@ -195,22 +193,5 @@ endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
 )
 
 
-endpoints.put('/usuario/alterarImagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
-    try {
-
-        AlterarImagemUsuarioErrors(req.file);
-        const idUsuario = req.usuario.id_usuario;
-
-        const imagem = await AlterarImagemUsuarioService(idUsuario, req.file);
-        resp.send({ imagem });
-
-}
-
-catch (err) {
-    logError(err);
-    resp.status(400).send(erroJson(err));
-}
-
-})
 
 export default endpoints
