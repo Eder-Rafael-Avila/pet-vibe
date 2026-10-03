@@ -39,8 +39,8 @@ export async function ListarUsuarios() {
     FROM usuarios
     `
 
-    let [resposta] = await con.query(command, [])
-    return resposta;
+    let resposta = await con.query(command, [])
+    return resposta[0];
 }
 
 export async function ListarUsuario(id) {

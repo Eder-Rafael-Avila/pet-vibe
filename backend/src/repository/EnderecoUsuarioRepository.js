@@ -29,5 +29,5 @@ export async function ExcluirEndereco(idUsuario){
     `
 
     let [resposta] = await con.query(command,[idUsuario]);
-    return resposta.insertId;
+    return resposta.affectedRows;
 }
