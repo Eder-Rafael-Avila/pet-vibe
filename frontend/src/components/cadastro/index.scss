@@ -1,0 +1,88 @@
+.page-cadastro{
+
+   .corpo{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+
+        
+    }
+    form{
+        border: 1px solid black;
+        padding: 30px 40px;
+        width: 420px;
+        border-radius: 10px;
+    }
+    form h1{
+        margin-bottom: 15px;
+    }
+
+    .input input{
+        width: 100%;
+        height: 40px;
+        padding: 10px;
+        border-radius: 10px;
+        border: 1px solid black;
+        margin-top: 7px;
+    }
+
+    .input, .input-senha {
+        margin-bottom: 20px;
+        margin-top: 7px;
+    }
+
+    .linha-senha {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+
+    .input-senha {
+    min-width: 0; 
+   
+
+    .campo {
+    position: relative;
+
+        input {
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 40px; 
+            height: 40px;
+            border-radius: 10px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+            padding: 10px;
+            margin-top: 7px;
+        }
+
+        .olho {
+        position: absolute;
+        right: 10px;
+        top: 45%;
+        transform: translateY(-50%);
+        cursor: pointer;
+        height: 15px;
+        width: 20px;
+        
+        }
+     }
+    }
+    }
+    .button button{
+        width: 100%;
+        height: 40px;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--corLaranjaSecundario);
+        color: aliceblue;   
+        
+    }
+
+   .entrar{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+   }
+    
+}
