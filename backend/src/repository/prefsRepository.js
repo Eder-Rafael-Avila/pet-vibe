@@ -1,4 +1,4 @@
-import con from './connection.js';
+import con from './conection/connect.js';
 
 
 export async function ListarPrefs(id_usuario) {
