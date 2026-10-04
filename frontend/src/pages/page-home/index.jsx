@@ -19,7 +19,7 @@ export default function Home() {
             <section className="features">
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i class="fa-solid fa-hexagon-nodes" style={{color: "rgb(29, 91, 158)",}}></i>
+                        <i className="fa-solid fa-hexagon-nodes" style={{color: "rgb(29, 91, 158)",}}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Match inteligente</h3>
@@ -30,7 +30,7 @@ export default function Home() {
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i class="fa-solid fa-shield-heart" style={{color: "rgb(29, 91, 158)",}}></i>
+                        <i className="fa-solid fa-shield-heart" style={{color: "rgb(29, 91, 158)",}}></i>
                     </div>
                     <div className="feature-text">
                         <h3>ONGs e Abrigos Verificados</h3>
@@ -41,7 +41,7 @@ export default function Home() {
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i class="fa-solid fa-stamp" style={{color: "rgb(29, 91, 158)",}}></i>
+                        <i className="fa-solid fa-stamp" style={{color: "rgb(29, 91, 158)",}}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Adoção Simplificada</h3>
@@ -52,7 +52,7 @@ export default function Home() {
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i class="fa-solid fa-heart-pulse" style={{color: "rgb(29, 91, 158)",}}></i>
+                        <i className="fa-solid fa-heart-pulse" style={{color: "rgb(29, 91, 158)",}}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Suporte e Monitoramento Pós-Adoção</h3>

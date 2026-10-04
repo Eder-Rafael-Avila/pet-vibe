@@ -1,32 +1,23 @@
 import './index.scss';
-import DropdownMenu from '../dropdown-menu';
 
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
 
-export default function Header({ 
-    logado
- }) {
-    
-    const [isActive, setIsActive] = useState(false);
+export default function DropdownMenu({
+    isActive,
+    setIsActive
+}) {
 
     return (
-        <header className='comp-header'>
-            <div className="show-nav">
-                <DropdownMenu 
-                    isActive={isActive}
-                    setIsActive={setIsActive}
-                />
+        <div className="comp-dropdown-menu">
+            <div className={`icon ${isActive ? 'turned' : 'unturned'}`}>
+                <button onClick={() => {
+                    setIsActive(!isActive);
+                    console.log(isActive);
+                }}>
+                    <i className="fa-solid fa-list-ul" style={{color: "#105F56",}}></i>
+                </button>
             </div>
-            <div className='identity'>
-                <div className="imagem">
-                    <img src="/assets/images/logo4.png" alt="Logo PetVibe" />
-                </div>
-                <div className="title">
-                    <h1>Pet<span>Vibe</span></h1>
-                </div>
-            </div>
-            <nav className='default-nav'>
+            <nav className={`menu ${isActive ? 'active' : 'inactive'}`}>
                 <ul>
                     <li>
                         <NavLink
@@ -80,28 +71,6 @@ export default function Header({
                     </li>
                 </ul>
             </nav>
-
-            {!logado ? (
-                <div className="buttons">
-                    <button>
-                        <NavLink 
-                        to="/Login"
-                        style={() => ({
-                            color: 'white',
-                            textDecoration: 'none'
-                        })}
-                        >Entrar</NavLink>
-                    </button>
-                    <button id='cadastro'>
-                        Cadastrar
-                    </button>
-                </div>
-            ) : (
-                <>
-                    {/* Aqui quando o usuário estiver logado. */}
-                </>
-            )}
-            
-        </header>
+        </div>
     );
 }

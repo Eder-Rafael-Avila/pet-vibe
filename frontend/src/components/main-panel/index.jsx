@@ -7,7 +7,7 @@ export default function MainPanel() {
             <section className='comp-main-panel'>
                 <div className="text-area">
                     <div className="balloon-text">
-                        <i class="fa-solid fa-paw"></i><span>Novo conceito em adoção de animais</span>
+                        <i className="fa-solid fa-paw"></i><span>Novo conceito em adoção de animais</span>
                     </div>
                     <div className="main-text">
                         <h2>Mais que adoção,<br/> é <span>conexão.</span></h2>
@@ -18,15 +18,12 @@ export default function MainPanel() {
                     </div>
                     <div className="buttons">
                         <button>
-                            Quero fazer meu match <i class="fa-solid fa-arrow-right"></i>
+                            Quero fazer meu match <i className="fa-solid fa-arrow-right"></i>
                         </button>
                         <button id='animais-disponiveis'>
                             Ver animais disponíveis
                         </button>
                     </div>
-                </div>
-                <div className="img-area">
-                    <img src='/assets/images/main-panel-img.png' alt='Imagem de cachorro e gato' />
                 </div>
             </section>
         </>

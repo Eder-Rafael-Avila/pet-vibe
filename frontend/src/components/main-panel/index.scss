@@ -1,20 +1,26 @@
 .comp-main-panel {
     display: flex;
-    justify-content: center;
+    justify-content: start;
     align-items: center;
-    gap: 5rem;
     
     max-height: 70.35rem;
     min-height: 87vh;
 
-    background: linear-gradient(160deg, var(--corAzulTerciario), #13347a);
+    background: black url('/assets/images/hero-bg2.jpg');
+
+    @media (max-width: 998px) {
+        background-position: top center;
+    }
 
     max-width: 100%;
 
     padding: 1rem;
 
+    box-shadow: inset 0px 0px 7px rgba(0, 0, 0, 0.411);
+
     @media (max-width: 768px) {
         flex-direction: column;
+        justify-content: center;
 
         margin-bottom: 1rem;
     }
@@ -25,9 +31,18 @@
         align-items: start;
         gap: 3.5rem;
 
-        width: 42.5%;
+        width: 40.5%;
+
+        margin-left: 4rem;
+
+        @media (min-width: 1600px) {
+            width: 28%;
+        }
 
         @media (max-width: 768px) {
+            width: 90%;
+            margin: 0;
+
             align-items: center;
         }
 
@@ -52,6 +67,10 @@
             flex-direction: column;
             gap: 2rem;
 
+            @media (max-width: 768px) {
+                text-align: center;
+            }
+
             h2 {
                 color: white;
 
@@ -59,7 +78,7 @@
                 font-size: 4.6rem;
 
                 span {
-                    color: var(--corLaranjaSecundario);
+                    color: var(--corLaranjaContraste);
                 }
             }
 
@@ -68,6 +87,10 @@
                 line-height: 2rem;
                 color: white;
                 font-size: 1.4rem;
+
+                @media (max-width: 768px) {
+                    text-align: center;
+                }
             }
         }
 
@@ -77,6 +100,7 @@
 
             @media (max-width: 768px) {
                 flex-direction: column;
+                width: 100%;
             }
 
             button {
@@ -101,9 +125,5 @@
                 color: var(--corPretoGeral);
             }
         }
-    }
-
-    .img-area {
-        width: 42.5%;
     }
 }

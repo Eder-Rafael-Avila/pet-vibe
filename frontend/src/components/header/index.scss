@@ -3,49 +3,117 @@
     max-height: 13.2rem;
     min-height: 12rem;
 
+    position: sticky;
+    top: 0;
+
     display: flex;
     justify-content: space-around;
     align-items: center;
 
     background-color: var(--corBrancoGeral);
 
-    nav {
-        flex: 4;
+    box-shadow: 1px 0px 3px rgba(0, 0, 0, 0.507);
+
+    @media (max-width: 1150px) {
+        padding-right: 3rem;
     }
 
-    .buttons {
-        flex: 2;
-    }
-
-    .imagem, .title {
-        flex: 1;
-    }
-
-    .imagem {
-        display: flex;
+    @media (max-width: 768px) {
         justify-content: center;
         align-items: center;
 
-        width: 1.11rem;
+        max-height: 100%;
+        position: relative;
     }
 
-    .title {
-        color: var(--corAzulPrimario);
-        font-size: 1.4rem;
-        text-align: center;
+    .show-nav {
+        display: none;
 
-        h1 {
-            font-family: var(--fonteTitulo);
-            font-weight: normal;
+        @media (max-width: 768px) {
+            display: flex;
+        }
+    }
 
-            span {
-                color: var(--corLaranjaContraste);
+    .identity {
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        
+        flex: 2;
+
+        @media (max-width: 768px) {
+            justify-content: start;
+            flex: 3;
+        }
+
+        @media (max-width: 435px) {
+            justify-content: start;
+        }
+
+        .imagem {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            max-width: 45%;
+            min-width: 40%;
+            
+            @media (min-width: 1600px) {
+                max-width: 33%;
+                min-width: 30%;
+            }
+
+            @media (max-width: 768px) {
+                align-items: start;
+                justify-content: start;
+                
+                min-width: 15%;
+                max-width: 25%;
+            }
+
+            @media (max-width: 435px) {
+                min-width: 42%;
+            }
+        }
+
+        .title {
+            color: var(--corAzulPrimario);
+            font-size: 1.4rem;
+            text-align: center;
+
+            @media (max-width: 835px) {
+                font-size: 1.14rem;
+            }
+    
+            h1 {
                 font-family: var(--fonteTitulo);
+                font-weight: normal;
+    
+                span {
+                    color: var(--corLaranjaContraste);
+                    font-family: var(--fonteTitulo);
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 2rem;
+                }
+
+                @media (max-width: 435px) {
+                    font-size: 1.85rem;
+                }
             }
         }
     }
 
-    nav ul {
+    .default-nav {
+        flex: 4;
+
+        @media (max-width: 768px) {
+            display: none;
+        }
+    }
+
+
+    .default-nav ul {
         display: flex;
         justify-content: center;
 
@@ -55,10 +123,23 @@
         li {
             margin: 0 1rem;
             font-size: 1.5rem;
+
+            @media (max-width: 998px) {
+                font-size: 1.2rem;
+            }
+
+            @media (max-width: 835px) {
+                font-size: 1.14rem;
+            }
+
         }
 
         li p:hover {
             color: var(--corLaranjaContraste);
+        }
+
+        @media (max-width: 768px) {
+            flex-direction: column;
         }
     }
 
@@ -67,6 +148,15 @@
         justify-content: center;
         gap: 1.5rem;
         align-items: center;
+        flex: 2;
+
+        @media (max-width: 435px) {
+            flex-direction: column;
+        }
+
+        @media (max-width: 835px) {
+            gap: .5rem;
+        }
 
         button {
             background-color: var(--corAzulSecundario);
@@ -76,6 +166,12 @@
             padding: 1rem 2rem;
             border-radius: 1rem;
             border: none;
+
+            @media (max-width: 435px) {
+                width: 100%;
+                padding: .5rem 1rem;
+                margin-right: 1.5rem;
+            }
         }
 
         button:hover {
