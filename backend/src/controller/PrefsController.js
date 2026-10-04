@@ -28,7 +28,7 @@ endpoints.post('/prefs', validarToken, async (req, resp) => {
 
         let resposta = await CriarPrefsService(id_usuario, prefs)
 
-        resp.status(201).send({
+        resp.send({
             resposta: resposta
         })
     }
