@@ -23,7 +23,7 @@ export default function Login() {
     const dados = await resposta.json();
 
     if (!resposta.ok) {
-      setErro(dados.erro ?? 'E-mail ou senha inválidos');
+      setErro(dados.erro);
       return;
     }
 
