@@ -36,7 +36,7 @@
                 justify-content: center;
                 align-items: center;
 
-                background-color: var(--corLaranjaSecundario);
+                background-color: var(--corAzulSecundario);
                 min-width: 3.5rem;
                 min-height: 3.5rem;
 
@@ -73,5 +73,189 @@
                     }
                 }
         }
+    }
+
+    .step-cards {
+        width: 100%;
+        min-height: 40rem;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-around;
+
+        @media (max-width: 768px) {
+            gap: 3rem;
+        }
+
+        h1 {
+            font-size: 4vh;
+            color: var(--corAzulPrimario);
+            margin-top: 2.8rem;
+
+            @media (max-width: 768px) {
+                text-align: center;
+                font-size: 2vh;
+            }
+        }
+
+        .step-container {
+            min-width: 95%;
+
+            display: flex;
+            justify-content: space-around;
+
+            @media (max-width: 768px) {
+                flex-direction: column;
+                align-items: center;
+                gap: 2.5rem;
+            }
+        }
+    }
+
+    .quiz-preview {
+        background: linear-gradient(90deg, var(--corAzulTerciario), var(--corAzulPrimario), var(--corAzulTerciario));
+
+        width: 100%;
+        min-height: 50rem;
+
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        margin-top: 4rem;
+
+        box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.589);
+
+        @media (max-width: 768px) {
+            flex-direction: column;
+            gap: 3rem;
+
+            padding: 5rem 0;
+        }
+
+        .quiz-info {
+            max-width: 37%;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1.3rem;
+
+            @media (min-width: 1600px) {
+            }
+
+            @media (max-width: 768px) {
+                max-width: 90%;
+                align-items: center;
+
+                p, h2 {
+                    text-align: center;
+                }
+            }
+
+            h2 {
+                font-size: 2.5rem;
+                color: white;
+
+                span {
+                    color: var(--corLaranjaContraste);
+                }
+
+                @media (min-width: 1600px) {
+                    font-size: 3.5rem;
+                }
+            }
+
+            p {
+                font-size: 1.2rem;
+                color: white;
+                font-weight: 300;
+
+                margin-bottom: 2rem;
+
+                text-align: justify;
+                line-height: 2.2rem;
+
+                @media (min-width: 1600px) {
+                    font-size: 1.4rem;
+                }
+            }
+
+            .bullet {
+                display: flex;
+                gap: .5rem;
+                align-items: center;
+
+                h4 {
+                    color: white;
+                    font-weight: 500;
+                }
+            }
+        }
+
+        .quiz-preview-card {
+            background-color: white;
+            color: var(--corPretoGeral);
+
+            box-shadow: 0px 0px 5px #092e26c7;
+
+            max-width: 40%;
+            min-width: 35%;
+
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            padding: 2rem;
+            border-radius: 1rem;
+
+            @media (max-width: 768px) {
+                min-width: 90%;
+                
+            }
+
+            h3 {
+                font-size: 1.4rem;
+            }
+
+            .options {
+                display: flex;
+                flex-direction: column;
+                gap: .8rem;
+
+                .op {
+                    background-color: var(--corBrancoGeral);
+
+                    display: flex;
+                    align-items: center;
+                    gap: .8rem;
+
+                    border: 1px solid rgb(206, 205, 205);
+                    padding: 1rem;
+                    border-radius: .8rem;
+
+                    h4 {
+                        color: #156957;
+                    }
+                }
+
+                .destaque {
+                    background-color: #15695773;
+                }
+            }
+
+            .fake-button {
+                background-color: var(--corLaranjaContraste);
+                color: white;
+
+                padding: 1rem;
+                border-radius: .8rem;
+
+                text-align: center;
+                font-size: 1.2rem;
+                font-weight: 500;
+            }
+        }
+
     }
 }
