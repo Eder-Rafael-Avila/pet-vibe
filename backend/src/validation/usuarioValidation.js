@@ -3,9 +3,10 @@ import { cpf } from 'cpf-cnpj-validator';
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexCelular = /^[1-9]{2}9\d{8}$/;
 
-export function ListarUsuarioErrors(id) {
-    if (!id) throw new Error("O campo de ID é obrigatório");
-    if (isNaN(id)) throw new Error("O campo de ID é obrigatóriamente número");
+export function ListarUsuarioErrors(nome) {
+    if (!nome) {
+        throw new Error("O campo de nome é obrigatório");
+    }
 }
 
 

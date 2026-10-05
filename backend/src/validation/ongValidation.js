@@ -1,5 +1,9 @@
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+export function ListarOngErrors(nome){
+    if(!nome) throw new Error("O campo de nome é obrigatório");
+}
+
 export function CriarOngErrors(ong) {
     if (!ong.senha) throw new Error("O campo de senha é obrigatório");
 

@@ -26,13 +26,11 @@ endpoints.get('/usuarios', async (req, resp) => {
     })
 })
 
-endpoints.get('/usuario/:id', async (req, resp) => {
+endpoints.get('/usuario/nome/:nome', async (req, resp) => {
     try {
+        let nome = req.params.nome;
 
-        let id = req.params.id;
-
-
-        let resposta = await ListarUsuarioService(id)
+        let resposta = await ListarUsuarioService(nome)
 
 
         resp.send({

@@ -1,13 +1,15 @@
 import { Router } from 'express';
 const endpoints = Router();
 
-import * as DBOngs from '../repository/OngRepository.js';
+
 
 const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 import multer from 'multer';
 
 import { gerarTokenOng, validarTokenOng } from '../utils/TokenUsuario.js';
-
+ 
+import { ListarOngService } from '../service/ong/ListarOngService.js';
+import { ListarOngsService } from '../service/ong/ListarOngsService.js';
 import {ImagemOngService} from '../service/ong/ImagemOngService.js';
 import { LoginOngService } from '../service/ong/LoginOngService.js';
 import { CriarOngService } from '../service/ong/CriarOngService.js';
@@ -15,7 +17,7 @@ import { CriarOngService } from '../service/ong/CriarOngService.js';
 endpoints.get('/ongs', async (req, resp) => {
     try {
 
-        let resposta = await DBOngs.ListarOngs()
+        let resposta = await ListarOngsService();
 
         resp.send({
             resposta: resposta
@@ -27,22 +29,19 @@ endpoints.get('/ongs', async (req, resp) => {
     }
 })
 
-endpoints.get('/ong/:id', async (req, resp) => {
+endpoints.get('/ongs/nome/:nome', async (req, resp) => {
     try {
+        const nome = req.params.nome;
 
-        let id = req.params.id;
+        const resposta = await ListarOngService(nome)
 
-        let resposta = await DBOngs.ListarOng(id)
-
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.post('/ong/criar', async (req, resp) => {
     try {
@@ -90,6 +89,10 @@ endpoints.post('/ong/login', async (req, resp) => {
         return resp.status(400).send(erroJson(err));
     }
 
+})
+
+endpoints.delete('/ong/excluir' , async (req,resp) => {
+    
 })
 
 export default endpoints

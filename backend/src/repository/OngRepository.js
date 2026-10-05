@@ -15,20 +15,15 @@ let [resposta] = await con.query(command, [])
 return resposta;
 }
 
-export async function ListarOng(id) {
-let command = `
-SELECT
-nome,
-email,
-telefone,
-descricao,
-site
-FROM ong
-WHERE id_ong = ?
-`
+export async function BuscarOngPorNome(nome) {
+    const comando = `
+        SELECT nome, email, telefone, descricao, site
+        FROM ong
+        WHERE nome LIKE ?
+    `;
 
-let [resposta] = await con.query(command, [id])
-return resposta;
+    const [linhas] = await con.query(comando, [`%${nome}%`]);
+    return linhas;
 }
 
 export async function CriarOrg(ong) {

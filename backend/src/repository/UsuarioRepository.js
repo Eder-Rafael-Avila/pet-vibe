@@ -43,7 +43,7 @@ export async function ListarUsuarios() {
     return resposta[0];
 }
 
-export async function ListarUsuario(id) {
+export async function ListarUsuario(nome) {
 
     let command = `
     SELECT
@@ -53,10 +53,10 @@ export async function ListarUsuario(id) {
     REPLACE(cpf, '\\t', '') AS cpf,
     DATE_FORMAT(data_nascimento, '%d/%m/%Y') AS data_nascimento
     FROM usuarios
-    WHERE id_usuario = ?
+    WHERE nome LIKE ?
     `
 
-    let [resposta] = await con.query(command, [id])
+    let [resposta] = await con.query(command, [`%${nome}%`])
     return resposta;
 }
 
