@@ -18,7 +18,7 @@ create table endereco_usuarios(
 id_endereco_usuario INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT UNIQUE,
 cep VARCHAR(10),
-rua VARCHAR(200),
+
 numero VARCHAR(20),
 complemento VARCHAR(100),
 bairro VARCHAR(100),
@@ -46,6 +46,7 @@ CREATE TABLE endereco_ong(
 id_endereco_ong INT PRIMARY KEY AUTO_INCREMENT,
 id_ong INT UNIQUE,
 cep VARCHAR(10),
+rua VARCHAR(200),
 numero VARCHAR(20),
 complemento VARCHAR(100),
 bairro VARCHAR(100),
