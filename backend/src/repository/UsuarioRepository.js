@@ -60,7 +60,7 @@ export async function ListarUsuario(nome) {
     return resposta;
 }
 
-export async function CriarUsuario(usuario){
+export async function CriarUsuario(usuario) {
     let command = `
     INSERT INTO usuarios(nome,email,telefone,senha,cpf,data_nascimento)
     VALUES(?,?,?,?,?,?)

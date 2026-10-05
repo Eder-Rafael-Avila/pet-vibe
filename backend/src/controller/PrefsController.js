@@ -1,6 +1,6 @@
 import { Router } from 'express'
 const endpoints = Router()
-import { validarToken } from '../utils/TokenUsuario.js'
+import { validarToken } from '../utils/TokenEvalidacao.js'
 
 import { ListarPrefsService } from '../service/prefs/ListarPrefsService.js'
 import { CriarPrefsService } from '../service/prefs/CriarPrefsService.js'
@@ -9,16 +9,16 @@ import { ExcluirPrefsService } from '../service/prefs/ExcluirPrefsService.js'
 
 
 endpoints.get('/prefs', validarToken, async (req, resp) => {
-   
 
-        let id_usuario = req.usuario.id_usuario
 
-        let resposta = await ListarPrefsService(id_usuario)
+    let id_usuario = req.usuario.id_usuario
 
-        resp.send({
-            resposta: resposta
-        })
+    let resposta = await ListarPrefsService(id_usuario)
+
+    resp.send({
+        resposta: resposta
     })
+})
 
 endpoints.post('/prefs', validarToken, async (req, resp) => {
     try {

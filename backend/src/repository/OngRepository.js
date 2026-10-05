@@ -1,7 +1,7 @@
 import con from './conection/connect.js';
 
 export async function ListarOngs() {
-let command = `
+    let command = `
 SELECT
 nome,
 email,
@@ -11,8 +11,8 @@ site
 FROM ong
 `
 
-let [resposta] = await con.query(command, [])
-return resposta;
+    let [resposta] = await con.query(command, [])
+    return resposta;
 }
 
 export async function BuscarOngPorNome(nome) {
@@ -71,7 +71,7 @@ export async function ExcluirOng(id) {
     WHERE id_ong = ?
     `
 
-    let [resposta] = await con.query(command,[id])
+    let [resposta] = await con.query(command, [id])
     return resposta.effectedRows
 }
 

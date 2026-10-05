@@ -6,7 +6,7 @@ const endpoints = Router();
 const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 import multer from 'multer';
 
-import { gerarTokenOng, validarTokenOng } from '../utils/TokenUsuario.js';
+import { gerarTokenOng, validarTokenOng } from '../utils/TokenEvalidacao.js';
 
 import { ListarOngService } from '../service/ong/ListarOngService.js';
 import { ListarOngsService } from '../service/ong/ListarOngsService.js';
@@ -152,7 +152,7 @@ endpoints.put('/ong/alterarSite', validarTokenOng, async (req, resp) => {
         let id = req.usuario.id_ong
         const { site } = req.body;
 
-        let resposta = await AlterarSiteOngService(id,site);
+        let resposta = await AlterarSiteOngService(id, site);
 
         resp.send({
             resposta: resposta
@@ -169,7 +169,7 @@ endpoints.put('/ong/alterarDesc', validarTokenOng, async (req, resp) => {
         let id = req.usuario.id_ong
         const { descricao } = req.body;
 
-        let resposta = await AlterarDescOngService(id,descricao);
+        let resposta = await AlterarDescOngService(id, descricao);
 
         resp.send({
             resposta: resposta

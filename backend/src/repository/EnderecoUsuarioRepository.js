@@ -22,12 +22,12 @@ export async function CriarEndereco(idUsuario, endereco) {
     return resposta.insertId;
 }
 
-export async function ExcluirEndereco(idUsuario){
+export async function ExcluirEndereco(idUsuario) {
     const command = `
     DELETE FROM endereco_usuarios
     WHERE id_usuario = ?
     `
 
-    let [resposta] = await con.query(command,[idUsuario]);
+    let [resposta] = await con.query(command, [idUsuario]);
     return resposta.affectedRows;
 }

@@ -34,7 +34,7 @@ export function CriarUsuarioErrors(usuario) {
     if (!usuario.data_nascimento) throw new Error("O campo de data_nascimento é obrigatório");
 }
 
-export function LoginUsuarioErrors(email,senha,usuario) {
+export function LoginUsuarioErrors(email, senha, usuario) {
     if (!regexEmail.test(email)) {
         throw new Error("E-mail inválido");
     }
@@ -49,9 +49,9 @@ export function LoginUsuarioErrors(email,senha,usuario) {
 }
 
 
-export function ImagemUsuarioErrors(file){
-        if (!file) {
-throw new Error("Imagem não enviada");
+export function ImagemUsuarioErrors(file) {
+    if (!file) {
+        throw new Error("Imagem não enviada");
 
     }
 }
