@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { validarToken } from '../utils/TokenUsuario.js';
+import { validarToken } from '../utils/TokenEvalidacao.js';
 import { CriarEnderecoService } from '../service/endereco_usuario/CriarEnderecoService.js';
 import { ExcluirEnderecoService } from '../service/endereco_usuario/ExcluirEnderecoService.js';
 const endpoints = Router();

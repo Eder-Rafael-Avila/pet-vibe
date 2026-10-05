@@ -1,8 +1,8 @@
 import { Router } from 'express';
 const endpoints = Router();
 
-import { gerarToken } from '../utils/TokenUsuario.js';
-import { validarToken } from '../utils/TokenUsuario.js';
+import { gerarToken } from '../utils/TokenEvalidacao.js';
+import { validarToken } from '../utils/TokenEvalidacao.js';
 
 import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
