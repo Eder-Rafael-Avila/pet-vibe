@@ -74,3 +74,47 @@ export async function ExcluirOng(id) {
     let [resposta] = await con.query(command,[id])
     return resposta.effectedRows
 }
+
+export async function AlterarEmailOng(id, ong) {
+    let command = `
+    UPDATE ong
+    SET email = ?
+    WHERE id_ong = ?
+    `
+
+    let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}
+
+export async function AlterarSenhaOng(id, ong) {
+    let command = `
+    UPDATE ong
+    SET senha = ?
+    WHERE id_ong = ?
+    `
+
+    let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}
+
+export async function AlterarDescOng(id, ong) {
+    let command = `
+    UPDATE ong
+    SET descricao = ?
+    WHERE id_ong = ?
+    `
+
+    let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}
+
+export async function AlterarSiteOng(id, ong) {
+    let command = `
+    UPDATE ong
+    SET site = ?
+    WHERE id_ong = ?
+    `
+
+    let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}

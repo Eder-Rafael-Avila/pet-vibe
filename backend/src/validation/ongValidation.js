@@ -1,3 +1,5 @@
+import { cnpj } from "cpf-cnpj-validator";
+
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function ListarOngErrors(nome){
@@ -45,4 +47,9 @@ export function LoginOngErrors(email,senha,ong) {
     if (ong.senha !== senha) {
         throw new Error("Senha inválida");
     }
+}
+
+export function ExcluirOngErrors(idOng) {
+    if (!idOng) throw new Error("O ID do usuário é obrigatório");
+    if (isNaN(idOng)) throw new Error("O ID do usuário deve ser número");
 }
