@@ -1,4 +1,4 @@
-import * as DBenderecoOng from '../repository/EnderecoOngRepository.js';
+import * as DBenderecoOng from '../../repository/EnderecoOngRepository.js';
 import { CriarEnderecoOngErrors } from '../../validation/enderecoOngValidation.js';
 
 export async function CriarEnderecoOngService(id, endereco) {

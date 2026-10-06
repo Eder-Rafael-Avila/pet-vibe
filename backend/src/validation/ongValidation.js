@@ -32,7 +32,7 @@ export function CriarOngErrors(ong) {
         throw new Error("A senha deve conter no mínimo 8 caracteres");
     }
 
-    if (!ong.desc) throw new Error("O campo de descrição(desc) é obrigatória");
+    if (!ong.descricao) throw new Error("O campo de descrição(desc) é obrigatória");
 
     if (!ong.site) throw new Error("O campo de site é obrigatório");
 
