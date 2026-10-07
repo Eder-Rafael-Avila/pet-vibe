@@ -133,6 +133,8 @@ export default function Home() {
             </section>
 
             <AnimalPreview />
+
+            <hr />
         </div>
     )
 }

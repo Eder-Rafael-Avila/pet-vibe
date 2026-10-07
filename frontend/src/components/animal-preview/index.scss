@@ -1,73 +1,164 @@
 .comp-animal-preview {
     max-width: 100%;
+    height: auto;
 
     display: flex;
-    
+    justify-content: center;
+    gap: 8rem;
 
     padding: 2rem 5rem;
 
-    .left {
-        align-self: start;
-    }
-
-    .luke {
-        background: black url('/assets/images/luke.webp') center center no-repeat;
-        background-size: cover;
-    }
-
-    .right {
-        align-self: end;
-        text-align: end;
-    }
-
-    .beto {
-        background: black url('/assets/images/beto.webp') center center no-repeat;
-        background-size: cover;
-    }
-
-    .animal-card {
+    .container-adote {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
+        gap: 2rem;
+        align-items: center;
 
-        width: 43%;
+        h2 {
+            color: var(--corAzulTerciario);
 
-        padding-bottom: 2rem;
-
-        border-bottom: 2px solid var(--corAzulPrimario);
-
-        .photo {
-            width: 100%;
-            height: 32rem;
-
-            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.493);
+            font-size: 2rem;
+            text-align: center;
+            font-weight: 500;
         }
 
-        .desc {
+        .adote {
+            position: relative;
 
-            h2 {
-                color: var(--corAzulPrimario);
+            display: flex;
+            justify-content: center;
+            align-items: end;
+            padding-bottom: 4rem;
 
-                font-size: 2.1rem;
+            background: black url('/assets/images/adote.webp') no-repeat 30% center;
+            background-size: cover;
+
+            width: 100%;
+            height: 58rem;
+
+            border-radius: 2rem;
+
+            overflow: hidden;
+
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: black;
+                opacity: 0.5;
+                border-radius: 2rem;
             }
 
-            p {
-                color: var(--corPretoGeral);
+            .adote-button {
+                width: 76%;
+
+                color: var(--corLaranjaContraste);
+                background: white;
+
+                border: 2px solid var(--corLaranjaContraste);
+                border-radius: 1rem;
+
                 font-weight: 600;
-                font-size: 1.2rem;
-                line-height: 2.2rem;
+                font-size: 1.4rem;
+                padding: .8rem 2rem;
+                z-index: 1;
+
+                &:hover {
+                    color: white;
+                    background-color: var(--corLaranjaContraste);
+                }
+            }
+        }
+
+        
+    }
+
+    .container-animais {
+        width: 77%;
+
+        display: flex;
+        align-items: center;
+        gap: 8rem;
+
+        .container-luke, .container-beto {
+            width: 46%;
+        }
+
+        .luke {
+            background: black url('/assets/images/luke.webp') center center no-repeat;
+            background-size: cover;
+        }
+
+        .beto {
+            background: black url('/assets/images/beto.webp') center center no-repeat;
+            background-size: cover;
+        }
+
+        .animal-card {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+
+            width: 100%;
+
+            .photo {
+                width: 100%;
+                height: 32rem;
+
+                box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.493);
             }
 
-            .paragraph-preview {
+            .desc {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+                gap: 1rem;
 
-            }
+                h3 {
+                    color: var(--corAzulPrimario);
 
-            .expanded-paragraph {
+                    font-size: 2.1rem;
+                }
 
-            }
+                p {
+                    color: var(--corPretoGeral);
+                    font-weight: 600;
+                    font-size: 1.2rem;
+                    line-height: 2.2rem;
+                }
 
-            .hide {
-                display: none;
+                .paragraph-preview {
+                    font-size: 1.1rem;
+                }
+
+                .expanded-paragraph {
+                    font-size: 1.3rem;
+                    text-align: justify;
+                }
+
+                .botao {
+                    background: transparent;
+                    color: var(--corLaranjaContraste);
+                    
+                    border: 1px solid var(--corLaranjaContraste);
+
+                    align-self: center;
+                    padding: .4rem 2rem;
+                    border-radius: 1rem;
+                    margin: 1rem 0;
+
+                    font-weight: 600;
+
+                    transition-duration: .3s;
+                }
+
+                .botao:hover {
+                    background: var(--corLaranjaContraste);
+                    color: white;
+                }
             }
         }
     }
