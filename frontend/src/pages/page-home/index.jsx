@@ -3,6 +3,7 @@ import './index.scss';
 import Header from '../../components/header/index.jsx';
 import MainPanel from '../../components/main-panel';
 import CardHome from '../../components/card-home';
+import AnimalPreview from '../../components/animal-preview';
 
 import { useState } from 'react';
 
@@ -130,6 +131,8 @@ export default function Home() {
                     </p>
                 </div>
             </section>
+
+            <AnimalPreview />
         </div>
     )
 }
