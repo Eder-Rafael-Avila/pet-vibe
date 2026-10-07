@@ -66,9 +66,7 @@ data_de_nascimento date,
 castrado boolean,
 sexo varchar (20),
 porte varchar (100),
-descricao text,    
-contato_ong_tel VARCHAR(20),
-contato_ong_email VARCHAR(150),
+descricao text,
 
 foreign key (id_ong) references ong(id_ong)
 );
