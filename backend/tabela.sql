@@ -41,7 +41,6 @@ descricao TEXT,
 site VARCHAR(255)
 );
 
-
 CREATE TABLE endereco_ong(
 id_endereco_ong INT PRIMARY KEY AUTO_INCREMENT,
 id_ong INT UNIQUE,
@@ -56,7 +55,6 @@ estado VARCHAR(100),
     FOREIGN KEY (id_ong) REFERENCES ong(id_ong)
 );
 
-
 create table perfil_animal(
 id_animal int primary key auto_increment,
 id_ong int,
@@ -69,6 +67,8 @@ castrado boolean,
 sexo varchar (20),
 porte varchar (100),
 descricao text,    
+contato_ong_tel VARCHAR(20),
+contato_ong_email VARCHAR(150),
 
 foreign key (id_ong) references ong(id_ong)
 );

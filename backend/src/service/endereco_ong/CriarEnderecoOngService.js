@@ -4,7 +4,6 @@ import { CriarEnderecoOngErrors } from '../../validation/enderecoOngValidation.j
 export async function CriarEnderecoOngService(id, endereco) {
 
     CriarEnderecoOngErrors(endereco);
-
     const idEndereco = await DBenderecoOng.CriarEnderecoOng(id, endereco)
     return idEndereco
 }
