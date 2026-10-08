@@ -1,21 +1,47 @@
 .page-cadastro{
 
-   .corpo{
+    
+    .corpo{
+       background: black url('/assets/images/background-cadastro.png') no-repeat center center;
+       background-size: cover; 
+
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
 
+
         
     }
+
+
+
     form{
-        border: 1px solid black;
+        background-color: white;
+        box-shadow: 0px 0px 8px #063a31b2;
+
+        border: 1px solid var(--corPretoGeral);
         padding: 30px 40px;
         width: 420px;
         border-radius: 10px;
+
+        .logo {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+
+            .imagem {
+                width: 14rem;
+            }
+        }
+      
     }
+
     form h1{
-        margin-bottom: 15px;
+        margin-bottom: 20px;
+        margin-top: 10px;
+        color: var(--corPretoGeral);
+        text-align: center;
     }
 
     .input input{
@@ -83,6 +109,18 @@
     display: flex;
     justify-content: center;
     margin-top: 10px;
+    font-size: 15px;
+
+    .Conta{
+       color: var(--corLaranjaSecundario);
+       text-decoration: none;
+    }
    }
     
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none; 
+}
 }
