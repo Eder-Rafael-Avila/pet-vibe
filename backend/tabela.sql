@@ -11,7 +11,8 @@ email VARCHAR(200) NOT NULL UNIQUE,
 telefone VARCHAR(20) UNIQUE,
 senha VARCHAR(100),
 cpf varchar(14) UNIQUE,
-data_nascimento DATE
+data_nascimento DATE,
+confirmar_senha varchar(100)
 );
 
 create table endereco_usuarios(
