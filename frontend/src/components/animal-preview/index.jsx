@@ -11,11 +11,11 @@ export default function AnimalPreview() {
         <section className="comp-animal-preview">
 
             <aside className="container-adote">
-                <h2>Histórias que tocam o seu coração.</h2>
+                <h2>Dê à uma vida um novo lar.</h2>
 
                 <div className="adote">
                     <button className='adote-button'>
-                        Adote
+                        Adote <i className='fa fa-arrow-right' />
                     </button>
                 </div>
             </aside>

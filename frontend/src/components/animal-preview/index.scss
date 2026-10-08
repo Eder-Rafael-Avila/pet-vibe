@@ -4,11 +4,14 @@
 
     display: flex;
     justify-content: center;
+    flex-direction: column;
     gap: 8rem;
 
     padding: 2rem 5rem;
 
     .container-adote {
+        height: 50rem;
+
         display: flex;
         flex-direction: column;
         gap: 2rem;
@@ -17,20 +20,21 @@
         h2 {
             color: var(--corAzulTerciario);
 
-            font-size: 2rem;
+            font-size: 2.5rem;
             text-align: center;
             font-weight: 500;
+            margin-bottom: 1rem;
         }
 
         .adote {
             position: relative;
 
             display: flex;
-            justify-content: center;
+            justify-content: end;
             align-items: end;
-            padding-bottom: 4rem;
+            padding: 2rem;
 
-            background: black url('/assets/images/adote.webp') no-repeat 30% center;
+            background: black url('/assets/images/acariciando.webp') no-repeat top center;
             background-size: cover;
 
             width: 100%;
@@ -53,12 +57,17 @@
             }
 
             .adote-button {
-                width: 76%;
+                width: 20%;
 
-                color: var(--corLaranjaContraste);
-                background: white;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: .8rem;
 
-                border: 2px solid var(--corLaranjaContraste);
+                color: white;
+                background: transparent;
+
+                border: 1px solid white;
                 border-radius: 1rem;
 
                 font-weight: 600;
@@ -66,9 +75,15 @@
                 padding: .8rem 2rem;
                 z-index: 1;
 
+                @media (max-width: 768px) {
+                        background-color: white;
+                        color: var(--corPretoGeral);
+                        width: 40%;
+                    }
+
                 &:hover {
-                    color: white;
-                    background-color: var(--corLaranjaContraste);
+                    color: var(--corPretoGeral);
+                    background-color: white;
                 }
             }
         }
@@ -77,10 +92,11 @@
     }
 
     .container-animais {
-        width: 77%;
+        width: 100%;
+        height: 65rem;
 
         display: flex;
-        align-items: center;
+        align-items: start;
         gap: 8rem;
 
         .container-luke, .container-beto {
