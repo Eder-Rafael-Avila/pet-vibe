@@ -29,6 +29,10 @@ export function CriarUsuarioErrors(usuario) {
 
     const cpfInformado = String(usuario.cpf);
 
+    if(!usuario.confirmar_senha) throw new Error("O campo confirmar_senha é obrigatório");
+
+    if(usuario.confirmar_senha != usuario.senha) throw new Error("O campo de confirmar_senha deve ser igual ao de senha");
+
     if (!cpf.isValid(cpfInformado)) throw new Error("CPF inválido");
 
     if (!usuario.data_nascimento) throw new Error("O campo de data_nascimento é obrigatório");
