@@ -64,8 +64,8 @@ idade int,
 raca varchar(100),
 data_de_nascimento date,
 castrado boolean,
-sexo varchar (20),
-porte varchar (100),
+sexo ENUM('masculino' , 'feminino'),
+porte ENUM('pequeno', 'medio' , 'grande'),
 descricao text,
 
 foreign key (id_ong) references ong(id_ong)
@@ -83,11 +83,13 @@ FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 
 );
 
+
+
 CREATE TABLE adocoes(
 id_adocao INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT,  
 id_animal INT,
-situação ENUM('Reprovada','Pendente','Aprovada'),
+situação ENUM('reprovada','pendente','aprovada'),
 FOREIGN KEY (id_usuario) References usuarios(id_usuario),
 FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal)
 ); 
