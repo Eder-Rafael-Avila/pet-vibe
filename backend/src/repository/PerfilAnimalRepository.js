@@ -4,6 +4,7 @@ export async function ListarAnimais() {
     let command = `
 SELECT
     ong.nome AS nome_ong,
+    perfil_animal.id_animal,
     perfil_animal.nome AS nome_animal,
     perfil_animal.idade,
     perfil_animal.raca,
@@ -25,6 +26,7 @@ export async function ListarAnimalPorNome(nome) {
     let command = `
 SELECT
     ong.nome AS nome_ong,
+        perfil_animal.id_animal,
     perfil_animal.nome AS nome_animal,
     perfil_animal.idade,
     perfil_animal.raca,
@@ -42,9 +44,10 @@ WHERE perfil_animal.nome LIKE ?;
     let [resposta] = await con.query(command, [`%${nome}%`])
     return resposta;
 }
-export async function CriarAnimal(id,animal) {
 
-    let comando = `
+export async function CriarAnimal(id, animal) {
+
+    let command = `
         INSERT INTO perfil_animal (
             id_ong,
             imagem,
@@ -60,7 +63,7 @@ export async function CriarAnimal(id,animal) {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
-    let [resultado] = await con.query(comando, [
+    let [resultado] = await con.query(command, [
         id,
         animal.imagem,
         animal.nome,
@@ -74,4 +77,14 @@ export async function CriarAnimal(id,animal) {
     ]);
 
     return resultado.insertId;
+}
+
+export async function ExcluirAnimal(id) {
+    let command = `
+    DELETE FROM  perfil_animal
+    WHERE id_animal = ?
+    `
+
+    let [resultado] = await con.query(command, [id])
+    return resultado.affectedRows;
 }
