@@ -42,23 +42,36 @@ WHERE perfil_animal.nome LIKE ?;
     let [resposta] = await con.query(command, [`%${nome}%`])
     return resposta;
 }
+export async function CriarAnimal(id,animal) {
 
-export async function CriarAnimal(imagem,animal) {
-    let command = `
-    INSERT INTO perfil_animal
-(imagem, nome, idade, raca, data_de_nascimento, castrado, sexo, porte, descricao)
-VALUES (?,?,?,?,?,?,?,?,?)
-    `
-    let [resposta] = await con.query(command, [
-        imagem,
+    let comando = `
+        INSERT INTO perfil_animal (
+            id_ong,
+            imagem,
+            nome,
+            idade,
+            raca,
+            data_de_nascimento,
+            castrado,
+            sexo,
+            porte,
+            descricao
+        )
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `;
+
+    let [resultado] = await con.query(comando, [
+        id,
+        animal.imagem,
         animal.nome,
         animal.idade,
         animal.raca,
-        animal.data,
+        animal.data_de_nascimento,
         animal.castrado,
         animal.sexo,
         animal.porte,
         animal.descricao
-    ])
-    return resposta.insertId;
+    ]);
+
+    return resultado.insertId;
 }
