@@ -1,7 +1,8 @@
 import './index.scss'
 import { Link } from 'react-router-dom'
-import { FaEye, FaEyeSlash, FaLock, FaUser,FaArrowRight,FaKey, FaEnvelope } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 export default function Login(){
 
@@ -12,11 +13,16 @@ export default function Login(){
         <div className="page-login">
             <div className="corpo">
             <form>
-                <h1>Acesse a sua conta</h1>
-                <p>Bem-vindo de volta!</p>
+                <div className="logo">
+                    <div className="imagem">
+                        <img src="public/assets/images/logo4.webp" alt="" />
+                    </div>
+                </div>
+                <h1>Acesse a sua conta</h1> 
+                <p>Bem-vindo de volta!</p> 
                 <div className="input">
                     <FaEnvelope className='icone-email' />
-                <input  type="email" placeholder='exempleemail@gmail.com' /> 
+                <input  type="email" placeholder='exemploemail@gmail.com' /> 
                 
                 
                 </div>
@@ -30,15 +36,22 @@ export default function Login(){
                 </div>
                 
                 
+                   
+                <div className="opcoes-senha">
                     <label>
-                        <input type="checkbox" className='input-senha' />
-                        Lembrar minha senha?
+                         <input type="checkbox" className="input-senha" />
+                            Lembrar minha senha?
                     </label>
-                        <Link to="#" id='senha'> Esqueci minha senha</Link>
+
+                            <NavLink to="#" id="senha"><span>Esqueci minha senha</span></NavLink>
+                </div>
+
                     <button type="submit" className='Login'>Login</button>
 
                     <div className='Cadastrar'> 
-                        <p>Não tem uma conta? <Link to="#" >Cadastre-se</Link></p>
+                        <p>Não tem uma conta? 
+                            <NavLink to='/Cadastro' className='cadastro-link'><span>Cadastre-se</span></NavLink>
+                        </p>
                     </div>
                     
             </form>

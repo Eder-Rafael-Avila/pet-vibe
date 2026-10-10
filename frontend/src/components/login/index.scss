@@ -1,13 +1,14 @@
 .page-login{
 
     min-height: 100vh;
-    background: linear-gradient(135deg, #d1904a, #eff0f5);
     position: relative;
-    overflow: hidden;
+    
     
 
     
     .corpo{
+        background: black url('/assets/images/background-cadastro.png') no-repeat center center;
+       background-size: cover; 
         display: flex;
         justify-content: center;
         align-items: center;
@@ -15,12 +16,25 @@
         font-size: 13.5px;
        
     }
+
+    .logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+            .imagem {
+                width: 14rem;
+            }
+        }
+
+
     form{
         width: 420px;
         border: 1px solid black;
         border-radius: 10px;
         padding: 30px 40px;
-        box-shadow: 5px 5px 15px  gray;
+         box-shadow: 0px 0px 8px #063a31b2;
+        background-color: white;
 
 
         h1{
@@ -54,7 +68,7 @@
         
        
         .input-senha {
-             margin-right: 8px;
+             margin-right: 10px;
         }
 
 
@@ -74,14 +88,33 @@
             cursor: pointer;
         }
        
-        #senha{
-            padding-left: 10px;
-            width: 100%;
-           
-        }
+       
+.opcoes-senha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.opcoes-senha label {
+    display: flex;
+    align-items: center;
+
+}
+
+#senha {
+    color: var(--corLaranjaContraste);
+    font-size: 13px;
+}
+
         .Cadastrar{
             justify-content: center;
             display: flex;
+
+            .cadastro-link{
+                color: (var(--corLaranjaContraste));
+                
+            }
            
         }
         .Cadastrar p{
@@ -99,7 +132,7 @@
             border: none;
             background: transparent;
             cursor: pointer;
-            color: #777;
+            
             font-size: 20px;
         }
 
