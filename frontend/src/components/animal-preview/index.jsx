@@ -1,11 +1,13 @@
 import './index.scss';
 
 import { useState } from 'react';
+import { NavLink } from 'react-router-dom';
 
 export default function AnimalPreview() {
 
     const [descLukeExpandida, setDescLukeExpandida] = useState(false);
     const [descBetoExpandida, setDescBetoExpandida] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
 
     return (
         <section className="comp-animal-preview">
@@ -15,7 +17,15 @@ export default function AnimalPreview() {
 
                 <div className="adote">
                     <button className='adote-button'>
-                        Adote <i className='fa fa-arrow-right' />
+                        <NavLink to='/Adocao'
+                                 style={{
+                                    color: isHovered ? "black" : "white",
+                                    textDecoration: "none"
+                                 }}
+                                 onMouseEnter={() => {setIsHovered(true)}}
+                                 onMouseLeave={() => {setIsHovered(false)}}
+                        ><p>Adote</p></NavLink>
+                         <i className='fa fa-arrow-right' />
                     </button>
                 </div>
             </aside>
