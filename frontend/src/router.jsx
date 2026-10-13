@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/page-home';
 import Login from './components/login';
+import Adocao from './components/adocao';
 
 export default function Router() {
     return (
@@ -9,6 +10,7 @@ export default function Router() {
                 <Routes>
                     <Route path='/' element={ <Home /> } />
                     <Route path='/Login' element={<Login/>} />
+                    <Route path='/Adocao' element={<Adocao />} />
                 </Routes>
             </BrowserRouter>
     );

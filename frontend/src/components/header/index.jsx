@@ -60,7 +60,7 @@ export default function Header({
                     </li>
                     <li>
                         <NavLink
-                        to="/animais"
+                        to="/Adocao"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
