@@ -27,7 +27,9 @@ export default function Login(){
                     <button type="submit">Login</button>
 
                     <div className='Cadastrar'> 
-                        <p>Não tem uma conta? <Link to="/Cadastro">Cadastre-se</Link></p>
+                        <p>Não tem uma conta? 
+                            <NavLink to='/Cadastro' className='cadastro-link'><span>Cadastre-se</span></NavLink>
+                        </p>
                     </div>
             </form>
         </div>
