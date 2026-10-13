@@ -1,15 +1,154 @@
 .page-login{
+
+    min-height: 100vh;
+    position: relative;
+    
+    
+
     
     .corpo{
+        background: black url('/assets/images/background-cadastro.png') no-repeat center center;
+       background-size: cover; 
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
+        font-size: 13.5px;
+       
     }
+
+    .logo {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+
+            .imagem {
+                width: 14rem;
+            }
+        }
+
+
     form{
         width: 420px;
         border: 1px solid black;
         border-radius: 10px;
         padding: 30px 40px;
+         box-shadow: 0px 0px 8px #063a31b2;
+        background-color: white;
+
+
+        h1{
+            display: flex;
+            justify-content: center;
+            padding: 5px;
+           
+        }
+
+        p{
+            justify-content: center;
+            display: flex;
+            padding-bottom: 10px;
+        }
+        .input input{
+            width: 100%;
+            padding: 7px;
+            height: 50px;
+            border-radius: 55px;
+            border: 1px solid black;
+            text-indent: 10px;
+            padding-left: 35px;
+
+        }
+        .input{
+            width: 100%;
+            margin-bottom: 17px;
+            position: relative;
+            
+        }
+        
+       
+        .input-senha {
+             margin-right: 10px;
+        }
+
+
+
+
+        .Login {
+            width: 100%;
+            margin-bottom: 17px;
+            margin-top: 17px;
+            padding: 12px;
+            border-radius: 55px;
+            border: none;
+            background-color: var(--corLaranjaContraste);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+       
+       
+.opcoes-senha {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.opcoes-senha label {
+    display: flex;
+    align-items: center;
+
+}
+
+#senha {
+    color: var(--corLaranjaContraste);
+    font-size: 13px;
+}
+
+        .Cadastrar{
+            justify-content: center;
+            display: flex;
+
+            .cadastro-link{
+                color: (var(--corLaranjaContraste));
+                
+            }
+           
+        }
+        .Cadastrar p{
+            gap: 10px;
+        }
+
+        .input input::placeholder{
+            text-indent: 10px;
+        }
+        .olhoBotao {
+            position: absolute;
+            right: 15px;
+            top: 55%;
+            transform: translateY(-50%);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            
+            font-size: 20px;
+        }
+
+       .icone-email,.icone-senha {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+            font-size: 18px;
+            z-index: 2;
+        }
+
+        
+        
     }
+
+    
 }
