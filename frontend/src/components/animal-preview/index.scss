@@ -72,7 +72,6 @@
 
                 font-weight: 600;
                 font-size: 1.4rem;
-                padding: .8rem 2rem;
                 z-index: 1;
 
                 @media (max-width: 768px) {
@@ -134,17 +133,19 @@
             .desc {
                 display: flex;
                 flex-direction: column;
-                align-items: start;
+                align-items: center;
                 gap: 1rem;
 
                 h3 {
                     color: var(--corAzulPrimario);
+                    align-self: start;
 
                     font-size: 2.1rem;
                 }
 
                 p {
                     color: var(--corPretoGeral);
+                    align-self: start;
                     font-weight: 600;
                     font-size: 1.2rem;
                     line-height: 2.2rem;
@@ -162,11 +163,13 @@
                 .botao {
                     background: transparent;
                     color: var(--corLaranjaContraste);
+
+                    width: 100%;
                     
                     border: 1px solid var(--corLaranjaContraste);
 
                     align-self: center;
-                    padding: .4rem 2rem;
+                    padding: .7rem 2rem;
                     border-radius: 1rem;
                     margin: 1rem 0;
 

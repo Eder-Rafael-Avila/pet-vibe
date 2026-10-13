@@ -20,12 +20,15 @@ export default function AnimalPreview() {
                         <NavLink to='/Adocao'
                                  style={{
                                     color: isHovered ? "black" : "white",
+                                    width: '100%',
+                                    height: '100%',
+                                    padding: '.8rem 2rem',
                                     textDecoration: "none"
                                  }}
                                  onMouseEnter={() => {setIsHovered(true)}}
                                  onMouseLeave={() => {setIsHovered(false)}}
-                        ><p>Adote</p></NavLink>
-                         <i className='fa fa-arrow-right' />
+                        ><p>Adote <i className='fa fa-arrow-right' /></p></NavLink>
+                         
                     </button>
                 </div>
             </aside>
@@ -68,7 +71,7 @@ export default function AnimalPreview() {
                             <h3>Beto</h3>
                             {descBetoExpandida ? (
                                 <p className='expanded-paragraph'>
-                                    Nascido nas frestas de um terreno baldio, Beto conheceu a rua antes mesmo de desmamar. A vida no centro urbano o ensinou que a altura era sua única segurança: aprendeu a circular por muros altos, marquises e telhados para se esquivar de carros, cães agressivos e maus-tratos. Uma briga por território no passado lhe deixou uma orelha rasgada e um medo permanente do toque humano. Sua rotina era um ciclo exaustivo de hipervigilância, sobrevivendo com restos que encontrava nas lixeiras de madrugada e lidando com a fome crônica e o vento gelado que cortava os telhados nas noites de inverno.
+                                    Nascido em um terreno baldio, Beto conheceu o abandono antes mesmo de ser desmamado. No anoitecer das ruas, aprendeu a refugiar-se em telhados para escapar da violência, carregando no corpo as cicatrizes de antigas agressões e, na alma, o temor do contato humano. Condenado à fome, ao frio e à solidão, sobrevivia de restos encontrados nas lixeiras, enquanto contemplava, à distância, a segurança dos lares alheios. Sua maior tragédia, porém, não era a miséria, mas jamais ter conhecido o afeto, vivendo à margem de um mundo que parecia ter-lhe negado até mesmo o direito de ser amado.
                                 </p>
                             ) : (
                                 <p className='paragraph-preview'>

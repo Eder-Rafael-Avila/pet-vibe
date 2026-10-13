@@ -1,0 +1,26 @@
+.comp-footer {
+    display: flex;
+    flex-direction: column;
+
+    padding: 2rem;
+
+    .area-um {
+        display: flex;
+        justify-content: space-between;
+
+        .petvibe {
+            display: flex;
+            flex-direction: column;
+
+            .logo {
+                width: 12rem;
+            }
+        }
+
+        .navegacao {
+            display: flex;
+        }
+
+    }
+
+}

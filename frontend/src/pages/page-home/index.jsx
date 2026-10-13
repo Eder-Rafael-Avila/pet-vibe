@@ -4,6 +4,7 @@ import Header from '../../components/header/index.jsx';
 import MainPanel from '../../components/main-panel';
 import CardHome from '../../components/card-home';
 import AnimalPreview from '../../components/animal-preview';
+import Footer from '../../components/footer';
 
 import { useState } from 'react';
 
@@ -135,6 +136,8 @@ export default function Home() {
             <AnimalPreview />
 
             <hr />
+
+            <Footer />
         </div>
     )
 }
