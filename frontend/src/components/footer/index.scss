@@ -1,0 +1,85 @@
+.comp-footer {
+    display: flex;
+    flex-direction: column;
+
+    background-color: white;
+
+    padding: 1rem 4rem 2rem 4rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.342);
+    box-shadow: -1px 0px 4px rgba(0, 0, 0, 0.288);
+
+    .area-um {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        margin: 1.8rem 0;
+
+        .petvibe {
+            display: flex;
+            flex-direction: column;
+            align-items: start;
+
+            width: 30rem;
+
+            .slogan {
+                display: flex;
+                align-items: center;
+
+                width: 16.5rem;
+
+                margin-bottom: .3rem;
+
+                .logo {
+                    width: 8rem;
+                }
+
+                .title h1 {
+                    font-size: 2rem;
+                    font-family: var(--fonteTitulo);
+                    color: var(--corAzulPrimario);
+
+                    span {
+                        font-family: var(--fonteTitulo);
+                        color: var(--corLaranjaContraste);
+                    }
+                }
+            }
+
+            .desc {
+                color: var(--corPretoGeral);
+                font-weight: 500;
+                font-size: 1.1rem;
+                line-height: 1.8rem;
+                letter-spacing: .08rem;
+            }
+        }
+
+        .navegacao {
+            display: flex;
+            justify-content: center;
+            gap: 5rem;
+
+            ul {
+                display: flex;
+                flex-direction: column;
+                align-items: start;
+
+                list-style: none;
+
+                li {
+                    margin: .4rem 0;
+                    font-size: 1.2rem;
+                }
+            }
+
+            h2 {
+                color: var(--corPretoGeral);
+            }
+        }
+    }
+
+    .area-dois {
+        margin: 1.8rem 0;
+    }
+}
