@@ -8,11 +8,16 @@ export default function Footer() {
         <footer className='comp-footer'>
             <div className="area-um">
                 <div className="petvibe">
-                    <div className="logo">
-                        <img src="/assets/images/logo4.png" alt="" />
+                    <div className="slogan">
+                        <div className="logo">
+                            <img src="/assets/images/logo4.png" alt="" />
+                        </div>
+                        <div className="title">
+                            <h1>Pet<span>Vibe</span></h1>
+                        </div>
                     </div>
                     <div className="desc">
-                        <p>Patas que combinam, vidas que se completam. Encontre o seu pet perfeito através do match inteligente.</p>
+                        <p>Conectando vidas. Construindo laços. Um espaço para encontros que merecem durar.</p>
                     </div>
                 </div>
                 <div className="navegacao">
@@ -23,7 +28,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/comoFunciona' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Como Funciona</NavLink>
@@ -31,7 +36,7 @@ export default function Footer() {
                             <li>
                                 <a href='#feedback' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Histórias de Sucesso</a>
@@ -39,7 +44,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/marketplace' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >MarketPlace</NavLink>
@@ -47,7 +52,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/Adocao' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Adoção</NavLink>
@@ -61,7 +66,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/comoFunciona' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Cadastrar ONGs</NavLink>
@@ -69,7 +74,7 @@ export default function Footer() {
                             <li>
                                 <a href='#feedback' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Nossos Parceiros</a>
@@ -77,7 +82,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/marketplace' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Doações</NavLink>
@@ -85,7 +90,7 @@ export default function Footer() {
                             <li>
                                 <NavLink to='/Adocao' 
                                          style={{
-                                            color: '#12a58c',
+                                            color: '#12a58ccb',
                                             textDecoration: 'none',
                                          }}
                                 >Termos de Uso</NavLink>
@@ -98,7 +103,7 @@ export default function Footer() {
             <hr />
 
             <div className="area-dois">
-
+                <p>© 2026 Laço. Feito com cuidado por todas as vidas.</p>
             </div>
         </footer>
     );

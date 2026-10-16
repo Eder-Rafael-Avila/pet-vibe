@@ -135,8 +135,6 @@ export default function Home() {
 
             <AnimalPreview />
 
-            <hr />
-
             <Footer />
         </div>
     )
