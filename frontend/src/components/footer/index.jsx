@@ -94,6 +94,9 @@ export default function Footer() {
                     </nav>
                 </div>
             </div>
+
+            <hr />
+
             <div className="area-dois">
 
             </div>
