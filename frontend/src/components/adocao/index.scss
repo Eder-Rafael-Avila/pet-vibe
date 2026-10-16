@@ -1,0 +1,91 @@
+.page-adocao{
+
+    .filtros{
+        padding: 20px;
+
+        
+
+        .quadros button {
+            background-color: white;
+            color: #105F56;
+            border: 1px solid #105F56;
+            padding: 10px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-right: 8px;
+        }
+
+        .quadros button.selecionado {
+            background-color: #105F56;
+            color: white;
+        }
+    
+
+
+.quadros {
+    margin-bottom: 20px;
+}
+
+.quadros details summary {
+    cursor: pointer;
+    color: #105F56;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.opcoes {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.opcoes button {
+    background-color: white;
+    color: #105F56;
+    border: 1px solid #105F56;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.opcoes button:hover {
+    background-color: #e0f3ef;
+}
+
+.opcoes button.selecionado {
+    background-color: #105F56;
+    color: white;
+    border-color: #105F56;
+}
+
+
+
+
+
+
+
+
+
+
+            .btn-animais{
+
+                .btn-busca{
+
+                    background-color: #F8561F;
+                    border: none;
+                    border-radius: 12px;
+                    width: 18%;
+                    font-size: 10px;
+                    padding: 10px;
+                    color: #156957;
+                    
+                    
+
+                }
+            }
+        }
+    }
+
+
