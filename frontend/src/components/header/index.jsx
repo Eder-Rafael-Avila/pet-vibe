@@ -97,7 +97,7 @@ export default function Header({
                         <NavLink 
                         to="/cadastro"
                         style={() => ({
-                            color: 'white',
+                            color: '#F8561F',
                             textDecoration: 'none'
                         })}
                         >Cadastre-se</NavLink>
