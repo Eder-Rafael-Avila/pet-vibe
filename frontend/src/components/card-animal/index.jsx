@@ -13,7 +13,7 @@ export default function CardAnimais({
 
 }){
     return(
-        <div className="animais-card">
+        <div className="card-animal">
             <div className="imagem">
                 <img src={imagem} alt="" />
             </div>

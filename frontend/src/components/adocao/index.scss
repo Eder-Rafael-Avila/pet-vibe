@@ -1,37 +1,49 @@
 .page-adocao{
 
-    .filtros{
+    .filtros {
         padding: 20px;
+        margin-top: 10px;
 
-        
 
-        .quadros button {
-            background-color: white;
+        h1{
             color: #105F56;
-            border: 1px solid #105F56;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            margin-right: 8px;
+        }
+        p{
+            margin-top: 10px;
+            font-size: 13px;
+            color: #4a4b4b;
         }
 
-        .quadros button.selecionado {
+        .linha-filtros {
+            display: flex;
+            align-items: stretch;
+            gap: 8px;
+            margin-top: 20px;
+           
+        }
+
+        .quadros {
+            border: 1px solid black;
+            border-radius:10px;
+            padding: 10px;
+            width: 100%;
+            
+        button.selecionado {
             background-color: #105F56;
             color: white;
         }
+
+        input{
+            padding: 10px;
+            margin-left: 7px;
+            margin-right: 7px;
+            border-radius: 10px;
+            border: none;
+            background-color: #FFFFFF;
+        }
     
-
-
-.quadros {
-    margin-bottom: 20px;
 }
 
-.quadros details summary {
-    cursor: pointer;
-    color: #105F56;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
 
 .opcoes {
     display: flex;
@@ -44,7 +56,7 @@
     background-color: white;
     color: #105F56;
     border: 1px solid #105F56;
-    padding: 8px 18px;
+    padding: 8px;
     border-radius: 8px;
     cursor: pointer;
     transition: 0.2s;
@@ -60,32 +72,28 @@
     border-color: #105F56;
 }
 
-
-
-
-
-
-
-
-
-
             .btn-animais{
 
                 .btn-busca{
-
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
                     background-color: #F8561F;
+                    margin-top: 20px;
                     border: none;
                     border-radius: 12px;
-                    width: 18%;
                     font-size: 10px;
                     padding: 10px;
-                    color: #156957;
-                    
-                    
+                    color: #fcfdfd;
+                    width: 100%;
+                }
+                    }
 
                 }
+
+                
             }
-        }
-    }
+        
+    
 
 
