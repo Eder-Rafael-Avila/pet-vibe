@@ -5,7 +5,7 @@ import NovasRotas from './routes.js';
 import './utils/global.js'; //Import apenas para a var global funcionar em todas pastas
 
 const api = express()
-
+console.log("Teste")
 api.use(cors());
 api.use(express.json());
 api.use('/uploads', express.static('src/uploads'));
