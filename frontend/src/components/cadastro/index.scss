@@ -37,6 +37,11 @@
       
     }
 
+    .input p {
+        font-weight: 600;
+        color: var(--corPretoGeral);
+    }
+
     form h1{
         margin-bottom: 20px;
         margin-top: 10px;
@@ -95,6 +100,17 @@
      }
     }
     }
+
+    .button {
+
+        #mensagem-erro {
+            color: red;
+            font-weight: 500;
+            font-size: 1.2rem;
+            margin: .5rem 1rem;
+        }
+    }
+
     .button button{
         width: 100%;
         height: 40px;
@@ -102,6 +118,15 @@
         border-radius: 10px;
         background-color: var(--corLaranjaSecundario);
         color: aliceblue;   
+
+        &:hover {
+            cursor: pointer;
+            opacity: .90;
+        }
+
+        &:active {
+            transform: scale(.98);
+        }
         
     }
 

@@ -1,0 +1,32 @@
+{
+  "name": "pet-vibe",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon src/api.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Eder-Rafael-Avila/pet-vibe.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Eder-Rafael-Avila/pet-vibe/issues"
+  },
+  "homepage": "https://github.com/Eder-Rafael-Avila/pet-vibe#readme",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "cpf-cnpj-validator": "^2.1.2",
+    "dotenv": "^18.0.4",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^2.4.0",
+    "mysql2": "^3.24.5",
+    "nodemon": "^3.1.14"
+  }
+}
