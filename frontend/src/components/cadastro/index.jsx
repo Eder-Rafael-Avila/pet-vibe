@@ -2,6 +2,7 @@ import './index.scss'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
+import * as formatacao from '../../utils/formatacaoUtils.js';
 
 export default function Cadastro(){
 
@@ -82,11 +83,11 @@ export default function Cadastro(){
 
                     <div className="input">
                         <p>Telefone * </p>
-                        <input type="Number"
-                            placeholder='(11) 4002-8922'
+                        <input type="text"
+                            placeholder='(00) 00000-0000'
                             required
                             value={telefone}
-                            onChange={e => setTelefone(e.target.value)}    
+                            onChange={e => setTelefone(formatacao.formatarTelefone(e.target.value))}    
                         />
                     </div>
 
@@ -96,7 +97,7 @@ export default function Cadastro(){
                             placeholder='123.123.123-67'
                             required
                             value={cpf}
-                            onChange={e => setCpf(e.target.value)}    
+                            onChange={e => setCpf(formatacao.formatarCpf(e.target.value))}    
                         />
                     </div>
 
