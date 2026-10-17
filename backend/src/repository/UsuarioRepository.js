@@ -89,6 +89,16 @@ export async function BuscarPorEmail(email) {
     return linhas[0];
 }
 
+export async function BuscarPorTelefone(tel) {
+    const command = `
+        SELECT * FROM usuarios
+        WHERE telefone = ?
+    `
+
+    const [linhas] = await con.query(command, [tel]);
+    return linhas[0];
+}
+
 export async function ImagemUsuario(idUsuario, imagem) {
     const command = `
         UPDATE usuarios

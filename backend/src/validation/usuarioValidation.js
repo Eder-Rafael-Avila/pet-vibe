@@ -31,7 +31,7 @@ export function CriarUsuarioErrors(usuario) {
 
     if(!usuario.confirmar_senha) throw new Error("O campo confirmar_senha é obrigatório");
 
-    if(usuario.confirmar_senha != usuario.senha) throw new Error("O campo de confirmar_senha deve ser igual ao de senha");
+    if(usuario.confirmar_senha != usuario.senha) throw new Error("As senhas não coincidem");
 
     if (!cpf.isValid(cpfInformado)) throw new Error("CPF inválido");
 

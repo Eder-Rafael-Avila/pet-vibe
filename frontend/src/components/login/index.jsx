@@ -1,5 +1,4 @@
 import './index.scss'
-import { Link } from 'react-router-dom'
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
