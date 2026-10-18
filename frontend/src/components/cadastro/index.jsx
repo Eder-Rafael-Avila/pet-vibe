@@ -102,7 +102,7 @@ export default function Cadastro(){
                     </div>
 
                     <div className="input">
-                        <p>Data de nascimento</p>
+                        <p>Data de nascimento *</p>
                         <input type="date"
                             required
                             value={dataNasc}
