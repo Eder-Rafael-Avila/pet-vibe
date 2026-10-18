@@ -1,24 +1,22 @@
-
-
 export function CriarEnderecoOngErrors(endereco) {
-    if (!endereco) throw new Error("O campo endereco é obrigatório");
+    if (!endereco) throw new Error("Informe os dados do endereço.");
 
-    if (!endereco.cep) throw new Error("O campo cep é obrigatório");
-    if (isNaN(endereco.cep)) throw new Error("O campo de CEP é obrigatóriamente Number");
+    if (!endereco.cep) throw new Error("Informe o CEP do endereço.");
+    if (isNaN(endereco.cep)) throw new Error("O CEP deve conter apenas números.");
 
-    if (!endereco.rua) throw new Error("O campo rua é obrigatório");
+    if (!endereco.rua) throw new Error("Informe o nome da rua.");
 
-    if (isNaN(endereco.numero)) throw new Error("O campo de numero é obrigatóriamente Number");
+    if (isNaN(endereco.numero)) throw new Error("O número do endereço deve ser um valor numérico.");
 
-    if (!endereco.numero) throw new Error("O campo numero é obrigatório");
+    if (!endereco.numero) throw new Error("Informe o número do endereço.");
 
-    if (!endereco.complemento) throw new Error("O campo complemento é obrigatório");
+    if (!endereco.complemento) throw new Error("Informe o complemento do endereço.");
 
-    if (!endereco.bairro) throw new Error("O campo bairro é obrigatório");
+    if (!endereco.bairro) throw new Error("Informe o bairro do endereço.");
 
-    if (!endereco.cidade) throw new Error("O campo cidade é obrigatório");
+    if (!endereco.cidade) throw new Error("Informe a cidade do endereço.");
 
-    if (!endereco.estado) throw new Error("O campo estado é obrigatório");
+    if (!endereco.estado) throw new Error("Informe a sigla do estado.");
 
-    if (endereco.estado > 2) throw new Error("O estado deve ser representada com sigla Ex: SP");
+    if (endereco.estado > 2) throw new Error("Informe a sigla do estado com duas letras. Exemplo: SP.");
 }
