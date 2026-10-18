@@ -5,94 +5,90 @@ const regexCelular = /^[1-9]{2}9\d{8}$/;
 
 export function ListarOngErrors(nome) {
     if (!nome) {
-        throw new Error("O campo de nome é obrigatório");
+        throw new Error("Informe o nome da ONG.");
     }
 }
 
 export function CriarOngErrors(ong) {
-    if (!ong.nome) throw new Error("O campo de nome é obrigatório");
+    if (!ong.nome) throw new Error("Informe o nome da ONG.");
 
-    if (!ong.email) throw new Error("O campo de email é obrigatório");
+    if (!ong.email) throw new Error("Informe o e-mail da ONG.");
 
-    if (!regexEmail.test(ong.email)) throw new Error("Email inválido");
+    if (!regexEmail.test(ong.email)) throw new Error("O e-mail informado é inválido.");
 
-    if (!ong.telefone) throw new Error("O campo de telefone é obrigatório");
+    if (!ong.telefone) throw new Error("Informe o telefone da ONG.");
 
-    if (!regexCelular.test(ong.telefone)) throw new Error("Telefone inválido");
+    if (!regexCelular.test(ong.telefone)) throw new Error("O telefone informado é inválido. Verifique o DDD e o número.");
 
-    if (!ong.cnpj) throw new Error("O campo de CNPJ é obrigatório");
+    if (!ong.cnpj) throw new Error("Informe o CNPJ da ONG.");
 
     const cnpjInformado = String(ong.cnpj);
 
-    if (!cnpj.isValid(cnpjInformado)) throw new Error("CNPJ inválido");
+    if (!cnpj.isValid(cnpjInformado)) throw new Error("O CNPJ informado é inválido.");
 
-    if (!ong.senha) throw new Error("O campo de senha é obrigatório");
+    if (!ong.senha) throw new Error("Informe uma senha para a ONG.");
 
     if (ong.senha.length < 8) {
-        throw new Error("A senha deve conter no mínimo 8 caracteres");
+        throw new Error("A senha deve ter pelo menos 8 caracteres.");
     }
 
-    if (!ong.descricao) throw new Error("O campo de descrição(desc) é obrigatória");
+    if (!ong.descricao) throw new Error("Informe uma descrição para a ONG.");
 
-    if (!ong.site) throw new Error("O campo de site é obrigatório");
-
-
-
-
-
+    if (!ong.site) throw new Error("Informe o site da ONG.");
 }
 
 export function ImagemOngErrors(file) {
     if (!file) {
-        throw new Error("Imagem não enviada");
+        throw new Error("Envie uma imagem para a ONG.");
     }
 }
 
 export function LoginOngErrors(email, senha, ong) {
     if (!email) {
-        throw new Error("O campo de email é obrigatório");
+        throw new Error("Informe o e-mail para realizar o login.");
     }
 
     if (!regexEmail.test(email)) {
-        throw new Error("E-mail inválido");
+        throw new Error("O e-mail informado é inválido.");
     }
 
     if (!senha) {
-        throw new Error("O campo de senha é obrigatório");
+        throw new Error("Informe a senha para realizar o login.");
     }
 
     if (!ong) {
-        throw new Error("Nenhum usuário encontrado com essas informações");
+        throw new Error("Nenhuma ONG foi encontrada com as informações fornecidas.");
     }
 
     if (ong.senha !== senha) {
-        throw new Error("Senha inválida");
+        throw new Error("A senha informada está incorreta.");
     }
 }
 
 export function ExcluirOngErrors(idOng) {
-    if (!idOng) throw new Error("O ID da ONG é obrigatório");
-    if (isNaN(idOng)) throw new Error("O ID da ONG deve ser número");
+    if (!idOng) throw new Error("Informe o ID da ONG que deseja excluir.");
+
+    if (isNaN(idOng)) throw new Error("O ID da ONG deve ser um número válido.");
 }
 
 export function AlterarSenhaOngErrors(senha) {
-    if (!senha) throw new Error("O campo de senha é obrigatório");
+    if (!senha) throw new Error("Informe a nova senha da ONG.");
 
     if (senha.length < 8) {
-        throw new Error("A senha deve conter no mínimo 8 caracteres");
+        throw new Error("A senha deve ter pelo menos 8 caracteres.");
     }
 }
 
 export function AlterarEmailOngErrors(email) {
-    if (!email) throw new Error("O campo de email é obrigatório");
+    if (!email) throw new Error("Informe o novo e-mail da ONG.");
 
-    if (!regexEmail.test(email)) throw new Error("Email inválido");
+    if (!regexEmail.test(email)) throw new Error("O e-mail informado é inválido.");
 }
 
 export function AlterarSiteOngErrors(site) {
-    if (!site) throw new Error("O campo de site é obrigatório");
+    if (!site) throw new Error("Informe o site da ONG.");
 }
 
 export function AlterarDescOngErrors(descricao) {
-    if (!descricao) throw new Error("O campo de descrição é obrigatório");
+    if (!descricao) throw new Error("Informe uma descrição para a ONG.");
 }
