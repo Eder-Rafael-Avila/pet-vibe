@@ -15,4 +15,5 @@ export default function NovasRotas(api) {
     api.use(enderecoOng);
     api.use(perfilAnimal)
     api.use(busca);
+    api.use(adocoes)
 }
