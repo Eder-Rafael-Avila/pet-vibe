@@ -83,13 +83,13 @@ FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 
 );
 
-
-
 CREATE TABLE adocoes(
 id_adocao INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT,  
 id_animal INT,
-situação ENUM('reprovada','pendente','aprovada'),
+id_ong INT,
+situacao ENUM('reprovada','pendente','aprovada','normal'),
 FOREIGN KEY (id_usuario) References usuarios(id_usuario),
-FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal)
+FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal),
+FOREIGN KEY (id_ong) REFERENCES ong(id_ong)
 ); 

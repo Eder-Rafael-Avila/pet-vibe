@@ -37,6 +37,7 @@ export function CriarUsuarioErrors(usuario) {
     if (!usuario.data_nascimento) throw new Error("Informe a data de nascimento do usuário.");
 }
 
+
 export function LoginUsuarioErrors(email, senha, usuario) {
     if (!regexEmail.test(email)) {
         throw new Error("O e-mail informado é inválido.");
