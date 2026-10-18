@@ -32,6 +32,7 @@ export function CriarAnimalValidation(animal) {
         throw new Error('Informe a data de nascimento do animal.');
     }
 
+
     if (isNaN(Date.parse(animal.data_de_nascimento))) {
         throw new Error('A data de nascimento informada é inválida.');
     }

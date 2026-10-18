@@ -9,7 +9,7 @@ export function gerarToken(usuario) {
             tipo: 'USUARIO'
         },
         SECRET_KEY,
-        { expiresIn: '1h' }
+        { expiresIn: '24h' }
     );
 }
 
@@ -43,7 +43,7 @@ export function gerarTokenOng(ong) {
             tipo: 'ONG'
         },
         SECRET_KEY,
-        { expiresIn: '1h' }
+        { expiresIn: '24h' }
     );
 }
 
