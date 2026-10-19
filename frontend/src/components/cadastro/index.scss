@@ -1,151 +1,424 @@
-.page-cadastro{
-
-    
-    .corpo{
-       background: black url('/assets/images/background-cadastro.png') no-repeat center center;
-       background-size: cover; 
+.page-cadastro {
+    .corpo {
+        background: black url("/assets/images/background-cadastro.png")
+            no-repeat center center;
+        background-size: cover;
 
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
 
-
-        
+        @media (max-width: 490px) {
+            width: 100%;
+        }
     }
 
-
-
-    form{
+    form {
         background-color: white;
         box-shadow: 0px 0px 8px #063a31b2;
 
         border: 1px solid var(--corPretoGeral);
         padding: 30px 40px;
+
         width: 420px;
+
+        @media (max-width: 490px) {
+            width: 100%;
+            height: 100%;
+        }
+
+        @media (max-width: 768px) {
+            width: 90%;
+        }
+
         border-radius: 10px;
 
         .logo {
-            width: 100%;
+            max-width: 100%;
             display: flex;
             justify-content: center;
 
             .imagem {
-                width: 14rem;
+                max-width: 14rem;
+
+                img {
+                    max-width: 100%;
+                }
             }
         }
-      
     }
 
     .input p {
         font-weight: 600;
         color: var(--corPretoGeral);
+
+        @media (max-width: 768px) {
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        @media (max-width: 490px) {
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
     }
 
-    form h1{
+    form h1 {
         margin-bottom: 20px;
         margin-top: 10px;
         color: var(--corPretoGeral);
         text-align: center;
     }
 
-    .input input{
+    .input input {
         width: 100%;
         height: 40px;
         padding: 10px;
         border-radius: 10px;
         border: 1px solid black;
         margin-top: 7px;
+
+        @media (max-width: 768px) {
+            padding: 1.5rem 1.2rem;
+            font-size: 1.4rem;
+        }
+
+        @media (max-width: 490px) {
+            font-size: 1.2rem;
+            padding: 1rem;
+        }
     }
 
-    .input, .input-senha {
+    .input,
+    .input-senha {
         margin-bottom: 20px;
         margin-top: 7px;
     }
 
     .linha-senha {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: 16px;
+        width: 100%;
 
-    .input-senha {
-    min-width: 0; 
-   
+        @media (max-width: 490px) {
+            display: block;
+        }
 
-    .campo {
-    position: relative;
+        p {
+            font-weight: 600;
+            color: var(--corPretoGeral);
 
-        input {
+            @media (max-width: 768px) {
+                font-size: 1.5rem;
+                font-weight: 500;
+            }
+
+            @media (max-width: 490px) {
+                font-size: 1.1rem;
+                font-weight: 600;
+            }
+        }
+
+        .input-senha {
+            min-width: 0;
             width: 100%;
-            box-sizing: border-box;
-            padding-right: 40px; 
-            height: 40px;
-            border-radius: 10px;
-            border: 1px solid black;
-            margin-bottom: 10px;
-            padding: 10px;
-            margin-top: 7px;
-        }
 
-        .olho {
-        position: absolute;
-        right: 10px;
-        top: 45%;
-        transform: translateY(-50%);
-        cursor: pointer;
-        height: 15px;
-        width: 20px;
-        
+            .campo {
+                position: relative;
+                width: 100%;
+
+                input {
+                    width: 100%;
+                    box-sizing: border-box;
+                    height: 40px;
+                    border-radius: 10px;
+                    border: 1px solid black;
+                    margin-bottom: 10px;
+                    padding: 10px 40px 10px 10px;
+                    margin-top: 7px;
+
+                    @media (max-width: 490px) {
+                        font-size: 1rem;
+                        padding: 1rem 40px 1rem 1rem;
+                    }
+                }
+
+                .olho {
+                    position: absolute;
+                    right: 10px;
+                    top: 45%;
+                    transform: translateY(-50%);
+                    cursor: pointer;
+                    height: 15px;
+                    width: 20px;
+                }
+            }
         }
-     }
-    }
     }
 
     .button {
-
         #mensagem-erro {
             color: red;
             font-weight: 500;
             font-size: 1.2rem;
-            margin: .5rem 1rem;
+            margin: 0.5rem 1rem;
         }
     }
 
-    .button button{
+    .button button {
         width: 100%;
         height: 40px;
         border: none;
         border-radius: 10px;
         background-color: var(--corLaranjaSecundario);
-        color: aliceblue;   
+        color: aliceblue;
 
         &:hover {
             cursor: pointer;
-            opacity: .90;
+            opacity: 0.9;
         }
 
         &:active {
-            transform: scale(.98);
+            transform: scale(0.98);
         }
-        
     }
 
-   .entrar{
-    display: flex;
-    justify-content: center;
-    margin-top: 10px;
-    font-size: 15px;
+    .entrar {
+        display: flex;
+        justify-content: center;
+        margin-top: 10px;
+        font-size: 15px;
 
-    .Conta{
-       color: var(--corLaranjaSecundario);
-       text-decoration: none;
+        .Conta {
+            color: var(--corLaranjaSecundario);
+            text-decoration: none;
+        }
     }
-   }
-    
-    input[type=number]::-webkit-inner-spin-button, 
-    input[type=number]::-webkit-outer-spin-button { 
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
         -webkit-appearance: none;
         -moz-appearance: none;
-        appearance: none; 
-}
+        appearance: none;
+    }
+
+    @media (min-width: 900px) {
+        .corpo {
+            padding: 40px clamp(24px, 4vw, 64px);
+        }
+
+        form {
+            display: block;
+            box-sizing: border-box;
+            width: min(100%, 960px);
+            padding: 24px;
+            border-radius: 16px;
+        }
+
+        .cabecalho-cadastro {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .cabecalho-cadastro .logo .imagem {
+            width: 100px;
+            max-width: 100px;
+            flex: 0 0 100px;
+        }
+
+        .cabecalho-cadastro h1 {
+            margin: 0;
+            font-size: clamp(1.9rem, 2.1vw, 2.3rem);
+            line-height: 1.25;
+            text-align: left;
+        }
+
+        .campos-cadastro {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-content: start;
+            gap: 14px 16px;
+        }
+
+        .linha-documentos,
+        .linha-senha,
+        .campos-cadastro > .button,
+        .campos-cadastro > .entrar {
+            grid-column: 1 / -1;
+        }
+
+        .campos-cadastro .input,
+        .campos-cadastro .input-senha {
+            min-width: 0;
+            margin: 0;
+        }
+
+        .campos-cadastro .input p,
+        .linha-senha p {
+            margin-bottom: 6px;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .campos-cadastro .input input,
+        .linha-senha .campo input {
+            box-sizing: border-box;
+            height: 42px;
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        .linha-documentos {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .linha-senha {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+
+        .linha-senha .campo .olho {
+            top: 50%;
+        }
+
+        .button button {
+            height: 44px;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .entrar {
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+    }
+
+    @media (min-width: 1400px) {
+        form {
+            width: min(100%, 1200px);
+            padding: clamp(24px, 2.5vw, 36px);
+            border-radius: 18px;
+        }
+
+        .cabecalho-cadastro {
+            gap: 20px;
+            margin-bottom: 26px;
+            padding-bottom: 20px;
+        }
+
+        .cabecalho-cadastro .logo .imagem {
+            width: 120px;
+            max-width: 120px;
+            flex-basis: 120px;
+        }
+
+        .cabecalho-cadastro h1 {
+            font-size: clamp(2rem, 2.3vw, 2.6rem);
+        }
+
+        .campos-cadastro {
+            gap: 16px 20px;
+        }
+
+        .campos-cadastro .input p,
+        .linha-senha p {
+            font-size: 1.3rem;
+        }
+
+        .campos-cadastro .input input,
+        .linha-senha .campo input {
+            height: 44px;
+            font-size: 1.3rem;
+        }
+
+        .linha-documentos,
+        .linha-senha {
+            gap: 20px;
+        }
+
+        .button button {
+            height: 48px;
+            font-size: 1.4rem;
+        }
+
+        .entrar {
+            font-size: 1.3rem;
+        }
+    }
+
+    @media (max-width: 490px) {
+        .corpo {
+            align-items: stretch;
+            min-height: 100vh;
+            min-height: 100svh;
+        }
+
+        form {
+            box-sizing: border-box;
+            flex: 1;
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100svh;
+            height: auto;
+            padding: 24px 20px;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+        }
+
+        form h1 {
+            font-size: 1.6rem;
+            line-height: 1.25;
+            margin: 16px 0 22px;
+        }
+
+        .input p,
+        .linha-senha p {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        .input input,
+        .linha-senha .campo input {
+            box-sizing: border-box;
+            height: 48px;
+            font-size: 1rem;
+            padding: 12px;
+        }
+
+        .linha-senha .campo input {
+            padding-right: 44px;
+        }
+
+        .linha-senha .campo .olho {
+            width: 20px;
+            height: 20px;
+        }
+
+        .input,
+        .input-senha {
+            margin-bottom: 16px;
+        }
+
+        .button button {
+            height: 48px;
+            font-size: 1rem;
+        }
+
+        .entrar {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+    }
 }
