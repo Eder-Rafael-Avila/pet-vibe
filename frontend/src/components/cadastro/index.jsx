@@ -45,6 +45,10 @@ export default function Cadastro(){
         } else {
             setErro('');
         }
+
+        if (dados?.resposta === 'ok') {
+            window.location.href = '/Login';
+        }
     }
 
     return(
