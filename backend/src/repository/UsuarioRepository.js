@@ -151,3 +151,13 @@ export async function AlterarEmail(email, idUsuario) {
     const [resposta] = await con.query(command, [email, idUsuario]);
     return resposta.affectedRows;
 }
+
+export async function ListarImagemENome(id){
+    const command = `
+    SELECT nome, imagem FROM usuarios
+    WHERE id_usuario = ?
+    `
+    
+    const [resposta] = await con.query(command, [id])
+    return resposta[0];
+}

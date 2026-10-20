@@ -81,3 +81,9 @@ export function AlterarEmailUsuarioErrors(email) {
 
     if (!regexEmail.test(email)) throw new Error("O e-mail informado é inválido.");
 }
+
+export function ListarImagemENomeValidation(idUsuario) {
+    if (!idUsuario) throw new Error("Informe o ID do usuário que deseja excluir.");
+
+    if (isNaN(idUsuario)) throw new Error("O ID do usuário deve ser um número válido.");
+}
