@@ -38,6 +38,7 @@ export default function Login() {
             localStorage.setItem('token', dados.token);
 
             navegar('/');
+            window.location.reload();
 
         } catch (e) {
             console.error(e);
