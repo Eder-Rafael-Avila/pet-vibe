@@ -4,6 +4,7 @@ import enderecoUsuario from './controller/EnderecoUsuarioController.js';
 import prefs from './controller/PrefsController.js';
 import enderecoOng from './controller/EnderecoOngController.js';
 import perfilAnimal from './controller/PerfilAnimalController.js';
+import busca from './controller/BuscaController.js';
 import adocoes from './controller/adocoesController.js';
 
 export default function NovasRotas(api) {
@@ -13,5 +14,6 @@ export default function NovasRotas(api) {
     api.use(prefs);
     api.use(enderecoOng);
     api.use(perfilAnimal)
-    api.use(adocoes);
+    api.use(busca);
+    api.use(adocoes)
 }
