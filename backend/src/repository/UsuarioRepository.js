@@ -74,7 +74,8 @@ export async function CriarUsuario(usuario) {
         usuario.cpf,
         usuario.data_nascimento
     ])
-    return resposta.insertId
+
+    return 'ok'; 
 }
 
 // UsuarioRepository.js

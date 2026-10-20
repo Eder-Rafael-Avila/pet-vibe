@@ -50,6 +50,7 @@ endpoints.post('/usuario/cadastrar', async (req, resp) => {
 
 
         let resposta = await CriarUsuarioService(usuario);
+        console.log(resposta);
 
         resp.send({
             resposta: resposta

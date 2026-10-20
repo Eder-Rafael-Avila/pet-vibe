@@ -1,7 +1,7 @@
 import { cpf } from 'cpf-cnpj-validator';
 
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-const regexCelular = /^[1-9]{2}9\d{8}$/;
+const regexCelular = /^\([1-9]{2}\) 9\d{4}-\d{4}$/;
 
 export function ListarUsuarioErrors(nome) {
     if (!nome) {

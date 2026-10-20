@@ -104,9 +104,17 @@ export default function Header({
                     </button>
                 </div>
             ) : (
-                <>
-                    {/* Aqui quando o usuário estiver logado. */}
-                </>
+                <div className="conta-preview">
+                    <button className="dropdown-arrow">
+                        <i className='fa fa-arrow-right'></i>
+                    </button>
+                    <div className="nome">
+                        <p>Eder Rafael</p>
+                    </div>
+                    <div className="icone">
+                        <img src="" alt="" />
+                    </div>
+                </div>
             )}
             
         </header>
