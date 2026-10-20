@@ -59,6 +59,7 @@ create table perfil_animal(
 id_animal int primary key auto_increment,
 id_ong int,
 imagem VARCHAR(800),
+tipo enum ('Cachorro','Gato') not null,
 nome varchar(100),
 idade int,
 raca varchar(100),
@@ -69,6 +70,18 @@ porte ENUM('pequeno', 'medio' , 'grande'),
 descricao text,
 
 foreign key (id_ong) references ong(id_ong)
+);
+
+CREATE TABLE busca(
+id_busca INT PRIMARY KEY AUTO_INCREMENT,
+id_usuario INT,
+tipo enum ('Cachorro','Gato'),
+raca VARCHAR(100),
+castrado BOOLEAN,
+sexo ENUM('masculino','feminino'),
+porte ENUM('pequeno','medio','grande'),
+
+foreign key (id_usuario) references usuarios(id_usuario)
 );
 
 CREATE TABLE prefs(
@@ -83,13 +96,13 @@ FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 
 );
 
+
+
 CREATE TABLE adocoes(
 id_adocao INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT,  
 id_animal INT,
-id_ong INT,
-situacao ENUM('reprovada','pendente','aprovada','normal'),
+situação ENUM('reprovada','pendente','aprovada'),
 FOREIGN KEY (id_usuario) References usuarios(id_usuario),
-FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal),
-FOREIGN KEY (id_ong) REFERENCES ong(id_ong)
+FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal)
 ); 
