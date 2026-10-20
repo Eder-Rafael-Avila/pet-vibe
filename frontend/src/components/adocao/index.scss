@@ -1,17 +1,20 @@
-.page-adocao{
+.page-adocao {
 
     .filtros {
-        padding: 20px;
+        padding: 11px;
         margin-top: 10px;
 
 
-        h1{
+        h1 {
             color: #105F56;
         }
-        p{
-            margin-top: 10px;
+
+        p {
+            margin-top: 13px;
             font-size: 13px;
             color: #4a4b4b;
+            display: flex;
+            justify-content: center;
         }
 
         .linha-filtros {
@@ -19,81 +22,108 @@
             align-items: stretch;
             gap: 8px;
             margin-top: 20px;
-           
+
         }
 
         .quadros {
             border: 1px solid black;
-            border-radius:10px;
+            border-radius: 10px;
             padding: 10px;
             width: 100%;
-            
-        button.selecionado {
+
+            button.selecionado {
+                background-color: #105F56;
+                color: white;
+            }
+
+            input {
+                padding: 10px;
+
+                margin-left: 7px;
+                margin-right: 7px;
+                border-radius: 10px;
+                border: none;
+                background-color: #FFFFFF;
+            }
+
+            h3 {
+                margin-bottom: .5rem;
+            }
+
+        }
+
+
+        .opcoes {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+
+        .opcoes button {
+            background-color: white;
+            color: #105F56;
+            border: 1px solid #105F56;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .opcoes button:hover {
+            background-color: #e0f3ef;
+        }
+
+        .opcoes button.selecionado {
             background-color: #105F56;
             color: white;
+            border-color: #105F56;
         }
 
-        input{
-            padding: 10px;
-            margin-left: 7px;
-            margin-right: 7px;
-            border-radius: 10px;
-            border: none;
-            background-color: #FFFFFF;
-        }
-    
-}
+        .btn-animais {
 
-
-.opcoes {
-    display: flex;
-    gap: 8px;
-    margin-top: 10px;
-    flex-wrap: wrap;
-}
-
-.opcoes button {
-    background-color: white;
-    color: #105F56;
-    border: 1px solid #105F56;
-    padding: 8px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-.opcoes button:hover {
-    background-color: #e0f3ef;
-}
-
-.opcoes button.selecionado {
-    background-color: #105F56;
-    color: white;
-    border-color: #105F56;
-}
-
-            .btn-animais{
-
-                .btn-busca{
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    background-color: #F8561F;
-                    margin-top: 20px;
-                    border: none;
-                    border-radius: 12px;
-                    font-size: 10px;
-                    padding: 10px;
-                    color: #fcfdfd;
-                    width: 100%;
-                }
-                    }
-
-                }
-
-                
+            .btn-busca {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #F8561F;
+                margin-top: 20px;
+                border: none;
+                border-radius: 12px;
+                font-size: 10px;
+                padding: 10px;
+                color: #fcfdfd;
+                width: 100%;
             }
-        
-    
+        }
+
+    }
+
+    .VerAnimais {
+
+        background-color: var(--corBrancoGeral);
+        padding: 11px;
+
+        .titulos {
+            color: #105F56;
 
 
+        }
+
+        .p {
+
+            margin-top: 10px;
+            font-size: 13px;
+            color: #4a4b4b;
+            margin-bottom: 15px;
+        }
+
+        .cont-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+
+    }
+}

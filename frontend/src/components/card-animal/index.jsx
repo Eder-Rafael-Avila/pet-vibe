@@ -9,7 +9,8 @@ export default function CardAnimais({
     genero,
     porte,
     localizacao,
-    desc, 
+    desc,
+    btn,
 
 }){
     return(
@@ -17,31 +18,43 @@ export default function CardAnimais({
             <div className="imagem">
                 <img src={imagem} alt="" />
             </div>
+            
             <div className="status">
+                <div className="bola"></div>
                 <p>{status}</p>
             </div>
             <div className="nome">
                 <h2>{nome}</h2>
             </div>
+        <div className="especificacoes">
+
             <div className="especie">
-                <p>{especie}</p>
+                <p>{especie} - </p>
             </div>
             <div className="idade">
-                <p>{idade}</p>
+                <p>{idade} - </p>
             </div>
             <div className="genero">
                 <p>{genero}</p>
             </div>
+        </div>
+        <div className="loc-porte">
+
+        
+            <div className="localizacao">
+                <p>{localizacao} -  </p>
+            </div>
             <div className="porte">
                 <p>{porte}</p>
             </div>
-            <div className="localizacao">
-                <p>{localizacao}</p>
-
+            </div>
                 <div className="desc">
                 <p>{desc}</p>
             </div>
+                <div className="btn">
+                    <button>{btn}</button>
+                </div>
+            
             </div>
-        </div>
     )
 }
