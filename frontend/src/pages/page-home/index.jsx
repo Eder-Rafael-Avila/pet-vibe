@@ -8,13 +8,14 @@ import Footer from '../../components/footer';
 
 import { useState } from 'react';
 
-export default function Home() {
-    const [logado, setLogado] = useState(false);
+export default function Home({
+    usuarioLogado
+}) {
 
     return (
         <div className='page-home'>
             <Header
-                logado={logado}
+                logado={usuarioLogado}
             />
 
             <MainPanel />

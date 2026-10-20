@@ -187,4 +187,28 @@
             border: 1px solid var(--corLaranjaContraste);
         }
     }
+
+    .conta-preview {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
+        gap: 1rem;
+
+        .dropdown-arrow {
+
+        }
+
+        .nome {
+            p {
+                font-size: 1.3rem;
+                font-weight: 600;
+                color: var(--corPretoGeral);
+            }
+        }
+
+        .icone {
+            
+        }
+    }
 }
