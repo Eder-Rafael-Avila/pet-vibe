@@ -2,13 +2,59 @@ import './index.scss';
 import DropdownMenu from '../dropdown-menu';
 
 import { NavLink } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function Header({ 
     logado
  }) {
     
     const [isActive, setIsActive] = useState(false);
+
+    const [profileImg, setProfileImg] = useState('');
+    const [nomeUsuario, setNomeUsuario] = useState('');
+    const imgDefault = '/assets/images/pfp.png';
+
+    useEffect(() => {
+        if (logado) {
+            getUsuarioInfo();
+        }
+    }, [logado])
+
+    async function getUsuarioInfo() {
+
+        try {
+
+            const token = localStorage.getItem('token');
+
+            const resposta = await fetch('http://localhost:6767/usuario/listarNomeeIMG', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            console.log(resposta);
+
+            if (!resposta.ok) {
+                throw new Error('Não foi possível encontar um usuário');
+            }
+
+            const dados = await resposta.json();
+
+            console.log('Dados recebidos:', dados);
+            console.log('Dados recebidos:', dados.resposta.nome);
+            console.log('Dados recebidos:', dados.resposta.imagem);
+
+            setNomeUsuario(dados.resposta.nome);
+            setProfileImg(dados.resposta.imagem || imgDefault);
+            
+            return;
+
+        } catch(e) {
+            console.log(e.message);
+        }
+
+    }
 
     return (
         <header className='comp-header'>
@@ -109,10 +155,10 @@ export default function Header({
                         <i className='fa fa-arrow-right'></i>
                     </button>
                     <div className="nome">
-                        <p>Eder Rafael</p>
+                        <p>{nomeUsuario}</p>
                     </div>
                     <div className="icone">
-                        <img src="" alt="" />
+                        <img src={profileImg} alt="PFP" />
                     </div>
                 </div>
             )}

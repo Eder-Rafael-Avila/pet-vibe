@@ -27,7 +27,7 @@ export default function Login() {
                 })
             });
 
-            const dados = resposta.json();
+            const dados = await resposta.json();
             console.log(dados);
 
             if (!resposta.ok) {
@@ -35,6 +35,7 @@ export default function Login() {
                 return;
             }
 
+            console.log(dados.token)
             localStorage.setItem('token', dados.token);
 
             navegar('/');
