@@ -1,6 +1,7 @@
 import { Router } from 'express';
 const endpoints = Router();
 
+
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
 
@@ -16,6 +17,7 @@ import { ExcluirUsuarioService } from '../service/usuario/ExcluirUsuarioService.
 import { AlterarSenhaUsuarioService } from '../service/usuario/AlterarSenhaUsuarioService.js';
 import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefoneUsuarioService.js';
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
+import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -170,6 +172,21 @@ endpoints.put('/usuario/alterarEmail', validarToken, async (req, resp) => {
     }
 }
 )
+
+endpoints.get('/usuario/listarNomeeIMG', validarToken, async (req,resp) => {
+    try{
+        const id = req.usuario.id_usuario;
+
+        const resposta = await ListarImagemENome(id)
+        resp.send({
+            resposta: resposta
+        })
+    }
+    catch(err){
+                logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+})
 
 
 
