@@ -3,7 +3,9 @@ import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-export default function Login() {
+export default function Login({
+    setUsuarioLogado
+}) {
     const navegar = useNavigate();
 
     const [mostrarSenha, setMostrarSenha] = useState(false);
@@ -28,18 +30,24 @@ export default function Login() {
             });
 
             const dados = await resposta.json();
-            console.log(dados);
+            console.log('Reposta do login:', dados);
 
             if (!resposta.ok) {
                 setErro(dados?.erro || 'e-mail ou senha inválidos.');
                 return;
             }
 
-            console.log(dados.token)
-            localStorage.setItem('token', dados.token);
+            const token = dados.token;
+
+            if (typeof token !== 'string' || !token.trim()) {
+                console.log('A API não retornou um token válido.');
+                return;
+            }
+
+            localStorage.setItem('token', token);
+            setUsuarioLogado(true);
 
             navegar('/');
-            window.location.reload();
 
         } catch (e) {
             console.error(e);

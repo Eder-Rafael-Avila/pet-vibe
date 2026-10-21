@@ -9,21 +9,16 @@ export default function Header({
  }) {
     
     const [isActive, setIsActive] = useState(false);
-
-    const [profileImg, setProfileImg] = useState('');
-    const [nomeUsuario, setNomeUsuario] = useState('');
+    
     const imgDefault = '/assets/images/pfp.png';
+    const [profileImg, setProfileImg] = useState(imgDefault);
+    const [nomeUsuario, setNomeUsuario] = useState('');
 
-    useEffect(() => {
-        if (logado) {
-            getUsuarioInfo();
-        }
-    }, [logado])
+    console.log(logado);
 
     async function getUsuarioInfo() {
 
         try {
-
             const token = localStorage.getItem('token');
 
             const resposta = await fetch('http://localhost:6767/usuario/listarNomeeIMG', {
@@ -33,28 +28,37 @@ export default function Header({
                 }
             });
 
-            console.log(resposta);
-
             if (!resposta.ok) {
                 throw new Error('Não foi possível encontar um usuário');
             }
 
             const dados = await resposta.json();
 
-            console.log('Dados recebidos:', dados);
-            console.log('Dados recebidos:', dados.resposta.nome);
-            console.log('Dados recebidos:', dados.resposta.imagem);
-
-            setNomeUsuario(dados.resposta.nome);
-            setProfileImg(dados.resposta.imagem || imgDefault);
+            const infoUsuario = {
+                nome: dados.resposta.nome,
+                img: dados.resposta.imagem
+            }
             
-            return;
+            return infoUsuario;
 
         } catch(e) {
             console.log(e.message);
         }
 
     }
+
+    useEffect(() => {
+        async function carregarUsuario() {
+            const infoUsuario = await getUsuarioInfo();
+
+            if (infoUsuario) {
+                setNomeUsuario(infoUsuario.nome);
+                setProfileImg(infoUsuario.img || imgDefault);
+            }
+        }
+
+        carregarUsuario();
+    }, [logado])
 
     return (
         <header className='comp-header'>
