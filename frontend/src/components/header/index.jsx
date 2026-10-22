@@ -155,15 +155,15 @@ export default function Header({
                 </div>
             ) : (
                 <div className="conta-preview">
-                    <button className="dropdown-arrow">
-                        <i className='fa fa-arrow-right'></i>
-                    </button>
                     <div className="nome">
                         <p>{nomeUsuario}</p>
                     </div>
                     <div className="icone">
                         <img src={profileImg} alt="PFP" />
                     </div>
+                    <button className="dropdown-arrow">
+                        <i class="fa-solid fa-gear" style={{color: "#156957",}}></i>
+                    </button>
                 </div>
             )}
             
