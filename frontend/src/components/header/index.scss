@@ -189,39 +189,73 @@
     }
 
     .conta-preview {
+        position: relative;
+
         display: flex;
         justify-content: center;
         align-items: center;
-        flex: 2;
-        gap: 1.4rem;
 
-        .dropdown-arrow {
-            border: none;
-            outline: none;
-            background-color: var(--corBrancoGeral);
-            font-size: 1.8rem;
+        height: 8rem;
+        width: 32rem;
 
-            &:hover {
-                cursor: pointer;
+        .temp {
+            position: absolute;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1.4rem;
+
+            z-index: 2;
+
+            .dropdown-arrow {
+                border: none;
+                outline: none;
+                background-color: var(--corBrancoGeral);
+                font-size: 1.8rem;
+    
+                &:hover {
+                    cursor: pointer;
+                }
+            }
+    
+            .nome {
+                p {
+                    font-size: 1.2rem;
+                    font-weight: 600;
+                    color: var(--corPretoGeral);
+                }
+            }
+    
+            .icone {
+                max-width: 4.4rem;
+                
+                img {
+                    border-radius: 50%;
+                    border: 2px solid var(--corPretoGeral);
+                    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.315);
+                }
             }
         }
 
-        .nome {
-            p {
-                font-size: 1.2rem;
-                font-weight: 600;
-                color: var(--corPretoGeral);
-            }
+
+        .account-dropdown {
+            opacity: 0;
+            visibility: hidden;
+
+            position: absolute;
+            top: 0;
+
+            width: 100%;
+            height: 15rem;
+
+            // background-color: red;
+            border: 1px solid red;
         }
 
-        .icone {
-            max-width: 4.4rem;
-            
-            img {
-                border-radius: 50%;
-                border: 2px solid var(--corPretoGeral);
-                box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.315);
-            }
+        .active {
+            opacity: 1;
+            visibility: visible;
         }
     }
 }

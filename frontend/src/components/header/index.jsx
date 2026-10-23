@@ -14,6 +14,8 @@ export default function Header({
     const [profileImg, setProfileImg] = useState(imgDefault);
     const [nomeUsuario, setNomeUsuario] = useState('');
 
+    const [dropdownAtivo, setDropdownAtivo] = useState(true);
+
     console.log(logado);
 
     async function getUsuarioInfo() {
@@ -155,15 +157,20 @@ export default function Header({
                 </div>
             ) : (
                 <div className="conta-preview">
-                    <div className="nome">
-                        <p>{nomeUsuario}</p>
+                    <div className={`temp ${dropdownAtivo ? 'absolute' : ''}`}>
+                        <div className="nome">
+                            <p>{nomeUsuario}</p>
+                        </div>
+                        <div className="icone">
+                            <img src={profileImg} alt="PFP" />
+                        </div>
+                        <button className="dropdown-arrow">
+                            <i class="fa-solid fa-gear" style={{color: "#156957",}}></i>
+                        </button>
                     </div>
-                    <div className="icone">
-                        <img src={profileImg} alt="PFP" />
+                    <div className={`account-dropdown ${dropdownAtivo ? 'active' : ''}`}>
+
                     </div>
-                    <button className="dropdown-arrow">
-                        <i class="fa-solid fa-gear" style={{color: "#156957",}}></i>
-                    </button>
                 </div>
             )}
             
