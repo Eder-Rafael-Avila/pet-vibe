@@ -2,7 +2,7 @@
 import './index.scss';
 
 import { useState } from 'react';
-import { FaPaw, FaSlidersH, FaSearch } from 'react-icons/fa';
+import { FaPaw, FaCheck, FaSearch } from 'react-icons/fa';
 
 import Header from '../../components/header/index.jsx';
 import CardAnimais from '../card-animal/index.jsx';
@@ -268,25 +268,51 @@ export default function Adocao() {
                     <div className="card-adotar">
                         <h3>AMOR TAMBÉM É COMPROMISSO</h3>
 
-                        <h1>Adotar é cuidar. Todos os dias</h1>
+                        <h1>Adotar é cuidar. <br/> Todos os dias.</h1>
                         <div className="p-adotar">
-                            Antes de dar esse passo, pense no espaço, na sua rotina e nos cuidados por toda a vida
+                            Antes de dar esse passo, pense no espaço, na sua rotina e nos cuidados por toda a vida.
                         </div>
 
                     </div>
-                    <div className="card-topico">
+                    <div className="topicos">
+                        <div className="card-topico">
                         <h2>Tempo e presença</h2>
-                        <p>Passeios, brincadeiras e companhia fazem parte da rotina</p>
+                        <p>Passeios, brincadeiras e companhia fazem parte da rotina.</p>
                     </div>
                     <div className="card-topico">
-                        <h2>Tempo e presença</h2>
-                        <p>Passeios, brincadeiras e companhia fazem parte da rotina</p>
+                        <h2>Sáude e bem-estar</h2>
+                        <p>Planeje alimentação, vacinas e acompanhamento veterinário.</p>
                     </div>
                     <div className="card-topico">
-                        <h2>Tempo e presença</h2>
-                        <p>Passeios, brincadeiras e companhia fazem parte da rotina</p>
+                        <h2>Um lugar seguro</h2>
+                        <p>Telas, identificação e paciência para a adaptação.</p>
                     </div>
-                    
+                    </div>
+                </section>
+
+
+                <section className='sobreNos'>
+                    <div className="img">
+                        <img src="" alt="" />
+                    </div>
+
+                    <div className="titulo-sobreNos">
+                        <h3>SOBRE NÓS</h3>
+                        <h1>A gente acredita nos laços que mudam vidas.</h1>                    
+                    </div>
+
+                    <div className="texto-sobreNos">
+                        <p>A Laço nasce para aproximar animais, pessoas e quem dedica a vida à proteção animal. Um espaço para dar visibilidade a cada história e facilitar encontros com cuidado e responsabilidade.</p>
+                        
+                        <p>Aqui, a adoção não é uma escolha por impulso. É uma conversa, uma conexão e um compromisso com um novo integrante da família.</p>
+
+                    </div>
+
+                    <div className="check">
+                        <FaCheck />Acolhimento
+                        <FaCheck />Transparência
+                        <FaCheck />Respeito
+                    </div>
                 </section>
         </div>
     );

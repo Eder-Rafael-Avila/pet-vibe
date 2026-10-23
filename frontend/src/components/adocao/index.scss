@@ -126,4 +126,50 @@
 
 
     }
+
+
+
+    .cards {
+
+        display: flex;
+        margin: 30px;
+
+
+        .card-adotar {
+
+            font-size: 13px;
+
+            h3 {
+                color: #105F56;
+                font-size: 11px;
+            }
+
+            h1 {
+                color: #105F56;
+
+            }
+
+            .p-adotar {
+                font-size: 14px;
+                gap: 25px;
+            }
+        }
+
+        .topicos {
+            display: flex;
+            gap: 25px;
+            margin-top: 30px;
+
+            .card-topico {
+
+                p {
+                    font-size: 13px;
+                }
+
+                h2 {
+                    color: #105F56;
+                }
+            }
+        }
+    }
 }
