@@ -87,8 +87,6 @@ endpoints.post('/usuario/login', async (req, resp) => {
 
 endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
     try {
-
-
         const imagem = await ImagemUsuarioService(req.usuario.id_usuario, req.file);
 
         resp.send({ imagem });
