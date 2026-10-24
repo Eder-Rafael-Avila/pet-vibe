@@ -161,3 +161,14 @@ export async function ListarImagemENome(id){
     const [resposta] = await con.query(command, [id])
     return resposta[0];
 }
+
+export async function ListarTudoUsuario(id) {
+  const command = `
+SELECT imagem, nome, email, telefone, senha, cpf, data_nascimento
+FROM usuarios
+WHERE id_usuario = ?
+`
+
+  let [resposta] = await con.query(command, [id])
+  return resposta[0]
+}

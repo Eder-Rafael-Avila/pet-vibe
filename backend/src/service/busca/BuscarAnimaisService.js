@@ -1,5 +1,5 @@
 
-import { BuscarAnimaisErrors } from '../../validation/BuscaValidation.js';
+import { BuscarAnimaisErrors } from '../../validation/buscaValidation.js';
 import { BuscarAnimais } from '../../repository/BuscaRepository.js';
 
 export async function BuscarAnimaisService(filtros) {
