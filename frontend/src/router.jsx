@@ -6,6 +6,7 @@ import { validarToken } from "./utils/validarToken";
 import Home from "./pages/page-home";
 import Login from "./pages/page-login";
 import Cadastro from "./pages/page-cadastro";
+import Perfil from "./pages/page-perfil";
 import RotaProtegida from "./components/rotaProtegida";
 
 export default function Router() {
@@ -29,7 +30,7 @@ export default function Router() {
                 <Route path="/Cadastro" element={<Cadastro />} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
-                    <Route path="/Personalizacao" />
+                    <Route path="/Personalizacao" element={<Perfil />} />
                 </Route>
             </Routes>
         </BrowserRouter>
