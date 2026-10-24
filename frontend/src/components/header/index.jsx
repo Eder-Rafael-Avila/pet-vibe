@@ -184,7 +184,7 @@ export default function Header({
                             <NavLink
                                 to='/Personalizacao'
                                 className="link-personalizacao"
-                                
+                                state={{ nome: nomeUsuario }}
                             >
                                 Personalização de Conta
                             </NavLink>
