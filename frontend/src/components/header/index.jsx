@@ -5,6 +5,8 @@ import { NavLink } from 'react-router-dom';
 
 import { useState, useEffect } from 'react';
 
+import { obterImagem } from '../../utils/obterImagem';
+
 
 export default function Header({ 
     logado,
@@ -64,7 +66,7 @@ export default function Header({
 
             if (infoUsuario) {
                 setNomeUsuario(infoUsuario.nome);
-                setProfileImg(infoUsuario.img || imgDefault);
+                setProfileImg(obterImagem(infoUsuario.img) || imgDefault);
             }
         }
 

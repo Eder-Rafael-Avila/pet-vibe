@@ -30,7 +30,7 @@ export default function Router() {
                 <Route path="/Cadastro" element={<Cadastro />} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
-                    <Route path="/Personalizacao" element={<Perfil />} />
+                    <Route path="/Personalizacao" element={<Perfil setUsuarioLogado={setUsuarioLogado} />} />
                 </Route>
             </Routes>
         </BrowserRouter>
