@@ -2,10 +2,13 @@ import './index.scss';
 import DropdownMenu from '../dropdown-menu';
 
 import { NavLink } from 'react-router-dom';
+
 import { useState, useEffect } from 'react';
 
+
 export default function Header({ 
-    logado
+    logado,
+    setUsuarioLogado
  }) {
     
     const [isActive, setIsActive] = useState(false);
@@ -13,6 +16,8 @@ export default function Header({
     const imgDefault = '/assets/images/pfp.png';
     const [profileImg, setProfileImg] = useState(imgDefault);
     const [nomeUsuario, setNomeUsuario] = useState('');
+
+    const [dropdownAtivo, setDropdownAtivo] = useState(false);
 
     console.log(logado);
 
@@ -45,6 +50,12 @@ export default function Header({
             console.log(e.message);
         }
 
+    }
+
+    function sairDaConta() {
+        localStorage.removeItem('token');
+        setUsuarioLogado(false);
+        window.location.reload();
     }
 
     useEffect(() => {
@@ -155,14 +166,34 @@ export default function Header({
                 </div>
             ) : (
                 <div className="conta-preview">
-                    <button className="dropdown-arrow">
-                        <i className='fa fa-arrow-right'></i>
-                    </button>
-                    <div className="nome">
-                        <p>{nomeUsuario}</p>
+                    <div className={`temp ${dropdownAtivo ? 'absolute' : ''}`}>
+                        <div className="nome">
+                            <p>{nomeUsuario}</p>
+                        </div>
+                        <div className="icone">
+                            <img src={profileImg} alt="PFP" />
+                        </div>
+                        <button className={`dropdown-arrow ${dropdownAtivo ? 'rotacionado' : ''}`}
+                            onClick={() => setDropdownAtivo(!dropdownAtivo)}
+                        >
+                            <i class="fa-solid fa-gear" style={{color: "#156957",}}></i>
+                        </button>
                     </div>
-                    <div className="icone">
-                        <img src={profileImg} alt="PFP" />
+                    <div className={`account-dropdown ${dropdownAtivo ? 'active' : 'inactive'}`}>
+                        <div className='items'>        
+                            <NavLink
+                                to='/Personalizacao'
+                                className="link-personalizacao"
+                                
+                            >
+                                Personalização de Conta
+                            </NavLink>
+                            <button
+                                onClick={sairDaConta}
+                            >
+                                Sair da conta
+                            </button>
+                        </div>
                     </div>
                 </div>
             )}
