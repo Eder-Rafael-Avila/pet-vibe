@@ -87,3 +87,9 @@ export function ListarImagemENomeValidation(idUsuario) {
 
     if (isNaN(idUsuario)) throw new Error("O ID do usuário deve ser um número válido.");
 }
+
+export function ListarTudoErrors(idUsuario) {
+    if (!idUsuario) throw new Error("Informe o ID do usuário que deseja excluir.");
+
+    if (isNaN(idUsuario)) throw new Error("O ID do usuário deve ser um número válido.");
+}

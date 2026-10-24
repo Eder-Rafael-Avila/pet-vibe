@@ -18,6 +18,7 @@ import { AlterarSenhaUsuarioService } from '../service/usuario/AlterarSenhaUsuar
 import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefoneUsuarioService.js';
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
+import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -187,6 +188,22 @@ endpoints.get('/usuario/listarNomeeIMG', validarToken, async (req,resp) => {
         resp.status(400).send(erroJson(err));
     }
 })
+
+endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
+  try {
+    let id = req.usuario.id_usuario
+
+    const resposta = await ListarTudoUsuarioService(id);
+
+    resp.send({
+      resposta: resposta
+    });
+  }
+  catch (err) {
+    logError(err);
+    resp.status(400).send(erroJson(err));
+  }
+}) 
 
 
 
