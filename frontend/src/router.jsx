@@ -24,11 +24,13 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home usuarioLogado={usuarioLogado} />} />
+                <Route path="/" element={<Home usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path="/Login" element={<Login setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path="/Cadastro" element={<Cadastro />} />
 
-                <Route element={<RotaProtegida />}></Route>
+                <Route element={<RotaProtegida logado={usuarioLogado} />}>
+                    <Route path="/Personalizacao" />
+                </Route>
             </Routes>
         </BrowserRouter>
     );

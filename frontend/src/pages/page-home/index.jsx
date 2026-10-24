@@ -9,13 +9,15 @@ import Footer from '../../components/footer';
 import { useState } from 'react';
 
 export default function Home({
-    usuarioLogado
+    usuarioLogado,
+    setUsuarioLogado
 }) {
 
     return (
         <div className='page-home'>
             <Header
                 logado={usuarioLogado}
+                setUsuarioLogado={setUsuarioLogado}
             />
 
             <MainPanel />
