@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/Eder-Rafael-Avila/pet-vibe#readme",
   "dependencies": {
+    "bcrypt": "^6.0.0",
     "cors": "^2.8.6",
     "cpf-cnpj-validator": "^2.1.2",
     "dotenv": "^18.0.4",

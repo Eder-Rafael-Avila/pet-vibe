@@ -1,4 +1,5 @@
 import { cpf } from 'cpf-cnpj-validator';
+import { compararSenha } from '../utils/hash.js';
 
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexCelular = /^\([1-9]{2}\) 9\d{4}-\d{4}$/;
@@ -12,7 +13,9 @@ export function ListarUsuarioErrors(nome) {
 export function CriarUsuarioErrors(usuario) {
     if (!usuario.senha) throw new Error("Informe uma senha para continuar.");
 
-    if (usuario.senha.length < 8) throw new Error("A senha deve ter pelo menos 8 caracteres.");
+  if (usuario.senha.length < 8) throw new Error("A senha deve ter pelo menos 8 caracteres.");
+
+      if (usuario.senha.length > 20) throw new Error("A senha deve ter no máximo 20 caracteres.");
 
     if (!usuario.nome) throw new Error("Informe o nome do usuário.");
 
@@ -38,17 +41,19 @@ export function CriarUsuarioErrors(usuario) {
 }
 
 
-export function LoginUsuarioErrors(email, senha, usuario) {
+export async function LoginUsuarioErrors(email, senha, usuario) {
     if (!regexEmail.test(email)) {
         throw new Error("O e-mail informado é inválido.");
     }
 
     if (!usuario) {
-        throw new Error("Não foi encontrado nenhum usuário com as informações fornecidas.");
+        throw new Error("E-mail ou senha inválidos.");
     }
 
-    if (usuario.senha !== senha) {
-        throw new Error("A senha informada está incorreta.");
+    const senhaValida = typeof senha === 'string' && await compararSenha(senha, usuario.senha);
+
+    if (!senhaValida) {
+        throw new Error("E-mail ou senha inválidos.");
     }
 }
 

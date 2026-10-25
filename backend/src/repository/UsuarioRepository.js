@@ -60,7 +60,7 @@ export async function ListarUsuario(nome) {
     return resposta;
 }
 
-export async function CriarUsuario(usuario) {
+export async function CriarUsuario(usuario,senha) {
     let command = `
     INSERT INTO usuarios(nome,email,telefone,senha,cpf,data_nascimento)
     VALUES(?,?,?,?,?,?)
@@ -69,8 +69,8 @@ export async function CriarUsuario(usuario) {
     let [resposta] = await con.query(command, [
         usuario.nome,
         usuario.email,
-        usuario.telefone,
-        usuario.senha,
+      usuario.telefone,
+        senha,
         usuario.cpf,
         usuario.data_nascimento
     ])
@@ -164,7 +164,7 @@ export async function ListarImagemENome(id){
 
 export async function ListarTudoUsuario(id) {
   const command = `
-SELECT imagem, nome, email, telefone, senha, cpf, data_nascimento
+SELECT imagem, nome, email, telefone, cpf, data_nascimento
 FROM usuarios
 WHERE id_usuario = ?
 `
