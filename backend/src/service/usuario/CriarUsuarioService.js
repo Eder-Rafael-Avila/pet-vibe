@@ -1,9 +1,11 @@
 import * as DBUsuario from '../../repository/UsuarioRepository.js';
 import { CriarUsuarioErrors } from '../../validation/usuarioValidation.js';
 import { validarIdade } from '../../utils/validarIdade.js';
+import { gerarHash } from '../../utils/hash.js';
 
 export async function CriarUsuarioService(usuario) {
-
+    CriarUsuarioErrors(usuario);
+  
     let emailExiste = await DBUsuario.BuscarPorEmail(usuario.email);
 
     if (emailExiste) {
@@ -22,9 +24,9 @@ export async function CriarUsuarioService(usuario) {
         throw new Error('Você deve ter mais de 18 anos.');
     }
 
-    CriarUsuarioErrors(usuario);
+  let senha = await gerarHash(usuario.senha)
 
-    let resposta = await DBUsuario.CriarUsuario(usuario)
+    let resposta = await DBUsuario.CriarUsuario(usuario,senha)
     return resposta
 
 }
