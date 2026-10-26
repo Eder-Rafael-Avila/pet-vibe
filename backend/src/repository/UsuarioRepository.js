@@ -1,32 +1,5 @@
 import con from './conection/connect.js';
 
-function validarToken(tipoPermitido) {
-    return (req, resp, next) => {
-        try {
-            const token = req.headers.authorization?.split(' ')[1];
-
-            if (!token) {
-                throw new Error('Token não informado');
-            }
-
-            req.usuario = jwt.verify(token, SECRET_KEY);
-
-            if (req.usuario.tipo !== tipoPermitido) {
-                return resp.status(403).send({
-                    erro: 'Token sem permissão para esta rota'
-                });
-            }
-
-            next();
-        }
-        catch (err) {
-            return resp.status(401).send({
-                erro: err.message
-            });
-        }
-    };
-}
-
 export async function ListarUsuarios() {
 
     let command = `

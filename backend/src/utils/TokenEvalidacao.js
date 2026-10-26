@@ -36,6 +36,45 @@ export function validarToken(req, resp, next) {
     }
 }
 
+export function gerarTokenValidacaoUsuario() {
+    return jwt.sign(
+        {
+            permissao: "Permitido"
+        },
+        SECRET_KEY,
+        { expiresIn: '24h' }
+    );
+}
+
+export function validarTokenValidacaoUsuario(req, resp, next) {
+    try {
+        const token = req.headers.tokenpermitido;
+
+        if (!token) {
+            return resp.status(401).send({
+                erro: 'Token não informado'
+            });
+        }
+
+        const tipoToken = jwt.verify(token, SECRET_KEY);
+
+        if (tipoToken.permissao !== 'Permitido') {
+            return resp.status(403).send({
+                erro: 'Você não tem permissão para acessar esse serviço'
+            });
+        }
+
+        req.usuario = tipoToken;
+        next();
+
+    } catch {
+        return resp.status(401).send({
+            erro: 'Token inválido ou expirado'
+        });
+    }
+}
+
+
 export function gerarTokenOng(ong) {
     return jwt.sign(
         {

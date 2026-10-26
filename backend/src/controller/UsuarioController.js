@@ -1,7 +1,8 @@
 import { Router } from 'express';
 const endpoints = Router();
 
-
+import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
+import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
 
@@ -203,6 +204,20 @@ endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
   }
 }) 
 
+endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
 
+    try{
+
+        let token = gerarTokenValidacaoUsuario();
+
+        resp.send({
+            tokenValidado: token
+        })
+    }
+    catch(err){
+            logError(err);
+    resp.status(400).send(erroJson(err));
+    }
+})
 
 export default endpoints
