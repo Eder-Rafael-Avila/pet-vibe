@@ -341,16 +341,51 @@ export default function Adocao() {
 
       <section className="duvidas">
         <div className="conteudo-duvidas">
-            <h3>VAMOS CONVERSAR</h3>
-            <h1>Toda boa escolha começa com informação.</h1>
+          <h3>VAMOS CONVERSAR</h3>
+          <h1>Toda boa escolha começa com informação.</h1>
 
-            <p>Reunimos algumas dúvidas comuns para você dar o próximo passo com tranquilidade</p>
+          <p>Reunimos algumas dúvidas comuns para você dar o próximo passo com tranquilidade</p>
         </div>
 
         <div className="perguntas">
-            <div className="cards-perguntas">
-                
-            </div>
+          <div className="cards-perguntas">
+            <details>
+              <summary>O que preciso para adotar um animal?</summary>
+              <p>Você precisa ter 18 anos ou mais, apresentar um documento e conversar com o responsável sobre sua rotina e seu lar. Cada ONG ou protetor pode ter critérios próprios, incluindo entrevista e assinatura de um termo de adoção responsável.</p>
+            </details>
+
+            <details>
+              <summary>A adoção tem algum custo?</summary>
+              <p>Pedro gay</p>
+            </details>
+
+            <details>
+              <summary>Posso adotar se moro em apartamento?</summary>
+              <p>Pedro gay</p>
+            </details>
+
+            <details>
+              <summary>Os animais são vacinados e castrados?</summary>
+              <p>Pedro gay</p>
+            </details>
+
+            <details>
+              <summary>Como funciona a adaptação em casa?</summary>
+            </details>
+          </div>
+        </div>
+      </section>
+
+
+      <section className="parte-baixo">
+        <div className="conteudo-baixo">
+          <h3>O PRÓXIMO CAPÍTULO É COM VOCÊ</h3>
+
+          <h1>Seu novo melhor amigo está esperando.</h1>
+
+          <p>Um lar muda a vida de um animal. E esse encontro pode mudar a sua também.</p>
+
+          <button className="btn-baixo">Encontrar meu companheiro <FaArrowRight /> </button>
         </div>
       </section>
     </div>
