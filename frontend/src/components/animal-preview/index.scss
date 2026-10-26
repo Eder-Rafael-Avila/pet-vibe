@@ -64,10 +64,10 @@
                 align-items: center;
                 gap: .8rem;
 
-                color: white;
-                background: transparent;
+                color: #12a58c;
+                background: white;
 
-                border: 1px solid white;
+                border: 2px solid #105F56;
                 border-radius: 1rem;
 
                 font-weight: 600;
@@ -83,6 +83,7 @@
                 &:hover {
                     color: var(--corPretoGeral);
                     background-color: white;
+                    opacity: .8;
                 }
             }
 

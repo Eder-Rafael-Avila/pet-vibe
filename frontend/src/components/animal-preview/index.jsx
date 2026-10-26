@@ -19,7 +19,7 @@ export default function AnimalPreview() {
                     <button className='adote-button'>
                         <NavLink to='/Adocao'
                                  style={{
-                                    color: isHovered ? "black" : "white",
+                                    color: isHovered ? "#105F56" : "#105F56",
                                     width: '100%',
                                     height: '100%',
                                     padding: '.8rem 2rem',
