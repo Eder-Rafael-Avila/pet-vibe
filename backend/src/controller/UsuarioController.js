@@ -6,7 +6,7 @@ import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { EnviarEmail } from '../utils/VerificacaoEmail.js';
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
-
+import { GerarCodigo } from '../utils/GerarCódigo.js'
 import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
@@ -21,6 +21,8 @@ import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefon
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
+
+let codigoCriado = ""
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -99,14 +101,21 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
     }
 });
 
-endpoints.delete('/usuario/excluir', validarTokenValidacaoUsuario, async (req, resp) => {
+endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
     try {
-        const idUsuario = req.usuario.id_usuario;
-        const codigoE = req.body.codigo;
         let resposta = ""
-        if(codigoE == codigo){
-            resposta = await gerarTokenValidacaoUsuario()
+        const idUsuario = req.usuario.id_usuario;
+        const token = req.headers.tokenpermitido;
+        if(!token){
+            codigoCriado = await GerarCodigo();
+            EnviarEmail(codigoCriado)
+            resposta = "Foi enviado um email com o código de verificação a sua caixa de notificações"
         }
+        else{
+            resposta = await ExcluirUsuarioService(idUsuario)
+        }
+
+        validarTokenValidacaoUsuario();
          
 
         resp.send({
@@ -208,15 +217,24 @@ endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
   }
 }) 
 
-endpoints.get('/usuario/liberarPermissao', async (req,resp) =>{
+endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
 
     try{
+        let codigoEnviado = req.body.codigo;
 
-        let token = gerarTokenValidacaoUsuario();
-        EnviarEmail();
+        if(codigoEnviado == codigoCriado){
         resp.send({
-            tokenValidado: token
+            token: gerarTokenValidacaoUsuario()
         })
+        }
+
+        else{
+        resp.send({
+            resposta: "Código Incorreto"
+        })
+        }
+
+
     }
     catch(err){
             logError(err);
