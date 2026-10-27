@@ -6,7 +6,9 @@ const mailjet = Mailjet.apiConnect(
     process.env.MAILJET_SECRET_KEY
 );
 
-export async function EnviarEmail() {
+
+
+export async function EnviarEmail(codigo) {
     const resposta = await mailjet
         .post('send', { version: 'v3.1' })
         .request({
@@ -14,7 +16,7 @@ export async function EnviarEmail() {
                 {
                     From: {
                         Email: process.env.MAILJET_EMAIL,
-                        Name: 'PetVibe'
+                        Name: 'Petvibaochamandotodos'
                     },
                     To: [
                         {
@@ -52,7 +54,7 @@ HTMLPart: `
                     letter-spacing: 3px;
                     text-transform: uppercase;
                 ">
-                    LITERARY NOTES
+                    CHAMAAAAAAAAAAA
                 </p>
 
                 <h1 style="
@@ -109,7 +111,7 @@ HTMLPart: `
                         font-weight: bold;
                         letter-spacing: 8px;
                     ">
-                        4222
+                        ${codigo}
                     </p>
                 </div>
 

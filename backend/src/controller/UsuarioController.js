@@ -99,12 +99,15 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
     }
 });
 
-endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
+endpoints.delete('/usuario/excluir', validarTokenValidacaoUsuario, async (req, resp) => {
     try {
         const idUsuario = req.usuario.id_usuario;
-
-
-        const resposta = await ExcluirUsuarioService(idUsuario);
+        const codigoE = req.body.codigo;
+        let resposta = ""
+        if(codigoE == codigo){
+            resposta = await gerarTokenValidacaoUsuario()
+        }
+         
 
         resp.send({
             resposta: resposta
@@ -116,7 +119,7 @@ endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
     }
 });
 
-endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
+endpoints.put('/usuario/alterarSenha', validarTokenValidacaoUsuario, async (req, resp) => {
     try {
         const { senha } = req.body;
         const idUsuario = req.usuario.id_usuario;
@@ -134,7 +137,7 @@ endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 });
-endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
+endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (req, resp) => {
     try {
         const { telefone } = req.body;
         const idUsuario = req.usuario.id_usuario;
@@ -153,7 +156,7 @@ endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
     }
 });
 
-endpoints.put('/usuario/alterarEmail', validarToken, async (req, resp) => {
+endpoints.put('/usuario/alterarEmail', validarTokenValidacaoUsuario, async (req, resp) => {
     try {
         const { email } = req.body;
         const idUsuario = req.usuario.id_usuario;
@@ -205,7 +208,7 @@ endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
   }
 }) 
 
-endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
+endpoints.get('/usuario/liberarPermissao', async (req,resp) =>{
 
     try{
 
@@ -221,9 +224,9 @@ endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
     }
 })
 
-endpoints.get('/testando' , async (req,resp) => {
+endpoints.get('/testando', validarTokenValidacaoUsuario , async (req,resp) => {
     try{
-        await EnviarEmail()
+
         resp.send({
             funcionando: true
         })
