@@ -126,6 +126,7 @@
         color: #105f56;
         font-size: 11px;
       }
+
       h1 {
         color: #0a4a43;
       }
@@ -188,6 +189,7 @@
           color: #f8561f;
         }
       }
+
       h3 {
         display: inline-block;
         margin-bottom: 14px;
@@ -197,6 +199,7 @@
         background: #dcebe4;
         border-radius: 999px;
       }
+
       p {
         font-size: 13px;
       }
@@ -226,19 +229,117 @@
     }
   }
 
-  
-.link-iniciativa {
+
+  .link-iniciativa {
     text-decoration: none;
     color: #105F56;
 
     p {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-top: 15px;
-        font-size: 14px;
-        font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 600;
 
+    }
+  }
+
+  
+.duvidas {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 60px;
+
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+
+    font-family: Arial, sans-serif;
+
+    .texto-duvidas {
+        width: 30%;
+
+        span {
+            font-size: 9px;
+            font-weight: bold;
+            color: #105f56;
+        }
+
+        h1 {
+            color: #105f56;
+            font-size: 30px;
+            line-height: 1.15;
+            margin: 12px 0;
+        }
+
+        p {
+            color: #777;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #105f56;
+        }
+    }
+
+    .perguntas {
+        width: 65%;
+        border-top: 1px solid #eee;
+
+        .pergunta {
+            border-bottom: 1px solid #eee;
+
+            .pergunta-titulo {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                width: 100%;
+                padding: 18px 15px;
+
+                border: none;
+                background: white;
+                cursor: pointer;
+                text-align: left;
+
+                color: #105f56;
+                font-size: 13px;
+                font-weight: bold;
+
+            }
+
+            .resposta {
+                margin: 0;
+                padding: 0 15px 18px;
+
+                color: #888;
+                font-size: 12px;
+                line-height: 1.6;
+            }
+        }
+    }
+}
+
+@media (max-width: 700px) {
+    .duvidas {
+        flex-direction: column;
+        gap: 25px;
+
+        .texto-duvidas,
+        .perguntas {
+            width: 100%;
+        }
+
+        .texto-duvidas h1 {
+            font-size: 26px;
+        }
     }
 }
 
@@ -269,10 +370,8 @@
 
 
 
-
-
-.parte-baixo{
-  background-color: #095c52;
-}
+  .parte-baixo {
+    background-color: #095c52;
+  }
 
 }

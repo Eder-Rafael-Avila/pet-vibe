@@ -9,6 +9,7 @@ import {
   FaHome,
   FaCalendarAlt,
   FaArrowRight,
+  FaPlus, FaMinus
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
@@ -20,6 +21,34 @@ export default function Adocao() {
   const [sexo, setSexo] = useState("Todos");
   const [raca, setRaca] = useState("");
   const [porte, setPorte] = useState("");
+
+  const [aberta, setAberta] = useState(0);
+
+
+
+   const perguntas = [
+        {
+            pergunta: 'O que preciso para adotar um animal?',
+            resposta: 'Você precisa ter 18 anos ou mais, apresentar um documento e conversar com o responsável sobre sua rotina e seu lar. Cada ONG ou protetor pode ter critérios próprios, incluindo entrevista e assinatura de um termo de adoção responsável.'
+        },
+        {
+            pergunta: 'A adoção tem algum custo?',
+            resposta: 'A adoção pode ser gratuita ou incluir uma taxa para ajudar com os custos de vacinação, vermifugação e cuidados veterinários. Isso depende da ONG ou do protetor.'
+        },
+        {
+            pergunta: 'Posso adotar se moro em apartamento?',
+            resposta: 'Sim! O importante é oferecer um ambiente seguro, espaço adequado e tempo para cuidar do animal.'
+        },
+        {
+            pergunta: 'Os animais são vacinados e castrados?',
+            resposta: 'Isso depende do animal e da instituição responsável. Verifique as informações de vacinação e castração antes de concluir a adoção.'
+        },
+        {
+            pergunta: 'Como funciona a adaptação em casa?',
+            resposta: 'A adaptação exige paciência, carinho e uma rotina tranquila. Deixe o animal explorar o ambiente aos poucos e ofereça um local seguro para descansar.'
+        }
+    ];
+
 
   return (
     <div className="page-adocao">
@@ -340,41 +369,50 @@ export default function Adocao() {
 
 
       <section className="duvidas">
-        <div className="conteudo-duvidas">
-          <h3>VAMOS CONVERSAR</h3>
-          <h1>Toda boa escolha começa com informação.</h1>
+            <div className="texto-duvidas">
+                <span>VAMOS CONVERSAR</span>
 
-          <p>Reunimos algumas dúvidas comuns para você dar o próximo passo com tranquilidade</p>
-        </div>
+                <h1>
+                    Toda boa escolha
+                    começa com
+                    informação.
+                </h1>
 
-        <div className="perguntas">
-          <div className="cards-perguntas">
-            <details>
-              <summary>O que preciso para adotar um animal?</summary>
-              <p>Você precisa ter 18 anos ou mais, apresentar um documento e conversar com o responsável sobre sua rotina e seu lar. Cada ONG ou protetor pode ter critérios próprios, incluindo entrevista e assinatura de um termo de adoção responsável.</p>
-            </details>
+                <p>
+                    Reunimos algumas dúvidas comuns para você
+                    dar o próximo passo com tranquilidade.
+                </p>
 
-            <details>
-              <summary>A adoção tem algum custo?</summary>
-              <p>Pedro gay</p>
-            </details>
 
-            <details>
-              <summary>Posso adotar se moro em apartamento?</summary>
-              <p>Pedro gay</p>
-            </details>
+            </div>
 
-            <details>
-              <summary>Os animais são vacinados e castrados?</summary>
-              <p>Pedro gay</p>
-            </details>
+            <div className="perguntas">
+                {perguntas.map((item, index) => (
+                    <div className="pergunta" key={index}>
+                        <button
+                            className="pergunta-titulo"
+                            onClick={() =>
+                                setAberta(aberta === index ? -1 : index)
+                            }
+                        >
+                            <span>{item.pergunta}</span>
 
-            <details>
-              <summary>Como funciona a adaptação em casa?</summary>
-            </details>
-          </div>
-        </div>
-      </section>
+                            {aberta === index ? (
+                                <FaMinus />
+                            ) : (
+                                <FaPlus />
+                            )}
+                        </button>
+
+                        {aberta === index && (
+                            <p className="resposta">
+                                {item.resposta}
+                            </p>
+                        )}
+                    </div>
+                ))}
+            </div>
+        </section>
 
 
       <section className="parte-baixo">
