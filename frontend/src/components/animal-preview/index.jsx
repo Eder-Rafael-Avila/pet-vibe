@@ -32,7 +32,7 @@ export default function AnimalPreview() {
                                 <i class="fa-solid fa-paw" style={{color: "#ffff",}}></i>
                                 Ver mais
                             </NavLink>
-                            <a className="btn como-funciona">
+                            <a href='#sobre' className="btn como-funciona">
                                 <i class="fa-solid fa-sliders icone-funciona"></i>
                                 Como funciona
                             </a>
@@ -56,9 +56,9 @@ export default function AnimalPreview() {
 
                     <CardAdotados
                     imgAnimal={'/assets/images/beto.webp'}
-                        nomeAnimal={'Luke'}
-                        historiaAnimalExpandida={'Luke conheceu o mundo das ruas antes de conhecer o conforto de um lar. Por muito tempo, precisou encontrar abrigo e comida por conta própria, sem saber quando teria um lugar seguro para descansar. Tudo mudou quando foi acolhido por pessoas que lhe deram a oportunidade de ter uma nova vida. Aos poucos, Luke se adaptou à sua nova casa, descobriu o prazer de brincar, receber carinho e aproveitar os pequenos momentos do dia. Hoje, ele vive feliz com sua família, cercado de amor, cuidado e segurança. Sua história é um lembrete de que a adoção pode transformar a vida de um animal e criar laços especiais que duram para sempre. Luke encontrou muito mais do que um lar: encontrou uma família para chamar de sua. 🐾'}
-                        previewHistAnimal={'Luke conheceu o mundo das ruas antes de conhecer o conforto de um lar...'}
+                        nomeAnimal={'Beto'}
+                        historiaAnimalExpandida={'Beto era um gato que vivia nas ruas e precisava encontrar um lugar seguro para morar. Sua história mudou quando uma família conheceu seu perfil no PetVibe e decidiu adotá-lo. Com a chegada ao novo lar, Beto passou a receber alimentação adequada, cuidados e muito carinho. Aos poucos, ele se adaptou à rotina da casa e conquistou o coração de todos. Hoje, Beto vive feliz com sua nova família, mostrando como a adoção responsável pode transformar a vida de um animal e criar laços especiais.'}
+                        previewHistAnimal={'Beto era um gato que vivia nas ruas e precisava encontrar um lugar seguro para morar...'}
                     />
                 </div>
             </main>

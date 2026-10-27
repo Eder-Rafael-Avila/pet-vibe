@@ -31,9 +31,22 @@ export default function CardAdotados({
                 )}
             </div>
             <div className="ver-mais">
-                <button>
-                    Ver mais
-                </button>
+
+                {histAnimalExpandida ? (
+                    <button
+                        className='fechar'
+                        onClick={() => setHistAnimalExpandida(!histAnimalExpandida)}
+                    >
+                        Fechar
+                    </button>
+                ) : (
+                    <button
+                        onClick={() => setHistAnimalExpandida(!histAnimalExpandida)}
+                    >
+                        Ver mais
+                    </button>
+                )}
+
             </div>
         </main>
     );

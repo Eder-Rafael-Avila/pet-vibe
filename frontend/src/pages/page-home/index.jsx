@@ -138,6 +138,10 @@ export default function Home({
 
             <AnimalPreview />
 
+            <section className="sobre" id='sobre'>
+                
+            </section>
+
             <Footer />
         </div>
     )

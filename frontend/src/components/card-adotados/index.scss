@@ -3,12 +3,14 @@
     flex-direction: column;
     gap: 1rem;
 
-    max-width: 40%;
+    min-width: 35%;
+    max-width: 35%;
 
     .imagem {
         width: 100%;
 
         img {
+            width: 100%;
             border-radius: 1rem;
         }
     }
@@ -17,5 +19,47 @@
         color: var(--corAzulPrimario);
 
         font-size: 1.4rem;
+    }
+
+    .historia {
+        p {
+            color: var(--corPretoGeral);
+            text-align: justify;
+            font-size: 1.3rem;
+            font-weight: 500;
+            line-height: 2.3rem;
+        }
+    }
+
+    .ver-mais {
+        button {
+            color: var(--corLaranjaContraste);
+
+            border: 1px solid var(--corLaranjaContraste);
+            border-radius: 1rem;
+
+            padding: .3rem 1.8rem;
+
+            font-weight: 500;
+            font-size: 1.3rem;
+
+            transition: .1s ease-in;
+
+            &:hover {
+                background-color: var(--corLaranjaContraste);
+                color: white;
+            }
+
+            &.fechar {
+                color: var(--corAzulPrimario);
+
+                border: 1px solid var(--corAzulPrimario);
+
+                &:hover {
+                    background-color: var(--corAzulPrimario);
+                    color: white;
+                }
+            }
+        }
     }
 }
