@@ -7,9 +7,10 @@
     flex-direction: column;
     gap: 8rem;
 
-    padding: 2rem 5rem;
+    padding: 2rem 0;
 
     .container-adote {
+        width: 100%;
         height: 50rem;
 
         display: flex;
@@ -27,163 +28,134 @@
         }
 
         .adote {
-            position: relative;
-
-            display: flex;
-            justify-content: end;
-            align-items: end;
-            padding: 2rem;
-
-            background: black url('/assets/images/acariciando.webp') no-repeat top center;
+            background: black url('/assets/images/bannerdecachorro.png') no-repeat;
             background-size: cover;
 
             width: 100%;
-            height: 58rem;
+            height: 45rem;
 
-            border-radius: 2rem;
+            display: flex;
+            align-items: center;
 
-            overflow: hidden;
+            box-shadow: 0px 0px 5px inset rgba(0, 0, 0, 0.301);
 
-            &::after {
-                content: "";
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-                background-color: black;
-                opacity: 0.5;
-                border-radius: 2rem;
-            }
-
-            .adote-button {
-                width: 20%;
+            .direcionamento {
+                width: 30%;
 
                 display: flex;
-                justify-content: center;
-                align-items: center;
-                gap: .8rem;
+                flex-direction: column;
+                gap: 2rem;
 
-                color: #12a58c;
-                background: white;
+                margin-left: 15rem;
 
-                border: 2px solid #105F56;
-                border-radius: 1rem;
+                .popup {
+                    color: var(--corLaranjaContraste);
+                    font-weight: 500;
+                    letter-spacing: 2px;
+                }
 
-                font-weight: 600;
-                font-size: 1.4rem;
-                z-index: 1;
+                .texto {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 1rem;
 
-                @media (max-width: 768px) {
-                        background-color: white;
-                        color: var(--corPretoGeral);
-                        width: 40%;
+                    h1 {
+                        color: var(--corAzulPrimario);
+
+                        font-size: 3.2rem;
+
+                        span {
+                            display: block;
+                            color: var(--corLaranjaContraste);
+                        }
                     }
 
-                &:hover {
-                    color: var(--corPretoGeral);
-                    background-color: white;
-                    opacity: .8;
+                    p {
+                        color: var(--corAzulTerciario);
+
+                        font-weight: 500;
+                        font-size: 1.3rem;
+                    }
+                }
+
+                .botoes {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+
+                    .btn {
+                        display: flex;
+                        align-items: center;
+                        gap: .5rem;
+
+                        border-radius: 1rem;
+
+                        padding: 1.2rem 4rem;
+
+                        font-size: 1.3rem;
+                        font-weight: 600;
+                        text-decoration: none;
+
+                        transition: background-color .15s ease-in-out;
+
+                        &.ver-mais {
+                            background-color: var(--corLaranjaContraste);
+                            color: white;
+                            border: 1px solid var(--corLaranjaContraste);
+
+                            &:hover {
+                                opacity: .9;
+                            }
+                        }
+
+                        &.como-funciona {
+                            background: transparent;
+                            color: var(--corAzulPrimario);
+                            border: 1px solid var(--corAzulPrimario);
+
+                            .icone-funciona {
+                                color: var(--corAzulPrimario);
+                            }
+
+                            &:hover {
+                                background-color: var(--corAzulPrimario);
+                                color: white;
+
+                                cursor: pointer;
+
+                                .icone-funciona {
+                                    color: white;
+                                }
+                            }
+                        }
+                    }
                 }
             }
-
-            .nav-link:hover {
-                color: black;
-            }
+            
         }
-
-        
+    
     }
 
     .container-animais {
         width: 100%;
-        height: 65rem;
 
         display: flex;
-        align-items: start;
-        gap: 8rem;
+        flex-direction: column;
+        align-items: center;
+        gap: 5rem;
 
-        .container-luke, .container-beto {
-            width: 46%;
+        .title {
+            h2 {
+                font-size: 2.5rem;
+            }
         }
 
-        .luke {
-            background: black url('/assets/images/luke.webp') center center no-repeat;
-            background-size: cover;
-        }
-
-        .beto {
-            background: black url('/assets/images/beto.webp') center center no-repeat;
-            background-size: cover;
-        }
-
-        .animal-card {
+        .animais {
             display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            align-items: center; 
+            justify-content: space-around;
 
             width: 100%;
-
-            .photo {
-                width: 100%;
-                height: 32rem;
-
-                box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.493);
-            }
-
-            .desc {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 1rem;
-
-                h3 {
-                    color: var(--corAzulPrimario);
-                    align-self: start;
-
-                    font-size: 2.1rem;
-                }
-
-                p {
-                    color: var(--corPretoGeral);
-                    align-self: start;
-                    font-weight: 600;
-                    font-size: 1.2rem;
-                    line-height: 2.2rem;
-                }
-
-                .paragraph-preview {
-                    font-size: 1.1rem;
-                }
-
-                .expanded-paragraph {
-                    font-size: 1.3rem;
-                    text-align: justify;
-                }
-
-                .botao {
-                    background: transparent;
-                    color: var(--corLaranjaContraste);
-
-                    width: 100%;
-                    
-                    border: 1px solid var(--corLaranjaContraste);
-
-                    align-self: center;
-                    padding: .7rem 2rem;
-                    border-radius: 1rem;
-                    margin: 1rem 0;
-
-                    font-weight: 600;
-
-                    transition-duration: .3s;
-                }
-
-                .botao:hover {
-                    background: var(--corLaranjaContraste);
-                    color: white;
-                }
-            }
         }
     }
 }

@@ -1,0 +1,21 @@
+.comp-card-adotados {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    max-width: 40%;
+
+    .imagem {
+        width: 100%;
+
+        img {
+            border-radius: 1rem;
+        }
+    }
+
+    .nome {
+        color: var(--corAzulPrimario);
+
+        font-size: 1.4rem;
+    }
+}
