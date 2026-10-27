@@ -3,6 +3,7 @@ const endpoints = Router();
 
 import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
+import { EnviarEmail } from '../utils/VerificacaoEmail.js';
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
 
@@ -209,13 +210,26 @@ endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
     try{
 
         let token = gerarTokenValidacaoUsuario();
-
+        EnviarEmail();
         resp.send({
             tokenValidado: token
         })
     }
     catch(err){
             logError(err);
+    resp.status(400).send(erroJson(err));
+    }
+})
+
+endpoints.get('/testando' , async (req,resp) => {
+    try{
+        await EnviarEmail()
+        resp.send({
+            funcionando: true
+        })
+    }
+    catch(err){
+                    logError(err);
     resp.status(400).send(erroJson(err));
     }
 })
