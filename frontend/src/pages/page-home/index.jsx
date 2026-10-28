@@ -140,6 +140,10 @@ export default function Home({
 
             <section className="sobre" id='sobre'>
                 
+                <h1>Sobre o PetVibe</h1>
+
+                
+
             </section>
 
             <Footer />

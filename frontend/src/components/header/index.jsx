@@ -113,13 +113,13 @@ export default function Header({
                     </li>
                     <li>
                         <NavLink
-                        to="/comoFunciona"
+                        to="/quadroPedidos"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>Marketplace</p></NavLink>
+                        ><p>Ajude ONGs</p></NavLink>
                     </li>
                     <li>
                         <NavLink
