@@ -11,6 +11,7 @@ export default function CardAnimais({
     localizacao,
     desc,
     btn,
+    castrado,
 
 }){
     return(
@@ -35,12 +36,13 @@ export default function CardAnimais({
                 <p>{idade} - </p>
             </div>
             <div className="genero">
-                <p>{genero}</p>
+                <p>{genero} - </p>
+            </div>
+            <div className="castrado">
+                <p>{castrado}</p>
             </div>
         </div>
         <div className="loc-porte">
-
-        
             <div className="localizacao">
                 <p>{localizacao} -  </p>
             </div>

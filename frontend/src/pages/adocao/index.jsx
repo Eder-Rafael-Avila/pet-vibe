@@ -9,11 +9,10 @@ import {
   FaHome,
   FaCalendarAlt,
   FaArrowRight,
-  FaPlus, FaMinus
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
-import CardAnimais from "../card-animal/index.jsx";
+import CardAnimais from "../../components/card-animal/index.jsx";
 
 export default function Adocao() {
   const [animal, setAnimal] = useState("");
@@ -24,30 +23,6 @@ export default function Adocao() {
 
   const [aberta, setAberta] = useState(0);
 
-
-
-   const perguntas = [
-        {
-            pergunta: 'O que preciso para adotar um animal?',
-            resposta: 'Você precisa ter 18 anos ou mais, apresentar um documento e conversar com o responsável sobre sua rotina e seu lar. Cada ONG ou protetor pode ter critérios próprios, incluindo entrevista e assinatura de um termo de adoção responsável.'
-        },
-        {
-            pergunta: 'A adoção tem algum custo?',
-            resposta: 'A adoção pode ser gratuita ou incluir uma taxa para ajudar com os custos de vacinação, vermifugação e cuidados veterinários. Isso depende da ONG ou do protetor.'
-        },
-        {
-            pergunta: 'Posso adotar se moro em apartamento?',
-            resposta: 'Sim! O importante é oferecer um ambiente seguro, espaço adequado e tempo para cuidar do animal.'
-        },
-        {
-            pergunta: 'Os animais são vacinados e castrados?',
-            resposta: 'Isso depende do animal e da instituição responsável. Verifique as informações de vacinação e castração antes de concluir a adoção.'
-        },
-        {
-            pergunta: 'Como funciona a adaptação em casa?',
-            resposta: 'A adaptação exige paciência, carinho e uma rotina tranquila. Deixe o animal explorar o ambiente aos poucos e ofereça um local seguro para descansar.'
-        }
-    ];
 
 
   return (
@@ -197,98 +172,104 @@ export default function Adocao() {
             especie="Gato"
             idade="6 meses"
             genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
+            localizacao="São Paulo, SP"
+            porte="Pequeno"
+            desc="Um explorador que adora moggar os betinhas"
+            btn="Conhecer"
+          />
+          <CardAnimais
+            imagem="/assets/images/maxsuel.webp"
+            status="Disponível para adoção"
+            nome="Maxwell"
+            especie="Gato"
+            idade="6 meses"
+            genero="Macho"
+            castrado="Castrado"
             localizacao="São Paulo, SP"
             porte="Pequeno"
             desc="Um explorador que adora moggar os betinhas"
             btn="Conhecer"
           />
 
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
         </div>
       </section>
 
@@ -369,63 +350,122 @@ export default function Adocao() {
 
 
       <section className="duvidas">
-            <div className="texto-duvidas">
-                <span>VAMOS CONVERSAR</span>
 
-                <h1>
-                    Toda boa escolha
-                    começa com
-                    informação.
-                </h1>
+        <div className="texto-duvidas">
+          <h3>VAMOS CONVERSAR</h3>
 
-                <p>
-                    Reunimos algumas dúvidas comuns para você
-                    dar o próximo passo com tranquilidade.
-                </p>
+          <h1>
+            Toda boa escolha
+            começa com
+            informação.
+          </h1>
 
+          <p>
+            Reunimos algumas dúvidas comuns para você
+            dar o próximo passo com tranquilidade.
+          </p>
 
+        </div>
+
+        <div className="perguntas">
+          <div className={`pergunta ${aberta === 1 ? 'aberto' : ''}`}>
+            <button onClick={() => setAberta(aberta === 1 ? 0 : 1)}>
+              O que preciso para adotar um animal?
+              <span>{aberta === 1 ? '−' : '+'}</span>
+            </button>
+
+            <div className="resposta">
+              <p>
+                Você precisa ter 18 anos ou mais, apresentar um
+                documento e conversar com o responsável sobre sua
+                rotina e seu lar. Cada ONG ou protetor pode ter
+                critérios próprios, incluindo entrevista e assinatura
+                de um termo de adoção responsável.
+              </p>
             </div>
+          </div>
 
-            <div className="perguntas">
-                {perguntas.map((item, index) => (
-                    <div className="pergunta" key={index}>
-                        <button
-                            className="pergunta-titulo"
-                            onClick={() =>
-                                setAberta(aberta === index ? -1 : index)
-                            }
-                        >
-                            <span>{item.pergunta}</span>
+          <div className={`pergunta ${aberta === 2 ? 'aberto' : ''}`}>
+            <button onClick={() => setAberta(aberta === 2 ? 0 : 2)}>
+              A adoção tem algum custo?
+              <span>{aberta === 2 ? '−' : '+'}</span>
+            </button>
 
-                            {aberta === index ? (
-                                <FaMinus />
-                            ) : (
-                                <FaPlus />
-                            )}
-                        </button>
-
-                        {aberta === index && (
-                            <p className="resposta">
-                                {item.resposta}
-                            </p>
-                        )}
-                    </div>
-                ))}
+            <div className="resposta">
+              <p>
+                A adoção pode ser gratuita ou incluir uma taxa para
+                ajudar com os custos de vacinação, vermifugação e
+                cuidados veterinários. Isso depende da ONG ou do
+                protetor.
+              </p>
             </div>
-        </section>
+          </div>
 
+
+          <div className={`pergunta ${aberta === 3 ? 'aberto' : ''}`}>
+            <button onClick={() => setAberta(aberta === 3 ? 0 : 3)}>
+              Posso adotar se moro em apartamento?
+              <span>{aberta === 3 ? '−' : '+'}</span>
+            </button>
+
+            <div className="resposta">
+              <p>
+                Sim! O importante é oferecer um ambiente seguro,
+                espaço adequado e tempo para cuidar do animal,
+                respeitando as necessidades dele.
+              </p>
+            </div>
+          </div>
+
+
+          <div className={`pergunta ${aberta === 4 ? 'aberto' : ''}`}>
+            <button onClick={() => setAberta(aberta === 4 ? 0 : 4)}>
+              Os animais são vacinados e castrados?
+              <span>{aberta === 4 ? '−' : '+'}</span>
+            </button>
+
+            <div className="resposta">
+              <p>
+                Isso depende do animal e da instituição responsável.
+                Verifique as informações de vacinação e castração
+                antes de concluir a adoção.
+              </p>
+            </div>
+          </div>
+
+
+          <div className={`pergunta ${aberta === 5 ? 'aberto' : ''}`}>
+            <button onClick={() => setAberta(aberta === 5 ? 0 : 5)}>
+              Como funciona a adaptação em casa?
+              <span>{aberta === 5 ? '−' : '+'}</span>
+            </button>
+
+            <div className="resposta">
+              <p>
+                A adaptação exige paciência, carinho e uma rotina
+                tranquila. Deixe o animal explorar o ambiente aos
+                poucos e ofereça um local seguro para descansar.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </section>
 
       <section className="parte-baixo">
-        <div className="conteudo-baixo">
+        <div className="cont-baixo">
           <h3>O PRÓXIMO CAPÍTULO É COM VOCÊ</h3>
 
           <h1>Seu novo melhor amigo está esperando.</h1>
 
           <p>Um lar muda a vida de um animal. E esse encontro pode mudar a sua também.</p>
 
-          <button className="btn-baixo">Encontrar meu companheiro <FaArrowRight /> </button>
+          <NavLink to="/Adocao" className="btn-baixo">
+            Encontrar meu companheiro <FaArrowRight />
+          </NavLink>
         </div>
       </section>
     </div>
+
   );
 }

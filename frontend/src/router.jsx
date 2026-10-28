@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Home from './pages/page-home';
 import Login from './components/login';
-import Adocao from './components/adocao';
+import Adocao from './pages/adocao';
 
 export default function Router() {
     return (

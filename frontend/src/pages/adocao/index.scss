@@ -168,9 +168,10 @@
 
   .sobreNos {
     display: flex;
+    margin-top: 20px;
     align-items: center;
     gap: 40px;
-    margin: 20px;
+    padding: 20px;
 
     .img {
       img {
@@ -245,133 +246,178 @@
     }
   }
 
-  
-.duvidas {
+
+  .duvidas {
+    margin-top: 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 60px;
-
-    width: 90%;
-    max-width: 1200px;
-    margin: 40px auto;
-
+    padding: 30px 4%;
     font-family: Arial, sans-serif;
+    color: #075f55;
 
     .texto-duvidas {
-        width: 30%;
+      width: 30%;
+      padding: 2px 0;
+      box-sizing: border-box;
 
-        span {
-            font-size: 9px;
-            font-weight: bold;
-            color: #105f56;
-        }
+      span {
+        font-size: 8px;
+        font-weight: bold;
+      }
 
-        h1 {
-            color: #105f56;
-            font-size: 30px;
-            line-height: 1.15;
-            margin: 12px 0;
-        }
+      h1 {
+        font-size: 26px;
+        line-height: 1.1;
+        margin: 10px 0;
+      }
 
-        p {
-            color: #777;
-            font-size: 13px;
-            line-height: 1.6;
-        }
+      p {
+        font-size: 12px;
+        color: #666;
+        line-height: 1.5;
+      }
 
-        a {
-            display: inline-block;
-            margin-top: 10px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #105f56;
-        }
+      a {
+        font-size: 11px;
+        font-weight: bold;
+        color: #075f55;
+      }
     }
+
 
     .perguntas {
-        width: 65%;
-        border-top: 1px solid #eee;
+      width: 60%;
 
-        .pergunta {
-            border-bottom: 1px solid #eee;
 
-            .pergunta-titulo {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
+      .pergunta {
+        border-bottom: 1px solid #ddd;
 
-                width: 100%;
-                padding: 18px 15px;
+        &:last-child {
+          border-bottom: none;
+        }
 
-                border: none;
-                background: white;
-                cursor: pointer;
-                text-align: left;
+        button {
+          width: 100%;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          border: none;
+          background: white;
+          padding: 15px 10px;
+          color: #075f55;
+          font-size: 13px;
+          font-weight: bold;
+          text-align: left;
+          cursor: pointer;
+          transition: background 0.3s ease;
 
-                color: #105f56;
-                font-size: 13px;
-                font-weight: bold;
+          &:active {
+            background: #e8f2ef;
+          }
 
+          span {
+            color: #ff6b35;
+            font-size: 18px;
+            margin-left: 10px;
+            transition: transform 0.3s ease;
+          }
+        }
+
+        .resposta {
+          display: grid;
+          grid-template-rows: 0fr;
+          opacity: 0;
+          transition:
+            grid-template-rows 0.4s ease,
+            opacity 0.3s ease;
+          border: 1px solid rgb(224, 224, 224);
+
+
+          p {
+            overflow: hidden;
+            min-height: 0;
+            margin: 0;
+            padding: 0 10px;
+            font-size: 11px;
+            line-height: 1.5;
+            color: #777;
+            transition: padding 0.4s ease;
+          }
+        }
+
+        &.aberto {
+          .resposta {
+            grid-template-rows: 1fr;
+            opacity: 1;
+
+            p {
+              padding: 0 10px 12px;
             }
+          }
 
-            .resposta {
-                margin: 0;
-                padding: 0 15px 18px;
-
-                color: #888;
-                font-size: 12px;
-                line-height: 1.6;
-            }
+          button span {
+            transform: rotate(180deg);
+          }
         }
+      }
     }
-}
-
-@media (max-width: 700px) {
-    .duvidas {
-        flex-direction: column;
-        gap: 25px;
-
-        .texto-duvidas,
-        .perguntas {
-            width: 100%;
-        }
-
-        .texto-duvidas h1 {
-            font-size: 26px;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  .parte-baixo {
-    background-color: #095c52;
   }
 
+  .parte-baixo {
+    background-image: url(public/assets/images/fundo-baixo.png);
+    background-size: 100%;
+    min-height: 210px;
+    width: 100%;
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 30px 20px;
+    box-sizing: border-box;
+
+    .cont-baixo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+
+      h3 {
+        color: #ff702e;
+        font-size: 11px;
+        margin-bottom: 12px;
+      }
+
+      h1 {
+        color: white;
+        font-size: 28px;
+        margin: 0 0 14px;
+      }
+
+      p {
+        color: #d5e6e3;
+        font-size: 11px;
+        margin: 0 0 16px;
+      }
+
+    }
+
+    .btn-baixo {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #f8561f;
+      margin-top: 20px;
+      text-decoration: none;
+      gap: 5px;
+      border: none;
+      border-radius: 6px;
+      font-size: 10px;
+      padding: 13px;
+      color: #fcfdfd;
+      font-size: 13px;
+    }
+  }
 }
