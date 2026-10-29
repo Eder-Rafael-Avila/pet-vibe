@@ -109,22 +109,21 @@ endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
         if(!token){
             codigoCriado = await GerarCodigo();
             EnviarEmail(codigoCriado)
-            resposta = "Foi enviado um email com o código de verificação a sua caixa de notificações"
+            resp.status(202).send({
+                resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
+            })
         }
         else{
             resposta = await ExcluirUsuarioService(idUsuario)
-        }
-
-        validarTokenValidacaoUsuario();
-         
-
-        resp.send({
+                    resp.send({
             resposta: resposta
         });
+        }
+         
     }
     catch (err) {
         logError(err);
-        resp.status(400).send(erroJson(err));
+        return resp.status(400).send(erroJson(err));
     }
 });
 
