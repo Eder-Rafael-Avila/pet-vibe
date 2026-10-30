@@ -1,10 +1,12 @@
 import { Router } from 'express';
 const endpoints = Router();
 
-
+import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
+import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
+import { EnviarEmail } from '../utils/VerificacaoEmail.js';
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
-
+import { GerarCodigo } from '../utils/GerarCódigo.js'
 import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
@@ -19,6 +21,8 @@ import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefon
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
+
+let codigoCriado = ""
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -99,32 +103,50 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
 
 endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
     try {
+        let resposta = ""
         const idUsuario = req.usuario.id_usuario;
-
-
-        const resposta = await ExcluirUsuarioService(idUsuario);
-
-        resp.send({
+        const token = req.headers.tokenpermitido;
+        if(!token){
+            codigoCriado = await GerarCodigo();
+            EnviarEmail(codigoCriado)
+            resp.status(202).send({
+                resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
+            })
+        }
+        else{
+            resposta = await ExcluirUsuarioService(idUsuario)
+                    resp.send({
             resposta: resposta
         });
+        }
+         
     }
     catch (err) {
         logError(err);
-        resp.status(400).send(erroJson(err));
+        return resp.status(400).send(erroJson(err));
     }
 });
 
 endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
-    try {
+  try {
+    let resposta = "";
         const { senha } = req.body;
-        const idUsuario = req.usuario.id_usuario;
+    const idUsuario = req.usuario.id_usuario;
+            const token = req.headers.tokenpermitido;
+    if (!token) {
+      codigoCriado = await GerarCodigo();
+      EnviarEmail(codigoCriado)
+      resp.status(202).send({
+          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
+      })
+    }
+    else {
+      resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
+      resp.send({
+        resposta:resposta
+      })
+    }
 
-
-        const resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
-
-        resp.send({
-            resposta: resposta
-        });
 
     }
     catch (err) {
@@ -132,17 +154,26 @@ endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 });
-endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
-    try {
+endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (req, resp) => {
+  try {
+    let resposta = "";
         const { telefone } = req.body;
-        const idUsuario = req.usuario.id_usuario;
-
-
-        const resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
-
-        resp.send({
-            resposta: resposta
-        });
+    const idUsuario = req.usuario.id_usuario;
+    const token = req.headers.tokenpermitido;
+    if (!token) {
+      codigoCriado = await GerarCodigo();
+      EnviarEmail(codigoCriado)
+      resp.status(202).send({
+          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
+      })
+    }
+    else {
+      resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
+      resp.send({
+        resposta:resposta
+      })
+    }
+    
 
     }
     catch (err) {
@@ -151,17 +182,25 @@ endpoints.put('/usuario/alterarTelefone', validarToken, async (req, resp) => {
     }
 });
 
-endpoints.put('/usuario/alterarEmail', validarToken, async (req, resp) => {
-    try {
+endpoints.put('/usuario/alterarEmail', validarTokenValidacaoUsuario, async (req, resp) => {
+  try {
+    let resposta = "";
         const { email } = req.body;
-        const idUsuario = req.usuario.id_usuario;
-
-
-        const resposta = await AlterarEmailUsuarioService(email, idUsuario);
-
-        resp.send({
-            resposta: resposta
-        });
+    const idUsuario = req.usuario.id_usuario;
+    const token = req.headers.tokenpermitido;
+    if (!token) {
+      codigoCriado = await GerarCodigo();
+      EnviarEmail(codigoCriado)
+      resp.status(202).send({
+          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
+      })
+    }
+    else {
+      resposta = await AlterarEmailUsuarioService(email, idUsuario);
+      resp.send({
+        resposta:resposta
+      })
+    }
 
 
     }
@@ -203,6 +242,28 @@ endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
   }
 }) 
 
+endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
+
+    try{
+        let codigoEnviado = req.body.codigo;
+
+        if(codigoEnviado == codigoCriado){
+        resp.send({
+            token: gerarTokenValidacaoUsuario()
+        })
+        }
+
+        else{
+        resp.send({
+            resposta: "Código Incorreto"
+        })
+        }
 
 
+    }
+    catch(err){
+            logError(err);
+    resp.status(400).send(erroJson(err));
+    }
+})
 export default endpoints

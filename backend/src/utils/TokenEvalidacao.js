@@ -1,4 +1,8 @@
 import jwt from 'jsonwebtoken';
+import { EnviarEmail } from './VerificacaoEmail.js';
+import { randomInt } from 'node:crypto';
+
+const codigo = randomInt(1000, 10000);
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -35,6 +39,46 @@ export function validarToken(req, resp, next) {
         return resp.status(401).send({ erro: 'Token inválido ou expirado' });
     }
 }
+
+export function gerarTokenValidacaoUsuario() {
+    return jwt.sign(
+        {
+            permissao: "Permitido"
+        },
+        SECRET_KEY,
+        { expiresIn: '1h' }
+    );
+}
+
+export async function validarTokenValidacaoUsuario(req, resp, next) {
+    try {
+        const token = req.headers.tokenpermitido;
+
+        if (!token) {
+            return resp.status(401).send({
+                erro: 'Token não informado'
+            });
+        }
+
+        const tipoToken = jwt.verify(token, SECRET_KEY);
+
+        if (tipoToken.permissao !== 'Permitido') {
+            return resp.status(403).send({
+                erro: 'Você não tem permissão para acessar esse serviço'
+            });
+        }
+
+        req.usuario = tipoToken;
+        next();
+
+    } catch {
+        EnviarEmail(codigo)
+        return resp.status(401).send({
+            erro: 'Foi enviado no seu email um código para verificação'
+        });
+    }
+}
+
 
 export function gerarTokenOng(ong) {
     return jwt.sign(
