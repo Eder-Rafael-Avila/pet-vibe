@@ -21,8 +21,15 @@ import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefon
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
+import { BuscarEmailPorIdService } from '../service/usuario/BuscarEmailPorIdService.js';
 
 let codigoCriado = ""
+
+async function enviarCodigoDeVerificacao(idUsuario) {
+    codigoCriado = await GerarCodigo();
+    const email = await BuscarEmailPorIdService(idUsuario);
+    await EnviarEmail(email, codigoCriado);
+}
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -107,8 +114,7 @@ endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
         const idUsuario = req.usuario.id_usuario;
         const token = req.headers.tokenpermitido;
         if(!token){
-            codigoCriado = await GerarCodigo();
-            EnviarEmail(codigoCriado)
+            await enviarCodigoDeVerificacao(idUsuario);
             resp.status(202).send({
                 resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
             })
@@ -134,8 +140,7 @@ endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
     const idUsuario = req.usuario.id_usuario;
             const token = req.headers.tokenpermitido;
     if (!token) {
-      codigoCriado = await GerarCodigo();
-      EnviarEmail(codigoCriado)
+      await enviarCodigoDeVerificacao(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -161,8 +166,7 @@ endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (r
     const idUsuario = req.usuario.id_usuario;
     const token = req.headers.tokenpermitido;
     if (!token) {
-      codigoCriado = await GerarCodigo();
-      EnviarEmail(codigoCriado)
+      await enviarCodigoDeVerificacao(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -189,8 +193,7 @@ endpoints.put('/usuario/alterarEmail', validarTokenValidacaoUsuario, async (req,
     const idUsuario = req.usuario.id_usuario;
     const token = req.headers.tokenpermitido;
     if (!token) {
-      codigoCriado = await GerarCodigo();
-      EnviarEmail(codigoCriado)
+      await enviarCodigoDeVerificacao(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -249,7 +252,7 @@ endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
 
         if(codigoEnviado == codigoCriado){
         resp.send({
-            token: gerarTokenValidacaoUsuario()
+            token: gerarTokenValidacaoUsuario(req.usuario.id_usuario)
         })
         }
 
