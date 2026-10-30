@@ -47,6 +47,7 @@ endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem
         let animal = {
             id_ong: req.idOng,
             imagem: req.file.filename,
+            tipo: dados.tipo,
             nome: dados.nome,
             idade: dados.idade,
             raca: dados.raca,
