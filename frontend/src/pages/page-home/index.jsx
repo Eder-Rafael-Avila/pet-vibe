@@ -6,7 +6,8 @@ import CardHome from '../../components/card-home';
 import AnimalPreview from '../../components/animal-preview';
 import Footer from '../../components/footer';
 
-import { useState } from 'react';
+
+import { FaShieldAlt, FaHandshake, FaComments, FaPaw } from 'react-icons/fa';
 
 export default function Home({
     usuarioLogado,
@@ -25,7 +26,7 @@ export default function Home({
             <section className="features">
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i className="fa-solid fa-hexagon-nodes" style={{color: "#F8561F",}}></i>
+                        <i className="fa-solid fa-hexagon-nodes" style={{ color: "#F8561F", }}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Match inteligente</h3>
@@ -36,7 +37,7 @@ export default function Home({
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i className="fa-solid fa-shield-heart" style={{color: "#F8561F",}}></i>
+                        <i className="fa-solid fa-shield-heart" style={{ color: "#F8561F", }}></i>
                     </div>
                     <div className="feature-text">
                         <h3>ONGs e Abrigos Verificados</h3>
@@ -47,7 +48,7 @@ export default function Home({
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i className="fa-solid fa-stamp" style={{color: "#F8561F",}}></i>
+                        <i className="fa-solid fa-stamp" style={{ color: "#F8561F", }}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Adoção Simplificada</h3>
@@ -58,7 +59,7 @@ export default function Home({
                 </div>
                 <div className="item-features">
                     <div className="feature-icon">
-                        <i className="fa-solid fa-heart-pulse" style={{color: "#F8561F",}}></i>
+                        <i className="fa-solid fa-heart-pulse" style={{ color: "#F8561F", }}></i>
                     </div>
                     <div className="feature-text">
                         <h3>Suporte e Monitoramento Pós-Adoção</h3>
@@ -70,7 +71,7 @@ export default function Home({
             </section>
 
 
-            <hr/>
+            <hr />
 
             <section className="step-cards">
                 <h1>A jornada para encontrar o seu melhor amigo</h1>
@@ -103,12 +104,12 @@ export default function Home({
                     </p>
 
                     <div className="bullet">
-                        <span><i className="fa-regular fa-circle-check" style={{color: "rgb(255, 137, 5)",}}></i></span>
+                        <span><i className="fa-regular fa-circle-check" style={{ color: "rgb(255, 137, 5)", }}></i></span>
                         <h4>Perguntas fáceis de múltipla escolha</h4>
                     </div>
 
                     <div className="bullet">
-                        <span><i className="fa-regular fa-circle-check" style={{color: "rgb(255, 137, 5)",}}></i></span>
+                        <span><i className="fa-regular fa-circle-check" style={{ color: "rgb(255, 137, 5)", }}></i></span>
                         <h4>Resultados imediatos com fotos reais de ONGs</h4>
                     </div>
                 </div>
@@ -117,21 +118,21 @@ export default function Home({
 
                     <div className='options'>
                         <div className="op destaque">
-                            <span><i className="fa-regular fa-building" style={{color: "#156957",}}></i></span>
+                            <span><i className="fa-regular fa-building" style={{ color: "#156957", }}></i></span>
                             <h4>Apartamento (sem quintal)</h4>
                         </div>
                         <div className="op">
-                            <span><i className="fa-regular fa-house" style={{color: "#156957",}}></i></span>
+                            <span><i className="fa-regular fa-house" style={{ color: "#156957", }}></i></span>
                             <h4>Casa com quintal pequeno</h4>
                         </div>
                         <div className="op">
-                            <span><i className="fa-solid fa-rocket" style={{color: "#156957",}}></i></span>
+                            <span><i className="fa-solid fa-rocket" style={{ color: "#156957", }}></i></span>
                             <h4>Casa com quintal amplo / Chácara</h4>
                         </div>
                     </div>
 
                     <p className='fake-button'>
-                        Próxima pergunta (1/5) <i className="fa-solid fa-arrow-right" style={{color: "rgb(255, 255, 255)",}}></i>
+                        Próxima pergunta (1/5) <i className="fa-solid fa-arrow-right" style={{ color: "rgb(255, 255, 255)", }}></i>
                     </p>
                 </div>
             </section>
@@ -139,11 +140,81 @@ export default function Home({
             <AnimalPreview />
 
             <section className="sobre" id='sobre'>
-                
-                <h1>Sobre o PetVibe</h1>
 
-                
+                <div className="texto-sobre">
 
+                    <div className="titulo">
+                          <h3>SOBRE NÓS</h3>
+                    <h1>Conheça a PetVibe: uma conexão profissional, moderna e acolhedora</h1>
+                    <p>Somos uma plataforma que une tecnologia, cuidado e responsabilidade para transformar a adoção em uma <br /> jornada mais consciente, transparente e cheia de significado.</p>
+                    </div>
+
+                    <h3>QUEM SOMOS</h3>
+
+                    <h2>Uma plataforma pensada para olhar além da primeira impressão</h2>
+
+                    <p>
+                        A PetVibe nasceu da convicção de que adoção não é só encontrar
+                        um animal bonito, mas construir uma relação que faça sentido
+                        para os dois lados.
+                    </p>
+
+                    <p>
+                        Unimos tecnologia e cuidado para valorizar cada personalidade,
+                        respeitar cada história e ajudar a construir adoções conscientes.
+                    </p>
+
+                    <h3>NOSSA MISSÃO</h3>
+
+                    <h2>Transformar a adoção em uma escolha mais consciente e mais feliz</h2>
+
+                    <p>
+                        Queremos ser a ponte entre quem busca um novo amigo e quem
+                        cuida desses animais com dedicação.
+                    </p>
+
+                    <p>
+                        Ao combinar tecnologia e suporte pós-adoção, queremos inspirar
+                        mais conexões significativas.
+                    </p>
+
+                </div>
+
+
+                <div className="valores">
+
+                    <h3>NOSSOS VALORES</h3>
+
+                    <div className="cards-valores">
+                        <div className="card-valor">
+                            <FaHandshake className='icon' />
+                            <h4>Empatia em cada encontro</h4>
+                            <p>Enxergamos pessoas e animais como únicos, com necessidades,
+                                limites e jeitos próprios de criar vínculos.</p>
+                        </div>
+
+                        <div className="card-valor">
+                            <FaShieldAlt className='icon' />
+                            <h4>Responsabilidade sempre</h4>
+                            <p>Adoção não é impulso. É uma escolha que pede preparo,
+                                presença e compromisso ao longo da vida.</p>
+                        </div>
+
+                        <div className="card-valor">
+                            <FaComments className='icon' />
+                            <h4>Transparência para decidir</h4>
+                            <p>Informações claras e diálogo com os responsáveis ajudam
+                                a alinhar expectativas antes de adotar.</p>
+                        </div>
+
+                        <div className="card-valor">
+                            <FaPaw className='icon' />
+                            <h4>Respeito ao tempo de cada pet</h4>
+                            <p>Um vínculo se constrói aos poucos, com paciência,
+                                segurança e espaço para a adaptação acontecer.</p>
+                        </div>
+                    </div>
+                </div>
             </section>
 
             <Footer />
