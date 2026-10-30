@@ -63,6 +63,17 @@ export async function BuscarPorEmail(email) {
     return linhas[0];
 }
 
+export async function BuscarEmailPorId(idUsuario) {
+    const command = `
+        SELECT email
+        FROM usuarios
+        WHERE id_usuario = ?
+    `;
+
+    const [linhas] = await con.query(command, [idUsuario]);
+    return linhas[0];
+}
+
 export async function BuscarPorTelefone(tel) {
     const command = `
         SELECT * FROM usuarios

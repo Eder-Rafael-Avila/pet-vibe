@@ -8,7 +8,7 @@ const mailjet = Mailjet.apiConnect(
 
 
 
-export async function EnviarEmail(codigo) {
+export async function EnviarEmail(email, codigo) {
     const resposta = await mailjet
         .post('send', { version: 'v3.1' })
         .request({
@@ -16,15 +16,15 @@ export async function EnviarEmail(codigo) {
                 {
                     From: {
                         Email: process.env.MAILJET_EMAIL,
-                        Name: 'Petvibaochamandotodos'
+                        Name: 'Petvibe'
                     },
                     To: [
                         {
-                            Email: "ra49082778858@acaonsfatima.org.br"
+                            Email: email
                         }
                     ],
                     Subject: 'Código de verificação',
-                    TextPart: `Seu código é 4222. Ele expira em 10 minutos.`,
+                    TextPart: `Seu código é ${codigo} Ele expira em 10 minutos.`,
                     
 HTMLPart: `
     <div style="

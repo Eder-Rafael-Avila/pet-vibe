@@ -1,8 +1,4 @@
 import jwt from 'jsonwebtoken';
-import { EnviarEmail } from './VerificacaoEmail.js';
-import { randomInt } from 'node:crypto';
-
-const codigo = randomInt(1000, 10000);
 
 const SECRET_KEY = process.env.SECRET_KEY;
 
@@ -40,10 +36,11 @@ export function validarToken(req, resp, next) {
     }
 }
 
-export function gerarTokenValidacaoUsuario() {
+export function gerarTokenValidacaoUsuario(idUsuario) {
     return jwt.sign(
         {
-            permissao: "Permitido"
+            permissao: "Permitido",
+            id_usuario: idUsuario
         },
         SECRET_KEY,
         { expiresIn: '1h' }
@@ -72,9 +69,8 @@ export async function validarTokenValidacaoUsuario(req, resp, next) {
         next();
 
     } catch {
-        EnviarEmail(codigo)
         return resp.status(401).send({
-            erro: 'Foi enviado no seu email um código para verificação'
+            erro: 'Token de validação inválido ou expirado'
         });
     }
 }
