@@ -156,3 +156,19 @@ WHERE id_usuario = ?
   let [resposta] = await con.query(command, [id])
   return resposta[0]
 }
+
+export async function ListarCampanhas() {
+  const command = `
+    SELECT
+        ong.nome AS nome_ong,
+        ong.imagem AS foto_ong,
+        campanhas.imagem,
+        campanhas.titulo,
+        campanhas.descricao,
+        campanhas.valor,
+        campanhas.valor_arrecadado
+    FROM campanhas
+    INNER JOIN ong
+        ON campanhas.ID_ONG = ong.id_ong;
+    `
+}

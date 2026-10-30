@@ -22,6 +22,7 @@ import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuar
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
 import { BuscarEmailPorIdService } from '../service/usuario/BuscarEmailPorIdService.js';
+import { ListarCampanhasService } from '../service/usuario/ListarCampanhasService.js';
 
 let codigoCriado = ""
 
@@ -268,5 +269,20 @@ endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
             logError(err);
     resp.status(400).send(erroJson(err));
     }
+})
+
+endpoints.get('/usuario/listarcampanhas', validarToken, async (req, resp) => {
+  try {
+
+    let resposta = await ListarCampanhasService();
+
+    resp.send({
+      resposta: resposta
+    })
+  }
+  catch (err) {
+    logError(err);
+resp.status(400).send(erroJson(err));
+  }
 })
 export default endpoints
