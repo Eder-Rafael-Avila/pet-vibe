@@ -1,0 +1,90 @@
+.card-animal{
+    
+
+    box-sizing: border-box;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background-color: white;
+    
+
+    .status{
+        margin-top: 10px;
+        margin-bottom: 10px;
+         display: flex;
+         align-items: center;
+        background: #dcebe4;
+        color: #105f56;
+        border-radius: 10px;
+        padding: 6px;
+
+        width: 60%;
+
+        .bola{
+            margin-right: 7px;
+            border-radius: 100px;
+            background-color:#105f56;
+            width: 5px;
+            height: 5px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+       
+    }
+
+    .nome{
+        color: #105f56;
+    }
+
+
+         .especificacoes {
+        display: flex;
+        align-items: center;
+        gap: 5px; 
+    }
+
+        .especie,
+        .idade,
+        .genero,
+        .castrado {
+
+
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+    }
+
+    .loc-porte{
+          display: flex;
+        align-items: center;
+        gap: 5px; 
+    }
+
+    .localizacao,
+    .porte{
+        color: #4a4b4b;
+        font-size: 10px;
+    }
+
+    .desc{
+        color: #4a4b4b;
+        margin-top: 10px;
+    }
+    
+
+
+    .btn button{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #F8561F;
+        margin-top: 20px;
+        border: none;
+        border-radius: 12px;
+        font-size: 10px;
+        padding: 10px;
+        color: #fcfdfd;
+        width: 100%;
+    }
+}
