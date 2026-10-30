@@ -207,18 +207,18 @@ export default function Adocao() {
         </div>
 
         <div className="cont-cards">
-          {animais.map(animal => (
+          {animais.map((animal) => (
             <CardAnimais
               key={animal.id_animal}
-              imagem={animal.imagem || '/assets/images/maxsuel.webp'}
+              imagem={'/assets/images/maxsuel.webp'}
               nome={animal.nome_animal}
               especie={animal.tipo}
               idade={animal.idade}
               genero={animal.sexo}
-              castrado={animal.castrado == 1 ? 'Sim' : 'Não'}
+              castrado={animal.castrado == 1 ? 'castrado' : 'não castrado'}
               porte={animal.porte}
               desc={animal.desc}
-              btn={'Adotar animal'}
+              btn='Adotar animal'
             />
           ))}
         </div>

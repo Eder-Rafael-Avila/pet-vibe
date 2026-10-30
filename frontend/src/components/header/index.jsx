@@ -45,6 +45,8 @@ export default function Header({
                 nome: dados.resposta.nome,
                 img: dados.resposta.imagem
             }
+
+            console.log(infoUsuario.img);
             
             return infoUsuario;
 

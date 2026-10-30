@@ -3,5 +3,11 @@ import { CriarAnimalValidation } from '../../validation/perfilAnimalValidation.j
 
 export async function CriarAnimalService(idOng, animal) {
     CriarAnimalValidation(animal);
-    return await DBAnimal.CriarAnimal(idOng, animal);
+
+    const animalComImagem = {
+        ...animal,
+        imagem: `/uploads/ImagemAnimais/${animal.imagem}`
+    };
+
+    return await DBAnimal.CriarAnimal(idOng, animalComImagem);
 }
