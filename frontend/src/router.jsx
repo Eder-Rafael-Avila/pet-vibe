@@ -8,7 +8,7 @@ import Login from "./pages/page-login";
 import Cadastro from "./pages/page-cadastro";
 import Perfil from "./pages/page-perfil";
 import RotaProtegida from "./components/rotaProtegida";
-import Adocao from './pages/adocao';
+import Adocao from './pages/page-adocao';
 
 export default function Router() {
     const [usuarioLogado, setUsuarioLogado] = useState(() => {
