@@ -106,3 +106,34 @@ situação ENUM('reprovada','pendente','aprovada'),
 FOREIGN KEY (id_usuario) References usuarios(id_usuario),
 FOREIGN KEY (id_animal) REFERENCES perfil_animal(id_animal)
 ); 
+
+CREATE TABLE campanhas(
+    ID_campanha INT PRIMARY KEY AUTO_INCREMENT,
+    ID_ONG INT,
+    imagem VARCHAR(800),
+    titulo VARCHAR(200) NOT NULL,
+    descricao TEXT,
+    valor DECIMAL(10,2),
+    valor_arrecadado DECIMAL(10,2) DEFAULT 0.00,
+
+    FOREIGN KEY (ID_ONG) REFERENCES ong(id_ong)
+);
+
+CREATE TABLE carteira(
+    ID_carteira INT PRIMARY KEY AUTO_INCREMENT,
+    ID_usuario INT NOT NULL UNIQUE,
+    fundos DECIMAL(10,2) DEFAULT 0.00,
+
+    FOREIGN KEY (ID_usuario) REFERENCES usuarios(id_usuario)
+);
+
+CREATE TABLE contribuidores(
+    ID_contribuidor INT PRIMARY KEY AUTO_INCREMENT,
+    ID_campanha INT ,
+    ID_usuario INT ,
+    valor_doado DECIMAL(10,2),
+
+    FOREIGN KEY (ID_campanha) REFERENCES campanhas(ID_campanha),
+    FOREIGN KEY (ID_usuario) REFERENCES usuarios(id_usuario)
+);
+
