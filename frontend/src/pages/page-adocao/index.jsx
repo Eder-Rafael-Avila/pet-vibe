@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   FaPaw,
   FaCheck,
@@ -11,8 +11,10 @@ import {
   FaArrowRight,
 } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
+
 import Header from "../../components/header/index.jsx";
 import CardAnimais from "../../components/card-animal/index.jsx";
+import Footer from '../../components/footer';
 
 export default function Adocao() {
   const [animal, setAnimal] = useState("");
@@ -23,7 +25,46 @@ export default function Adocao() {
 
   const [aberta, setAberta] = useState(0);
 
+  const [animais, setAnimais] = useState([]);
 
+  async function listarAnimais() {
+
+    try {
+
+      const resposta = await fetch('http://localhost:6767/animais/listar', {
+        method: 'GET'
+      });
+  
+      if (!resposta.ok) {
+        throw new Error('Não foi possível listar os animais.');
+      }
+
+      const dados = await resposta.json();
+      setAnimais(dados.resposta);
+
+      console.log('Resposta completa da API:', dados);
+      console.log('Dados dos Animais:', dados.resposta);
+      console.log('É um array?', Array.isArray(dados.resposta))
+  
+
+    } catch (e) {
+      console.log(e);
+    }
+
+  }
+
+  useEffect(() => {
+    function pegarInfoAnimais() {
+      const infoAnimais = listarAnimais();
+      return infoAnimais;
+    }
+
+    pegarInfoAnimais();
+  }, [])
+
+  useEffect(() => {
+    console.log('Estado dos Animais atualizado:', animais);
+  }, [animais])
 
   return (
     <div className="page-adocao">
@@ -56,15 +97,16 @@ export default function Adocao() {
           <div className="quadros">
             <h3>Raça</h3>
 
-            <FaPaw />
-
-            <input
-              type="text"
-              placeholder="Digite a raça"
-              value={raca}
-              onChange={(e) => setRaca(e.target.value)}
-            />
-            <FaSearch />
+            <div className="icons-input">
+              <FaPaw />
+              <input
+                type="text"
+                placeholder="Digite a raça"
+                value={raca}
+                onChange={(e) => setRaca(e.target.value)}
+              />
+              <FaSearch />
+            </div>
           </div>
           <div className="quadros">
             <h3>Sexo</h3>
@@ -165,111 +207,20 @@ export default function Adocao() {
         </div>
 
         <div className="cont-cards">
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-          <CardAnimais
-            imagem="/assets/images/maxsuel.webp"
-            status="Disponível para adoção"
-            nome="Maxwell"
-            especie="Gato"
-            idade="6 meses"
-            genero="Macho"
-            castrado="Castrado"
-            localizacao="São Paulo, SP"
-            porte="Pequeno"
-            desc="Um explorador que adora moggar os betinhas"
-            btn="Conhecer"
-          />
-
+          {animais.map(animal => (
+            <CardAnimais
+              key={animal.id_animal}
+              imagem={animal.imagem || '/assets/images/maxsuel.webp'}
+              nome={animal.nome_animal}
+              especie={animal.tipo}
+              idade={animal.idade}
+              genero={animal.sexo}
+              castrado={animal.castrado == 1 ? 'Sim' : 'Não'}
+              porte={animal.porte}
+              desc={animal.desc}
+              btn={'Adotar animal'}
+            />
+          ))}
         </div>
       </section>
 
@@ -465,6 +416,9 @@ export default function Adocao() {
           </NavLink>
         </div>
       </section>
+
+      <Footer />
+
     </div>
 
   );

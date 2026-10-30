@@ -5,6 +5,7 @@ export async function ListarAnimais() {
 SELECT
     ong.nome AS nome_ong,
     perfil_animal.id_animal,
+    perfil_animal.imagem,
     perfil_animal.nome AS nome_animal,
     perfil_animal.tipo,
     perfil_animal.idade,

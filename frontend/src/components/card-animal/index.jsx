@@ -2,7 +2,6 @@ import './index.scss'
 
 export default function CardAnimais({
     imagem,
-    status,
     nome,
     especie,
     idade,
@@ -18,11 +17,6 @@ export default function CardAnimais({
         <div className="card-animal">
             <div className="imagem">
                 <img src={imagem} alt="" />
-            </div>
-            
-            <div className="status">
-                <div className="bola"></div>
-                <p>{status}</p>
             </div>
             <div className="nome">
                 <h2>{nome}</h2>
