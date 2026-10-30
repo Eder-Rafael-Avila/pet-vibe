@@ -8,6 +8,7 @@ import Login from "./pages/page-login";
 import Cadastro from "./pages/page-cadastro";
 import Perfil from "./pages/page-perfil";
 import RotaProtegida from "./components/rotaProtegida";
+import Adocao from './pages/adocao';
 
 export default function Router() {
     const [usuarioLogado, setUsuarioLogado] = useState(() => {
@@ -28,6 +29,7 @@ export default function Router() {
                 <Route path="/" element={<Home usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path="/Login" element={<Login setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path="/Cadastro" element={<Cadastro />} />
+                <Route path='/Adocao' element={<Adocao />} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
                     <Route path="/Personalizacao" element={<Perfil setUsuarioLogado={setUsuarioLogado} />} />
