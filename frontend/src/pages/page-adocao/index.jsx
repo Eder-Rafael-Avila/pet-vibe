@@ -16,7 +16,10 @@ import Header from "../../components/header/index.jsx";
 import CardAnimais from "../../components/card-animal/index.jsx";
 import Footer from '../../components/footer';
 
-export default function Adocao() {
+export default function Adocao({
+    usuarioLogado,
+    setUsuarioLogado
+}) {
   const [animal, setAnimal] = useState("");
   const [castrado, setCastrado] = useState("");
   const [sexo, setSexo] = useState("Todos");
@@ -26,6 +29,14 @@ export default function Adocao() {
   const [aberta, setAberta] = useState(0);
 
   const [animais, setAnimais] = useState([]);
+
+  function limparFiltros() {
+    setAnimal('');
+    setCastrado('');
+    setSexo('Todos');
+    setRaca('')
+    setPorte('');
+  }
 
   async function listarAnimais() {
 
@@ -68,10 +79,20 @@ export default function Adocao() {
 
   return (
     <div className="page-adocao">
-      <Header />
+      <Header
+        logado={usuarioLogado}
+        setUsuarioLogado={setUsuarioLogado}
+      />
 
       <div className="filtros">
         <h1>Encontre o companheiro ideal para você</h1>
+
+        <div className="cont-limpar">
+          <button
+            className="limpar-filtros"
+            onClick={limparFiltros}
+          >Limpar filtros</button>
+        </div>
 
         <div className="linha-filtros">
           <div className="quadros">
@@ -193,20 +214,7 @@ export default function Adocao() {
       </div>
 
       <section className="VerAnimais">
-        <div className="titulos">
-          <h3>SEU PRÓXIMO GRANDE ENCONTRO</h3>
-
-          <h1>Animais esperando por um lar</h1>
-        </div>
-
-        <div className="p">
-          <p>
-            Conheça algumas das histórias que podem ganhar um novo capítulo com
-            você.
-          </p>
-        </div>
-
-        <div className="cont-cards">
+        {animais.length != 0 ? (<div className="cont-cards">
           {animais.map((animal) => (
             <CardAnimais
               key={animal.id_animal}
@@ -221,42 +229,20 @@ export default function Adocao() {
               btn='Adotar animal'
             />
           ))}
-        </div>
+        </div>) : (
+          <div className="animals-not-found">
+            <h2>Nenhum animal encontrado <i class="fa-solid fa-spinner icone-girando"></i></h2>
+
+            <div className="img">
+              <img src="/assets/images/optimized-notfound2.png" alt="" />
+            </div>
+          </div>
+        )}
       </section>
 
-      <section className="cards">
-        <div className="card-adotar">
-          <h3>AMOR TAMBÉM É COMPROMISSO</h3>
+      <hr />
 
-          <h1>
-            Adotar é cuidar. <br />{" "}
-            <span className="span-h1">Todos os dias.</span>
-          </h1>
-          <div className="p-adotar">
-            <p>
-              Antes de dar esse passo, pense no espaço, na sua rotina e nos
-              cuidados por toda a vida.
-            </p>
-          </div>
-        </div>
-        <div className="topicos">
-          <div className="card-topico">
-            <FaCalendarAlt className="icone" />
-            <h2>Tempo e presença</h2>
-            <p>Passeios, brincadeiras e companhia fazem parte da rotina.</p>
-          </div>
-          <div className="card-topico">
-            <FaHeartbeat className="icone" />
-            <h2>Sáude e bem-estar</h2>
-            <p>Planeje alimentação, vacinas e acompanhamento veterinário.</p>
-          </div>
-          <div className="card-topico">
-            <FaHome className="icone" />
-            <h2>Um lugar seguro</h2>
-            <p>Telas, identificação e paciência para a adaptação.</p>
-          </div>
-        </div>
-      </section>
+      
 
       <section className="sobreNos">
         <div className="img">
@@ -264,15 +250,12 @@ export default function Adocao() {
         </div>
 
         <div className="conteudo-sobre">
-          <h3>SOBRE NÓS</h3>
-
           <h1>
-            A gente acredita nos laços que mudam{" "}
-            <span className="span-h1">vidas</span>
+            A gente acredita nos laços que mudam vidas
           </h1>
 
           <p>
-            A Laço nasce para aproximar animais, pessoas e quem dedica a vida à
+            A <span className="pet">Pet</span><span className="vibe">Vibe</span> nasce para aproximar animais, pessoas e quem dedica a vida à
             proteção animal. Um espaço para dar visibilidade a cada história e
             facilitar encontros com cuidado e responsabilidade. <br /> <br />{" "}
             Aqui, a adoção não é uma escolha por impulso. É uma conversa, uma
@@ -320,7 +303,9 @@ export default function Adocao() {
 
         <div className="perguntas">
           <div className={`pergunta ${aberta === 1 ? 'aberto' : ''}`}>
-            <button onClick={() => setAberta(aberta === 1 ? 0 : 1)}>
+            <button onClick={() => setAberta(aberta === 1 ? 0 : 1)}
+              id="initial"  
+            >
               O que preciso para adotar um animal?
               <span>{aberta === 1 ? '−' : '+'}</span>
             </button>
@@ -386,7 +371,9 @@ export default function Adocao() {
 
 
           <div className={`pergunta ${aberta === 5 ? 'aberto' : ''}`}>
-            <button onClick={() => setAberta(aberta === 5 ? 0 : 5)}>
+            <button onClick={() => setAberta(aberta === 5 ? 0 : 5)}
+              id="end"  
+            >
               Como funciona a adaptação em casa?
               <span>{aberta === 5 ? '−' : '+'}</span>
             </button>
@@ -403,6 +390,37 @@ export default function Adocao() {
         </div>
       </section>
 
+      <section className="cards">
+        <div className="card-adotar">
+          <h1>
+            Adotar é cuidar <span>todos os dias.</span>
+          </h1>
+          <div className="p-adotar">
+            <p>
+              Antes de dar esse passo, pense no espaço, na sua rotina e nos
+              cuidados por toda a vida.
+            </p>
+          </div>
+        </div>
+        <div className="topicos">
+          <div className="card-topico">
+            <FaCalendarAlt className="icone" />
+            <h2>Tempo e presença</h2>
+            <p>Passeios, brincadeiras e companhia fazem parte da rotina.</p>
+          </div>
+          <div className="card-topico">
+            <FaHeartbeat className="icone" />
+            <h2>Sáude e bem-estar</h2>
+            <p>Planeje alimentação, vacinas e acompanhamento veterinário.</p>
+          </div>
+          <div className="card-topico">
+            <FaHome className="icone" />
+            <h2>Um lugar seguro</h2>
+            <p>Telas, identificação e paciência para a adaptação.</p>
+          </div>
+        </div>
+      </section>
+
       <section className="parte-baixo">
         <div className="cont-baixo">
           <h3>O PRÓXIMO CAPÍTULO É COM VOCÊ</h3>
@@ -416,6 +434,7 @@ export default function Adocao() {
           </NavLink>
         </div>
       </section>
+
 
       <Footer />
 

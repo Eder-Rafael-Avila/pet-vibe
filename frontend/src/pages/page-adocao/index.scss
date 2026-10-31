@@ -1,11 +1,42 @@
 .page-adocao {
+  background-color: var(--corBrancoGeral);
+
   .filtros {
     padding: 11px;
     margin-top: 10px;
 
     h1 {
       color: #105f56;
+      text-align: center;
+
+      margin: 1.5rem 0;
     }
+
+    .cont-limpar {
+      width: 100%;
+
+      display: flex;
+
+      .limpar-filtros {
+        background-color: var(--corLaranjaSecundario);
+        color: white;
+  
+        font-weight: 500;
+        font-size: 1.5rem;
+        
+        border: none;
+        border-radius: .6rem;
+  
+        padding: .6rem 1rem;
+        margin-top: .5rem;
+  
+        &:hover {
+          opacity: .9;
+          cursor: pointer;
+        }
+      }
+    }
+
 
     p {
       margin-top: 13px;
@@ -129,39 +160,77 @@
       grid-template-columns: repeat(4, 1fr);
       gap: 15px;
     }
+
+    .animals-not-found {
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      flex-direction: column-reverse;
+      align-items: center;
+
+      margin: 3rem 0 5rem 0;
+
+      h2 {
+        color: var(--corPretoGeral);
+        font-size: 1.6rem;
+
+        .icone-girando {
+          color: var(--corPretoGeral);
+          font-size: 1.7rem;
+
+          animation: girar 2s ease infinite;
+        }
+
+        @keyframes girar {
+          from {
+            transform: rotate(0deg);
+          }
+
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      }
+
+      .img {
+        max-width: 40rem;
+      }
+    }
   }
 
   .cards {
     display: flex;
-    margin: 30px;
-    gap: 40px;
+    align-items: end;
+    margin: 4rem 3rem;
+    gap: 1rem;
 
     .card-adotar {
       font-size: 13px;
 
-      h3 {
-        color: #105f56;
-        font-size: 11px;
-      }
-
       h1 {
         color: #0a4a43;
-      }
+        font-size: 2.1rem;
 
-      .span-h1 {
-        color: #f8561f;
+        span {
+          color: #f8561f;
+        }
       }
 
       .p-adotar {
         font-size: 13px;
         width: 90%;
+
+        p {
+          color: var(--corPretoGeral);
+          font-weight: 500;
+        }
       }
     }
 
     .topicos {
       display: flex;
-      gap: 25px;
-      margin-top: 30px;
+      gap: 2.5rem;
 
       .icone {
         font-size: 20px;
@@ -173,11 +242,13 @@
         padding-left: 20px;
 
         p {
+          color: var(--corPretoGeral);
+          font-weight: 500;
           font-size: 13px;
         }
 
         h2 {
-          color: #f8561f;
+          color: var(--corLaranjaSecundario);
         }
       }
     }
@@ -185,20 +256,29 @@
 
   .sobreNos {
     display: flex;
-    margin-top: 20px;
     align-items: center;
-    gap: 40px;
-    padding: 20px;
+    justify-content: space-between;
+    gap: 2rem;
+    
+    padding: 2rem 4rem;
+    margin: 2rem;
 
     .img {
-      img {
+      width: 43%;
 
-        border-radius: 10px;
-        box-sizing: border-box;
+      img {
+        border-radius: 1rem;
+        box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.5);
       }
     }
 
     .conteudo-sobre {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+
+      width: 53%;
+
       h1 {
         font-size: 25px;
         color: #0a4a43;
@@ -208,18 +288,21 @@
         }
       }
 
-      h3 {
-        display: inline-block;
-        margin-bottom: 14px;
-        padding: 5px 14px;
-        font-size: 14px;
-        color: #105f56;
-        background: #dcebe4;
-        border-radius: 999px;
-      }
-
       p {
+        color: var(--corPretoGeral);
         font-size: 13px;
+        font-weight: 500;
+
+        .pet {
+          color: var(--corAzulPrimario);
+          font-weight: 600;
+
+        }
+
+        .vibe {
+          color: var(--corLaranjaContraste);
+          font-weight: 600;
+        }
       }
 
       .valores {
@@ -265,14 +348,18 @@
 
 
   .duvidas {
-    margin-top: 20px;
+    background-color: var(--corVerdeHero);
+    color: #075f55;
+    
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
     gap: 60px;
+
     padding: 30px 4%;
+
     font-family: Arial, sans-serif;
-    color: #075f55;
+    box-shadow: 0px 0px 6px inset rgba(0, 0, 0, 0.479);
 
     .texto-duvidas {
       width: 30%;
@@ -280,19 +367,25 @@
       box-sizing: border-box;
 
       span {
+        color: var(--corAzulPrimario);
+
         font-size: 8px;
         font-weight: bold;
       }
 
       h1 {
+        color: #0b4d45;
+
         font-size: 26px;
         line-height: 1.1;
         margin: 10px 0;
       }
 
       p {
-        font-size: 12px;
-        color: #666;
+        color: var(--corPretoGeral);
+
+        font-weight: 500;
+        font-size: 1.4rem;
         line-height: 1.5;
       }
 
@@ -317,18 +410,24 @@
 
         button {
           width: 100%;
+          
           display: flex;
           justify-content: space-between;
           align-items: center;
-          border: none;
+
           background: white;
-          padding: 15px 10px;
           color: #075f55;
-          font-size: 13px;
+          
+          border: none;
+
           font-weight: bold;
+          font-size: 1.3rem;
           text-align: left;
-          cursor: pointer;
+
+          padding: 15px 10px;
+
           transition: background 0.3s ease;
+          cursor: pointer;
 
           &:active {
             background: #e8f2ef;
@@ -340,15 +439,27 @@
             margin-left: 10px;
             transition: transform 0.3s ease;
           }
+
+          &#initial {
+            border-radius: .8rem .8rem 0 0;
+          }
+
+          &#end {
+            border-radius: 0 0 .8rem .8rem;
+          }
         }
 
         .resposta {
+          background-color: white;
+
           display: grid;
           grid-template-rows: 0fr;
+
           opacity: 0;
           transition:
             grid-template-rows 0.4s ease,
             opacity 0.3s ease;
+            
           border: 1px solid rgb(224, 224, 224);
 
 
@@ -359,7 +470,8 @@
             padding: 0 10px;
             font-size: 11px;
             line-height: 1.5;
-            color: #777;
+            color: var(--corPretoGeral);
+            font-weight: 500;
             transition: padding 0.4s ease;
           }
         }
@@ -370,8 +482,13 @@
             opacity: 1;
 
             p {
-              padding: 0 10px 12px;
+              padding: 1rem .8rem;
+              font-size: 1.2rem;
             }
+          }
+
+          #end {
+            border-radius: 0;
           }
 
           button span {
@@ -385,13 +502,17 @@
   .parte-baixo {
     background-image: url(public/assets/images/fundo-baixo.png);
     background-size: 100%;
+
     min-height: 210px;
     width: 100%;
-    margin-top: 15px;
+    
     display: flex;
     align-items: center;
     justify-content: center;
+
     position: relative;
+    
+    margin-top: 3rem;
     padding: 30px 20px;
     box-sizing: border-box;
 

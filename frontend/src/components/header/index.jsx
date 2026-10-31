@@ -70,6 +70,8 @@ export default function Header({
                 setNomeUsuario(infoUsuario.nome);
                 setProfileImg(obterImagem(infoUsuario.img) || imgDefault);
             }
+
+            console.log('Usuario logado?', logado)
         }
 
         carregarUsuario();
@@ -115,13 +117,13 @@ export default function Header({
                     </li>
                     <li>
                         <NavLink
-                        to="/comoFunciona"
+                        to="/ajudeONGs"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>Marketplace</p></NavLink>
+                        ><p>Ajude ONGs</p></NavLink>
                     </li>
                     <li>
                         <NavLink
@@ -135,13 +137,13 @@ export default function Header({
                     </li>
                     <li>
                         <NavLink
-                        to="/ongsParceiras"
+                        to="/cadastroONGs"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>ONGs Parceiras</p></NavLink>
+                        ><p>Cadastre sua ONG</p></NavLink>
                     </li>
                 </ul>
             </nav>

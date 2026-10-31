@@ -76,10 +76,20 @@
             h2 {
                 color: var(--corPretoGeral);
             }
+
+            .link {
+                color: var(--corAzulPrimario);
+                text-decoration: none;
+                font-weight: 500;
+            }
         }
     }
 
     .area-dois {
         margin: 1.8rem 0;
+    }
+
+    hr {
+        margin: 1rem 0;
     }
 }
