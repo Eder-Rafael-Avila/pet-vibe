@@ -9,6 +9,8 @@ import Cadastro from "./pages/page-cadastro";
 import Perfil from "./pages/page-perfil";
 import RotaProtegida from "./components/rotaProtegida";
 import Adocao from './pages/page-adocao';
+import CadastroOng from './pages/page-cadastroOng'
+import MordalTermos from './pages/ModalTermos'
 
 export default function Router() {
     const [usuarioLogado, setUsuarioLogado] = useState(() => {
@@ -30,6 +32,8 @@ export default function Router() {
                 <Route path="/Login" element={<Login setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path="/Cadastro" element={<Cadastro />} />
                 <Route path='/Adocao' element={<Adocao />} />
+                <Route path='/CadastroOng' element={<CadastroOng />} />
+                <Route path='/Termo&Condicoes' element={<MordalTermos />} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
                     <Route path="/Personalizacao" element={<Perfil setUsuarioLogado={setUsuarioLogado} />} />
