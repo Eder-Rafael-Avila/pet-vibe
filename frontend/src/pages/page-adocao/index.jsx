@@ -95,6 +95,21 @@ export default function Adocao({
         </div>
 
         <div className="linha-filtros">
+        <div className="quadros search">
+            <h3>Raça</h3>
+
+            <div className="icons-input">
+              <FaPaw />
+              <input
+                type="text"
+                placeholder="Digite a raça"
+                value={raca}
+                onChange={(e) => setRaca(e.target.value)}
+              />
+              <FaSearch />
+            </div>
+          </div>
+
           <div className="quadros">
             <h3>Tipo</h3>
             <div className="opcoes">
@@ -115,20 +130,7 @@ export default function Adocao({
               </button>
             </div>
           </div>
-          <div className="quadros">
-            <h3>Raça</h3>
-
-            <div className="icons-input">
-              <FaPaw />
-              <input
-                type="text"
-                placeholder="Digite a raça"
-                value={raca}
-                onChange={(e) => setRaca(e.target.value)}
-              />
-              <FaSearch />
-            </div>
-          </div>
+          
           <div className="quadros">
             <h3>Sexo</h3>
             <div className="opcoes">
