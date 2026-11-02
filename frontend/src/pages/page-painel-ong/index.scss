@@ -1,0 +1,46 @@
+.page-panel-ong {
+    height: 100%;
+    width: 100%;
+
+    main {
+        display: flex;
+
+        .navegacao {
+            width: 19%;
+    
+            ul {
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+    
+                list-style: none;
+    
+                padding: 2rem 1rem;
+                
+                border-right: 1px solid var(--corAzulAdm);
+    
+                .nav-item {
+                    button {
+                        color: var(--corAzulAdm);
+                        background-color: transparent;
+                        
+                        padding: .5rem .2rem;
+                        border: none;
+    
+                        font-weight: 500;
+    
+                        &:hover {
+                            cursor: pointer;
+                        }
+                    }
+                }
+            }
+        }
+
+        .pagina-carregada {
+            width: 81%;
+        }
+
+    }
+
+}

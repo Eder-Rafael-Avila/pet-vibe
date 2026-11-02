@@ -10,7 +10,8 @@ import { obterImagem } from '../../utils/obterImagem';
 
 export default function Header({ 
     logado,
-    setUsuarioLogado
+    setUsuarioLogado,
+    tipoUsuario = true
  }) {
     
     const [isActive, setIsActive] = useState(false);
@@ -136,14 +137,23 @@ export default function Header({
                         ><p>Adoção</p></NavLink>
                     </li>
                     <li>
-                        <NavLink
-                        to="/cadastroONGs"
-                        style={({ isActive }) => ({
-                            fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#156957',
-                            textDecoration: 'none'
-                        })}
-                        ><p>Cadastre sua ONG</p></NavLink>
+                        {tipoUsuario ? (
+                            <NavLink
+                                to='/PainelONG'
+                                className='ong-panel'
+                            >
+                                <button>Painel ONG</button>
+                            </NavLink>
+                        ) : (
+                            <NavLink
+                            to="/cadastroONGs"
+                            style={({ isActive }) => ({
+                                fontWeight: 'bold',
+                                color: isActive ? '#F8561F' : '#156957',
+                                textDecoration: 'none'
+                            })}
+                            ><p>Cadastre sua ONG</p></NavLink>
+                        )}
                     </li>
                 </ul>
             </nav>

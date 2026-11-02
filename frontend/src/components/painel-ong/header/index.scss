@@ -1,0 +1,73 @@
+.comp-ong-header {
+
+    width: 100%;
+    height: 12.2rem;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 1rem;
+
+    border-bottom: 1px solid #2a5080;
+    box-shadow: 1px 0px 3px #2433448c;
+
+    .identidade {
+        display: flex;
+        align-items: center;
+
+        .logo {
+            width: 12rem;
+        }
+
+        .title {
+            width: 65%;
+
+            display: flex;
+            gap: 1.5rem;
+
+            h1 {
+                align-self: center;
+
+                color: var(--corLaranjaContraste);
+
+                font-family: var(--fonteTitulo);
+                font-size: 2.6rem;
+
+                span {
+                    color: var(--corAzulAdm);
+                    font-family: var(--fonteTitulo);
+                }
+            }
+
+            p {
+                align-self: center;
+                color: var(--corPretoGeral);
+                font-weight: 600;
+            }
+        }
+    }
+
+    .panel-info {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        gap: 1rem;
+
+        width: 45%;
+
+        .ong-info {
+            width: 35%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            p {
+                color: var(--corPretoGeral);
+                font-size: 1.3rem;
+                font-weight: 500;
+            }
+        }
+    }
+}
