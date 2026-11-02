@@ -4,28 +4,196 @@
     display: flex;
     flex-direction: column;
 
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.521);
+    border-radius: 1rem;
+
+    .icon {
+        background-color: var(--corLaranjaSecundario);
+        color: white;
+
+        padding: .8rem 2rem;
+        border-radius: 50%;
+
+        font-size: 2rem;
+        font-weight: 600;
+    }
+
     .title {
         background-color: #0d4f48;
 
         width: 100%;
 
-        padding: 2rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        padding: 2rem 3rem;
+        border-radius: 1rem 1rem 0 0;
 
         h2 {
             color: white;
         }
     }
 
-    .essencial {
+    .infos-basicas {
+        display: flex;
+
         background-color: #105F56;
 
+        padding: 2rem 0;
+
+        .essencial {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+    
+            width: 50%;
+
+            padding: 0rem 3rem;
+    
+            .campo {
+                display: flex;
+                flex-direction: column;
+                gap: .5rem;
+    
+                label {
+                    color: var(--corLaranjaSecundario);
+                    font-size: 1.4rem;
+                    font-weight: 500;
+                }
+    
+                input, select {
+                    background-color: #0d4f48;
+                    color: white;
+    
+                    border: 1px solid var(--corLaranjaSecundario);
+    
+                    padding: 1rem .8rem;
+                    border-radius: .8rem;
+    
+                    font-weight: 500;
+    
+                    &.disabled {
+                        background-color: #062724;
+                        color: rgb(153, 152, 152);
+                        border: 1px solid;
+                    }
+                }
+    
+                select:open {
+                    border-radius: .8rem .8rem 0 0;
+                }
+            }
+        }
+
+        .imagem-animal {
+            display: flex;
+            justify-content: space-around;
+            align-items: end;
+
+            width: 50%;
+
+            .acoes {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .botao-foto {
+                    display: flex;
+                    align-items: center;
+                    gap: .5rem;
+
+                    font-size: 1.3rem;
+
+                    border-radius: 1rem;
+                    border: 1px dashed black;
+
+                    padding: .6rem 1rem;
+                    margin-bottom: .8rem;
+
+                    &:hover {
+                        cursor: pointer;
+                    }
+                }
+
+                .cancel {
+                    background-color: rgb(236, 33, 33);
+                    color: white;
+
+                    font-weight: 500;
+
+                    padding: .6rem 1rem;
+                    border: none;
+                    border-radius: 1rem;
+
+                    &:hover {
+                        opacity: .9;
+                        cursor: pointer;
+                    }
+                }
+            }
+
+            .imagem {
+                max-width: 50%;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .area-imagem {
+                background-color: #0a9e8f9f;
+
+                display: flex;
+                justify-content: center;
+                align-items: center;
+
+                width: 60%;
+                height: 100%;
+
+                border-radius: 1rem;
+                border: 2px dashed var(--corAzulPrimario);
+
+                p {
+                    color: white;
+
+                    font-weight: 500;
+                    font-size: 1.3rem;
+                }
+            }
+        }
+
+    }
+
+
+    .title-prefs {
+        background-color: var(--corLaranjaSecundario);
+
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+
+        width: 100%;
+
+        padding: 2rem 3rem;
+
+        .icon {
+            padding: 1rem 2rem;
+            background-color: var(--corAzulPrimario);
+        }
+
+        h2 {
+            
+            color: white;
+        }
+    }
+
+    .prefs {
         display: flex;
         flex-direction: column;
         gap: 2rem;
 
-        width: 100%;
-
-        padding: 1rem 3rem;
+        padding: 2rem 3rem;
 
         .campo {
             display: flex;
@@ -33,25 +201,20 @@
             gap: .5rem;
 
             label {
-                color: var(--corLaranjaSecundario);
-                font-size: 1.3rem;
-                font-weight: 600;
+                color: var(--corPretoGeral);
+                
+                font-size: 1.4rem;
+                font-weight: 500;
             }
 
             input, select {
-                background-color: #0d4f48;
-                color: white;
 
-                border: 1px solid var(--corLaranjaSecundario);
+                border: 1px solid var(--corAzulPrimario);
 
                 padding: 1rem .8rem;
                 border-radius: .8rem;
 
                 font-weight: 500;
-            }
-
-            select:open {
-                border-radius: .8rem .8rem 0 0;
             }
         }
     }
