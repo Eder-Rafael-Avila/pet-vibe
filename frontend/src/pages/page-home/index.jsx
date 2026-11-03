@@ -187,7 +187,18 @@ export default function Home({
                 </div>
 
 
-                <div className="valores">
+
+                        <div className="equipe">
+                            <div className="titulo-equipe">
+                                <h3>NOSSA EQUIPE</h3>
+                            </div>
+
+                            <div className="imagem-equipe">
+                                 <img src="public/assets/images/equipe-gato.jfif" alt="" />
+                            </div>
+                        </div>
+
+                        <div className="valores">
 
                     <h3>NOSSOS VALORES</h3>
 
@@ -222,14 +233,6 @@ export default function Home({
                     </div>
                 </div>
 
-
-                        <div className="equipe">
-                            <div className="titulo-equipe">
-                                <h3>NOSSA EQUIPE</h3>
-
-                                <img src="public/assets/images/equipe-gato.jfif" alt="" />
-                            </div>
-                        </div>
             </section>
 
             <Footer />
