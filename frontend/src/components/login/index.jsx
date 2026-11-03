@@ -1,5 +1,5 @@
 import "./index.scss";
-import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -132,8 +132,11 @@ export default function Login({
         </NavLink>
     </p>
 </div>
-                </form>
+        
+            </form>
+           <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta"/> Voltar</b></button></NavLink> 
             </div>
+
         </div>
     );
 }

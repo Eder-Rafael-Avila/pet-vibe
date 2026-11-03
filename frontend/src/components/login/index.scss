@@ -159,4 +159,16 @@
             z-index: 2;
         }
     }
+      .Voltar-pagina{
+        position: absolute;
+        bottom:  20px;
+        left: 20px;
+        padding: 10px 35px;
+        border-radius: 20px;
+        background-color: var(--corLaranjaContraste);
+        color: white;
+        border: none;
+        cursor: pointer;
+        
+        }
 }
