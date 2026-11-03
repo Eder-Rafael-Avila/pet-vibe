@@ -1,16 +1,14 @@
 .comp-ong-header {
     width: 100%;
-    height: 12.2rem;
+    height: 13.2rem;
 
-    background-color: rgb(185, 212, 252);
+    background-color: white;
 
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     padding: 1rem;
-
-    border-bottom: 1px solid #2a5080;
     box-shadow: 1px 0px 3px #2433448c;
 
     .identidade {
@@ -27,16 +25,17 @@
             display: flex;
             gap: 1.5rem;
 
+
             h1 {
                 align-self: center;
 
-                color: var(--corLaranjaContraste);
+                color: var(--corAzulPrimario);
 
                 font-family: var(--fonteTitulo);
                 font-size: 2.6rem;
 
                 span {
-                    color: var(--corAzulAdm);
+                    color: var(--corLaranjaContraste);
                     font-family: var(--fonteTitulo);
                 }
             }

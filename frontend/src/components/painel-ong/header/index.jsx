@@ -8,7 +8,7 @@ export default function Header() {
         <header className='comp-ong-header'>
             <div className="identidade">
                 <div className="logo">
-                    <img src="/assets/images/logo-ong-panel.png" alt="" />
+                    <img src="/assets/images/logo4.png" alt="" />
                 </div>
                 <div className="title">
                     <h1>Pet<span>Vibe</span></h1>

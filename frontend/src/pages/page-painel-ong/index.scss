@@ -11,9 +11,9 @@
             height: 6rem;
 
             padding: 1.5rem;
+            margin-bottom: 5rem;
             
             border-bottom: 1px solid var(--corPretoGeral);
-
     
             ul {
                 display: flex;
@@ -25,7 +25,7 @@
     
                 .nav-item {
                     button {
-                        color: var(--corAzulAdm);
+                        color: var(--corPretoGeral);
                         background-color: transparent;
                         
                         padding: .5rem .2rem;
@@ -35,10 +35,19 @@
     
                         &:hover {
                             cursor: pointer;
-                            border-bottom: 2px solid var(--corAzulAdm);
+                            border-bottom: 2px solid var(--corPretoGeral);
+                        }
+                    }
+
+                    .logout {
+                        color: rgb(255, 68, 68);
+
+                        &:hover {
+                            border-bottom: 2px solid rgb(255, 68, 68);
                         }
                     }
                 }
+
             }
         }
 
