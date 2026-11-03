@@ -117,15 +117,21 @@ export default function Login({
                     <button type="submit" className="Login">
                         Login
                     </button>
+<div className="Cadastrar">
+    <p>
+        Não tem uma conta?
+        <NavLink to="/Cadastro" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
 
-                    <div className="Cadastrar">
-                        <p>
-                            Não tem uma conta?
-                            <NavLink to="/Cadastro" className="cadastro-link">
-                                <span>Cadastre-se</span>
-                            </NavLink>
-                        </p>
-                    </div>
+    <p>
+        Você é uma ONG e nao tem uma conta?
+        <NavLink to="/CadastroOng" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
+</div>
                 </form>
             </div>
         </div>

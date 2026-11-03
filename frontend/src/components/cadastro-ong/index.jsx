@@ -175,7 +175,9 @@ export default function CadastroOng(){
                                         marginLeft: ".5rem"
                                     }}
                                 >Entrar</NavLink>
+
                             </p>
+                            
                                 <div className="aceite-termos">
 
         <input type="checkbox" required />
