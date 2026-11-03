@@ -18,7 +18,7 @@ export async function CriarCampanha(campanha,id) {
 
 export async function ListarCampanhas() {
     let command = `
-    SELECT imagem,titulo,descricao,valor,valor_arrecadado FROM campanhas
+    SELECT ID_campanha,imagem,titulo,descricao,valor,valor_arrecadado FROM campanhas
     `
 
     let [resposta] = await con.query(command,[])
