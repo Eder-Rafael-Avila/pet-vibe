@@ -1,13 +1,29 @@
 import { Router } from "express";
-import { validarTokenOng } from "../utils/TokenEvalidacao.js";
+import { validarToken, validarTokenOng } from "../utils/TokenEvalidacao.js";
 import { CriarCampanhaService } from "../service/campanhas/CriarCampanhaService.js";
 import multer from 'multer';
 import { ExcluirCampanhaService } from "../service/campanhas/ExcluirCampanhaService.js";
+import { DoarParaCampanhaService } from "../service/campanhas/DoarParaCampanhaService.js"; 
+import { ListarCampanhasService } from "../service/campanhas/ListarCampanhaService.js";
+
 const uploadCampanha = multer({ dest: 'src/uploads/ImagemCampanha    ' });
 const endpoints = Router();
 
-endpoints.post('/campanha/criar', validarTokenOng, uploadCampanha.single('imagem'), async(req,resp) => {
-    try{
+endpoints.get('/campanhas/listar', validarToken, async (req, resp) => {
+    try {
+let resposta = await ListarCampanhasService();
+resp.send({
+    resposta:resposta
+})
+    }
+    catch (err) {
+        logError(err)
+        resp.status(400).send(erroJson(err))
+    }
+})
+
+endpoints.post('/campanha/criar', validarTokenOng, uploadCampanha.single('imagem'), async (req, resp) => {
+    try {
         let dados = JSON.parse(req.body.dados);
         const idOng = req.usuario.id_ong
         let campanha = {
@@ -25,14 +41,14 @@ endpoints.post('/campanha/criar', validarTokenOng, uploadCampanha.single('imagem
             resposta: resposta
         })
     }
-    catch(err){
-            logError(err)
-    resp.status(400).send (erroJson(err))
+    catch (err) {
+        logError(err)
+        resp.status(400).send(erroJson(err))
     }
 })
 
-endpoints.delete('/campanha/excluir', validarTokenOng, async(req,resp)=> {
-    try{
+endpoints.delete('/campanha/excluir', validarTokenOng, async (req, resp) => {
+    try {
         let id = req.body.id
 
         let resposta = await ExcluirCampanhaService(id)
@@ -41,9 +57,26 @@ endpoints.delete('/campanha/excluir', validarTokenOng, async(req,resp)=> {
             resposta: resposta
         })
     }
-    catch(err){
-                   logError(err)
-    resp.status(400).send (erroJson(err)) 
+    catch (err) {
+        logError(err)
+        resp.status(400).send(erroJson(err))
+    }
+})
+
+endpoints.put('/campanha/doar', validarToken, async (req, resp) => {
+    try {
+        let valor = req.body.valor;
+        let id = req.body.id;
+
+        let resposta = await DoarParaCampanhaService(valor, id)
+
+        resp.send({
+            resposta: resposta
+        })
+    }
+    catch (err) {
+        logError(err)
+        resp.status(400).send(erroJson(err))
     }
 })
 

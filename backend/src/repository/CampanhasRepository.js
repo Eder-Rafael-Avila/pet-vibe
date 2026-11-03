@@ -16,6 +16,15 @@ export async function CriarCampanha(campanha,id) {
     return resposta.affectedRows
 }
 
+export async function ListarCampanhas() {
+    let command = `
+    SELECT imagem,titulo,descricao,valor,valor_arrecadado FROM campanhas
+    `
+
+    let [resposta] = await con.query(command,[])
+    return resposta
+}
+
 export async function ExcluirCampanha(ID_campanha) {
     const command= `
     DELETE FROM campanhas
