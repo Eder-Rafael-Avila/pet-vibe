@@ -261,27 +261,40 @@
     }
 
     .sobre {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 50px;
-    padding: 40px 5%;
-    background-color: #e9f2c9;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px 50px;
+        padding: 40px 5%;
+        background: url('/assets/images/fundo-sobre.png');
 
-
-       .titulo {
+        .titulo {
+            grid-column: 1 / -1;
+            width: 100%;
             text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
 
-            h3 {
-                color: #F8561F;
+
+            h3{
+                color: #e87538;
+            }
+            h1 {
+                text-align: center;
+                color: #ffffff;
             }
 
-            h1 {
-                color: #156957;
+            p {
+                text-align: center;
+                max-width: 700px;
+                color: #ffffff;
             }
         }
+    }
 
     .texto-sobre {
-
         h3 {
             color: #e87538;
             font-size: 12px;
@@ -289,21 +302,20 @@
         }
 
         h2 {
-            color: #075f55;
+            color: #ffffff;
             font-size: 24px;
             margin-bottom: 15px;
         }
 
         p {
-            color: #7d8981;
-            font-size: 13px;
+            color: #ffffff;
+            font-size: 1.2rem;
             line-height: 1.6;
             margin-bottom: 15px;
         }
     }
 
     .valores {
-
         h3 {
             color: #e87538;
             font-size: 12px;
@@ -315,20 +327,15 @@
             grid-template-columns: 1fr 1fr;
             gap: 15px;
 
-
             .card-valor {
                 background-color: white;
                 padding: 20px;
                 border-radius: 12px;
                 min-height: 130px;
 
-
-
-                .icon{
+                .icon {
                     color: #e87538;
                     font-size: 20px;
-                    border-radius: 10px;
-                    background-color: #f8fde6;
                 }
 
                 span {
@@ -340,7 +347,6 @@
                     width: 30px;
                     height: 30px;
                     border-radius: 50%;
-
                     margin-bottom: 12px;
                 }
 
@@ -358,5 +364,4 @@
             }
         }
     }
-}
 }

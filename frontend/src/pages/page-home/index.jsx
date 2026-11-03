@@ -141,13 +141,19 @@ export default function Home({
 
             <section className="sobre" id='sobre'>
 
-                <div className="texto-sobre">
+                
 
                     <div className="titulo">
-                          <h3>SOBRE NÓS</h3>
+
+                    <h3>SOBRE NÓS</h3>
+
                     <h1>Conheça a PetVibe: uma conexão profissional, moderna e acolhedora</h1>
-                    <p>Somos uma plataforma que une tecnologia, cuidado e responsabilidade para transformar a adoção em uma <br /> jornada mais consciente, transparente e cheia de significado.</p>
+
+                    <p>Somos uma plataforma que une tecnologia, cuidado e responsabilidade para transformar a adoção em uma jornada mais consciente, transparente e cheia de significado.</p>
+
                     </div>
+
+                <div className="texto-sobre">
 
                     <h3>QUEM SOMOS</h3>
 
@@ -215,6 +221,15 @@ export default function Home({
                         </div>
                     </div>
                 </div>
+
+
+                        <div className="equipe">
+                            <div className="titulo-equipe">
+                                <h3>NOSSA EQUIPE</h3>
+
+                                <img src="public/assets/images/equipe-gato.jfif" alt="" />
+                            </div>
+                        </div>
             </section>
 
             <Footer />
