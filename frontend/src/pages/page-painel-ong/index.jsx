@@ -46,19 +46,28 @@ export default function PageONGPanel() {
                         </li>
                     </ul>
                 </aside>
-                <div className="pagina-carregada">
-                    {paginaSelecionada == 'CadastreAnimal' && (
-                        <CadastreAnimal />
-                    )}
+                {paginaSelecionada ? (
+                    <div className="pagina-carregada">
+                        {paginaSelecionada == 'CadastreAnimal' && (
+                            <CadastreAnimal />
+                        )}
 
-                    {paginaSelecionada == 'PedidoAjuda' && (
-                        <AjudeONGs />
-                    )}
+                        {paginaSelecionada == 'PedidoAjuda' && (
+                            <AjudeONGs />
+                        )}
 
-                    {paginaSelecionada == 'SolicitacoesAdocao' && (
-                        <SolicitacoesAdocao />
-                    )}
-                </div>
+                        {paginaSelecionada == 'SolicitacoesAdocao' && (
+                            <SolicitacoesAdocao />
+                        )}
+                    </div>
+                ) : (
+                    <div className="pagina-nao-carregada">
+                        <div className="nao-carregado">
+                            <h2>Nenhuma aba selecionada</h2>
+                            <img src="/assets/images/dashboard-draw.png" alt="Selecione uma página" />
+                        </div>
+                    </div>
+                )}
             </main>
         </div>
     );
