@@ -7,15 +7,17 @@ import perfilAnimal from './controller/PerfilAnimalController.js';
 import busca from './controller/BuscaController.js';
 import adocoes from './controller/adocoesController.js';
 import carteira from './controller/carteiraController.js';
+import campanha from './controller/CampanhasController.js'
 
 export default function NovasRotas(api) {
     api.use(usuario);
-    api.use(ong)
+    api.use(ong);
     api.use(enderecoUsuario);
     api.use(prefs);
     api.use(enderecoOng);
-    api.use(perfilAnimal)
+    api.use(perfilAnimal);
     api.use(busca);
-    api.use(adocoes)
-    api.use(carteira)
+    api.use(adocoes);
+    api.use(carteira);
+    api.use(campanha)
 }
