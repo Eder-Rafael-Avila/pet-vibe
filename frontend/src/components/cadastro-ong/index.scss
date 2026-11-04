@@ -4,7 +4,7 @@
             no-repeat center center;
         background-size: cover;
 
-        display: flex;
+        display: flex;;
         justify-content: center;
         align-items: center;
         min-height: 100vh;
@@ -478,16 +478,21 @@
     }
 
 }
-.Voltar-pagina{
-        position: absolute;
-        bottom:  20px;
-        left: 20px;
-        padding: 10px 35px;
-        border-radius: 20px;
-        background-color: var(--corLaranjaContraste);
-        color: white;
-        border: none;
-        cursor: pointer;
-        
-        }
+.Voltar-pagina {
+    position: absolute;
+    bottom: -126px;
+    left: 20px;
+    padding: 10px 35px;
+    border-radius: 20px;
+    background-color: var(--corLaranjaContraste);
+    color: white;
+    border: none;
+    cursor: pointer;
+
+    @media (max-width: 490px) {
+        position: static;
+        margin-top: 20px;
+        align-self: flex-start;
+    }
+}
 }

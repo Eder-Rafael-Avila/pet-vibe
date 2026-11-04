@@ -10,6 +10,14 @@ export default function CadastroOng() {
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
 
+    const [cep, setCep] = useState('');
+    const [endereco, setEndereco] = useState('');
+    const [bairro, setBairro] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [estado, setEstado] = useState('');
+    const [numero, setNumero] = useState('');
+    const [complemento, setComplemento] = useState('');
+    const [carregandoCep, setCarregandoCep] = useState(false);
     const [nome, setNome] = useState('');
     const [email, setEmail] = useState('');
     const [telefone, setTelefone] = useState('');
@@ -21,7 +29,42 @@ export default function CadastroOng() {
 
     const [abrirTermos, setAbrirTermos] = useState(false);
 
+    async function buscarCep(valor) {
+        const cepNumerico = valor.replace(/\D/g, '');
 
+        if (cepNumerico.length !== 8) return;
+
+        try {
+            setCarregandoCep(true);
+            setErro('');
+
+            const resposta = await fetch(
+                `https://viacep.com.br/ws/${cepNumerico}/json/`
+            );
+
+            const dados = await resposta.json();
+
+            if (dados.erro) {
+                setErro('CEP não encontrado!');
+                setEndereco('');
+                setBairro('');
+                setCidade('');
+                setEstado('');
+                return;
+            }
+
+            setEndereco(dados.logradouro || '');
+            setBairro(dados.bairro || '');
+            setCidade(dados.localidade || '');
+            setEstado(dados.uf || '');
+            setComplemento(dados.complemento || '');
+
+        } catch (error) {
+            setErro('Erro ao consultar o CEP.');
+        } finally {
+            setCarregandoCep(false);
+        }
+    }
     async function cadastrarOng(e) {
         e.preventDefault();
 
@@ -117,6 +160,111 @@ export default function CadastroOng() {
                                 />
 
                             </div>
+                            <div className="input">
+                                <p>CEP *</p>
+
+                                <input
+                                    type="text"
+                                    placeholder="00000-000"
+                                    maxLength={9}
+                                    required
+                                    value={cep}
+                                    onChange={e => {
+                                        const valor = e.target.value
+                                            .replace(/\D/g, '')
+                                            .replace(/^(\d{5})(\d)/, '$1-$2');
+
+                                        setCep(valor);
+
+                                        if (valor.replace(/\D/g, '').length === 8) {
+                                            buscarCep(valor);
+                                        }
+                                    }}
+                                />
+
+                                {carregandoCep && <small>Buscando endereço...</small>}
+                            </div>
+
+                            <div className="input">
+                                <p>Endereço *</p>
+
+                                <input
+                                    disabled
+                                    type="text"
+                                    placeholder="Rua, avenida..."
+                                    required
+                                    value={endereco}
+                                    onChange={e => setEndereco(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="linha-documentos">
+                                <div className="input">
+                                    <p>Número *</p>
+
+                                    <input
+                                        type="text"
+                                        placeholder="Número"
+                                        required
+                                        value={numero}
+                                        onChange={e => setNumero(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="input">
+                                    <p>Bairro *</p>
+                                    
+
+                                    <input
+                                        disabled
+                                        type="text"
+                                        placeholder="Bairro"
+                                        required
+                                        value={bairro}
+                                        onChange={e => setBairro(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="linha-documentos">
+                                <div className="input">
+                                    <p>Cidade *</p>
+
+                                    <input
+                                        disabled
+                                        type="text"
+                                        placeholder="Cidade"
+                                        required
+                                        value={cidade}
+                                        onChange={e => setCidade(e.target.value)}
+                                    />
+                                </div>
+
+                                <div className="input">
+                                    <p>Estado *</p>
+
+                                    <input
+                                        disabled
+                                        type="text"
+                                        placeholder="UF"
+                                        maxLength={2}
+                                        required
+                                        value={estado}
+                                        onChange={e => setEstado(e.target.value.toUpperCase())}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input">
+                                <p>Complemento</p>
+
+                                <input
+                                    type="text"
+                                    placeholder="Sala, bloco, etc."
+                                    value={complemento}
+                                    onChange={e => setComplemento(e.target.value)}
+                                />
+                            </div>
                         </div>
 
 
@@ -157,6 +305,7 @@ export default function CadastroOng() {
                                     )}
                                 </div>
                             </div>
+
                         </div>
 
                         <div className="button">
@@ -200,8 +349,10 @@ export default function CadastroOng() {
 
                         </div>
                     </div>
+
                 </form>
-                            <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta" /> Voltar</b></button></NavLink>
+                <NavLink to="/"  ><button type='button' onClick={() => navigate(-1)} className="Voltar-pagina" ><b> <FaArrowLeft className="seta" /> Voltar</b></button></NavLink>
+
 
             </div>
 
