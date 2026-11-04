@@ -122,6 +122,29 @@
         list-style: none;
         padding: 0;
 
+        .ong-panel {
+            button {
+                background-color: transparent;
+                color: var(--corAzulAdm);
+
+                border: 1px dashed var(--corAzulAdm);
+                border-radius: .6rem;
+
+                font-weight: 600;
+
+                padding: .3rem 1.2rem;
+
+                transition: all .15s ease;
+
+                &:hover {
+                    background-color: var(--corAzulAdm);
+                    color: white;
+
+                    cursor: pointer;
+                }
+            }
+        }
+
         li {
             margin: 0 1rem;
             font-size: 1.5rem;
@@ -133,7 +156,6 @@
             @media (max-width: 835px) {
                 font-size: 1.14rem;
             }
-
         }
 
         li p:hover {
