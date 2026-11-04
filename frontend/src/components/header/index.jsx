@@ -160,25 +160,26 @@ export default function Header({
 
             {!logado ? (
                 <div className="buttons">
-                    <button>
-                        <NavLink 
+                    <NavLink 
                         to="/Login"
                         style={() => ({
                             color: 'white',
                             textDecoration: 'none'
                         })}
-                        >Entrar</NavLink>
-                    </button>
+                        >
+                    <button>
+                        Entrar
+                    </button></NavLink>
 
-                    <button id='cadastro'>
-                        <NavLink 
+                     <NavLink 
                         to="/cadastro"
                         style={() => ({
                             color: '#F8561F',
                             textDecoration: 'none'
                         })}
-                        >Cadastre-se</NavLink>
-                    </button>
+                        ><button id='cadastro'>
+                       Cadastre-se
+                    </button></NavLink>
                 </div>
             ) : (
                 <div className="conta-preview">

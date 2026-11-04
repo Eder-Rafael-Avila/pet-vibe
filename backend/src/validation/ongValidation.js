@@ -22,7 +22,13 @@ export function CriarOngErrors(ong) {
 
     if (!ong.cnpj) throw new Error("Informe o CNPJ da ONG.");
 
-    const cnpjInformado = String(ong.cnpj);
+    const cnpjInformado = String(ong.cnpj)
+    .replace(/[^a-zA-Z0-9]/g, "")
+    .toUpperCase();
+
+if (!cnpj.isValid(cnpjInformado)) {
+    throw new Error("O CNPJ informado é inválido.");
+}
 
     if (!cnpj.isValid(cnpjInformado)) throw new Error("O CNPJ informado é inválido.");
 
@@ -32,9 +38,6 @@ export function CriarOngErrors(ong) {
         throw new Error("A senha deve ter pelo menos 8 caracteres.");
     }
 
-    if (!ong.descricao) throw new Error("Informe uma descrição para a ONG.");
-
-    if (!ong.site) throw new Error("Informe o site da ONG.");
 }
 
 export function ImagemOngErrors(file) {

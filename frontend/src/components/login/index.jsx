@@ -1,5 +1,5 @@
 import "./index.scss";
-import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
@@ -117,17 +117,26 @@ export default function Login({
                     <button type="submit" className="Login">
                         Login
                     </button>
+<div className="Cadastrar">
+    <p>
+        Não tem uma conta?
+        <NavLink to="/Cadastro" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
 
-                    <div className="Cadastrar">
-                        <p>
-                            Não tem uma conta?
-                            <NavLink to="/Cadastro" className="cadastro-link">
-                                <span>Cadastre-se</span>
-                            </NavLink>
-                        </p>
-                    </div>
-                </form>
+    <p>
+        Você é uma ONG e nao tem uma conta?
+        <NavLink to="/CadastroOng" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
+</div>
+        
+            </form>
+           <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta"/> Voltar</b></button></NavLink> 
             </div>
+
         </div>
     );
 }
