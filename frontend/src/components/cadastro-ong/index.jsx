@@ -1,11 +1,11 @@
 import './index.scss'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaArrowLeft } from "react-icons/fa";
 import * as formatacao from '../../utils/formatacaoUtils.js';
 import ModalTermos from '../../components/ModalTermos';
 
-export default function CadastroOng(){
+export default function CadastroOng() {
 
     const [mostrarSenha, setMostrarSenha] = useState(false);
     const [mostrarConfirmar, setMostrarConfirmar] = useState(false);
@@ -16,10 +16,10 @@ export default function CadastroOng(){
     const [cnpj, setCnpj] = useState('');
     const [senha, setSenha] = useState('');
     const [confirmarSenha, setConfirmarSenha] = useState('');
- 
+
     const [erro, setErro] = useState('');
 
-      const [abrirTermos, setAbrirTermos] = useState(false);
+    const [abrirTermos, setAbrirTermos] = useState(false);
 
 
     async function cadastrarOng(e) {
@@ -54,7 +54,7 @@ export default function CadastroOng(){
         }
     }
 
-    return(
+    return (
         <div className="page-cadastroOng">
             <div className="corpo">
                 <form onSubmit={e => cadastrarOng(e)}>
@@ -65,9 +65,9 @@ export default function CadastroOng(){
                             </div>
                         </div>
                         <h1>Cadastre sua ONG na PetVibe</h1>
-                    
+
                     </div>
-                    
+
 
                     <div className="campos-cadastro">
                         <div className="input input-nome">
@@ -103,23 +103,23 @@ export default function CadastroOng(){
                                 />
                             </div>
 
-                         
-                       <div className="input">
-                            <p>CNPJ *</p>
 
-                        <input
-                        type="text"
-                        placeholder="Digite o CNPJ"
-                        required
-                        maxLength={14}
-                        value={cnpj}
-                        onChange={e => setCnpj(e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase())}
-                        />
-                        
-                        </div>
+                            <div className="input">
+                                <p>CNPJ *</p>
+
+                                <input
+                                    type="text"
+                                    placeholder="Digite o CNPJ"
+                                    required
+                                    maxLength={14}
+                                    value={cnpj}
+                                    onChange={e => setCnpj(e.target.value.replace(/[^a-zA-Z0-9]/g, '').toUpperCase())}
+                                />
+
+                            </div>
                         </div>
 
-                        
+
 
                         <div className="linha-senha">
                             <div className="input-senha">
@@ -131,7 +131,7 @@ export default function CadastroOng(){
                                         onChange={e => setSenha(e.target.value)}
                                     />
 
-                                    <FaEye className="olho"/>
+                                    <FaEye className="olho" />
 
                                     {mostrarSenha ? (
                                         <FaEyeSlash className='olho' onClick={() => setMostrarSenha(false)} />
@@ -177,21 +177,21 @@ export default function CadastroOng(){
                                 >Entrar</NavLink>
 
                             </p>
-                            
-                                <div className="aceite-termos">
 
-        <input type="checkbox" required />
+                            <div className="aceite-termos">
 
-        
-        
-        <a onClick={() => setAbrirTermos(true)}>
-           Li e aceito os Termos e Condições
-        </a>
-            {abrirTermos && (
-    <ModalTermos fechar={() => setAbrirTermos(false)} />
-    )}
+                                <input type="checkbox" required />
 
-    </div>
+
+
+                                <a onClick={() => setAbrirTermos(true)}>
+                                    Li e aceito os Termos e Condições
+                                </a>
+                                {abrirTermos && (
+                                    <ModalTermos fechar={() => setAbrirTermos(false)} />
+                                )}
+
+                            </div>
 
 
 
@@ -201,7 +201,10 @@ export default function CadastroOng(){
                         </div>
                     </div>
                 </form>
+                            <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta" /> Voltar</b></button></NavLink>
+
             </div>
+
         </div>
     )
 }
