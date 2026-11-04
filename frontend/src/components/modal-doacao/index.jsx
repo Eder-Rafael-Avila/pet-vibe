@@ -82,7 +82,12 @@ export default function ModalDoacao({ campanha, fechar, atualizarCampanhas, setU
             {sucesso ? (
                 <div>
                     <p className="mensagem-sucesso" role="status">Doação realizada com sucesso! Obrigado por ajudar.</p>
-                    <button type="button" onClick={fechar}>Fechar</button>
+                    <button type="button" onClick={() => {
+    fechar();
+    window.location.reload();
+}}>
+    Fechar
+</button>
                 </div>
             ) : (
                 <form onSubmit={doar}>

@@ -1,7 +1,7 @@
 .comp-carteira {
 
     .carteira {
-        width: 140px;
+        width: 170px;
         height: 30px;
         display: flex;
         align-items: center;
@@ -9,8 +9,8 @@
         padding: 0px 20px;
         background-color: #fff;
         border-radius: 8px;
-        background-color: #12a58c;
-        border: 3px solid #105F56;
+        background-color: #105F56;
+
 
         &:hover {
             cursor: pointer;
@@ -18,7 +18,7 @@
 
         p,
         i {
-            color: #105F56;
+            color: #FFF;
         }
 
 .modal {
