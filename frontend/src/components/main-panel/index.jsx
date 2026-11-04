@@ -18,7 +18,7 @@ export default function MainPanel() {
                     </div>
                     <div className="buttons">
                         <button>
-                            Quero fazer meu match <i className="fa-solid fa-arrow-right"></i>
+                            Quero adotar <i className="fa-solid fa-arrow-right"></i>
                         </button>
                         <button id='animais-disponiveis'>
                             Ver animais disponíveis
