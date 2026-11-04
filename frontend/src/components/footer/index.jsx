@@ -103,7 +103,7 @@ export default function Footer() {
             <hr />
 
             <div className="area-dois">
-                <p>© 2026 Laço. Feito com cuidado por todas as vidas.</p>
+                <p>© 2026 PetVibe. Feito com cuidado por todas as vidas.</p>
             </div>
         </footer>
     );

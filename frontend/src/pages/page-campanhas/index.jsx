@@ -4,6 +4,7 @@ import Header from '../../components/header';
 import Footer from '../../components/footer';
 import CardCampanha from '../../components/card-campanha';
 import ModalDoacao from '../../components/modal-doacao';
+import Carteira from '../../components/carteira-preview';
 
 export default function Campanhas({ usuarioLogado, setUsuarioLogado }) {
     const [campanhas, setCampanhas] = useState([]);
@@ -69,11 +70,11 @@ export default function Campanhas({ usuarioLogado, setUsuarioLogado }) {
             />
             <main className="campanhas-conteudo">
                 <h1>Campanhas</h1>
+                <Carteira className="testand"/>
                 <p className="introducao">Conheça as campanhas e acompanhe como cada ajuda faz a diferença.</p>
                 {carregando && (
                     <p role="status">Carregando campanhas...</p>
                 )}
-
                 {erro && (
                     <div className="area-erro" role="alert">
                         <p>{erro}</p>
@@ -94,8 +95,11 @@ export default function Campanhas({ usuarioLogado, setUsuarioLogado }) {
                                 ajudarCampanha={setCampanhaSelecionada}
                             />
                         ))}
+                        
                     </div>
                 )}
+
+                
             </main>
             {campanhaSelecionada && (
                 <ModalDoacao

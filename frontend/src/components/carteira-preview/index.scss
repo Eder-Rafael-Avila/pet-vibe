@@ -1,0 +1,82 @@
+.comp-carteira {
+
+    .carteira {
+        width: 140px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0px 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        background-color: #12a58c;
+        border: 3px solid #105F56;
+
+        &:hover {
+            cursor: pointer;
+        }
+
+        p,
+        i {
+            color: #105F56;
+        }
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100vh;
+
+    background-color: rgba(0, 0, 0, 0.6);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
+
+    .card-modal {
+        position: relative;
+
+        width: 90%;
+        height: 85vh;
+
+        background-color: #fff;
+        border-radius: 15px;
+
+
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .fechar-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+
+        width: 35px;
+        height: 35px;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        border: none;
+        border-radius: 50%;
+
+        background-color: #f1f1f1;
+        color: #333;
+
+        cursor: pointer;
+        font-size: 16px;
+
+        transition: 0.2s;
+
+        &:hover {
+            background-color: #ddd;
+        }
+    }
+}
+    }
+}
