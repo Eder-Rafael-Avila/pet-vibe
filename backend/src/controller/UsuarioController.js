@@ -22,7 +22,6 @@ import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuar
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
 import { BuscarEmailPorIdService } from '../service/usuario/BuscarEmailPorIdService.js';
-
 let codigoCriado = ""
 
 async function enviarCodigoDeVerificacao(idUsuario) {
@@ -269,4 +268,5 @@ endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
     resp.status(400).send(erroJson(err));
     }
 })
+
 export default endpoints
