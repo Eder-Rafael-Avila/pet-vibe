@@ -1,0 +1,60 @@
+.comp-modal-doacao {
+    width: min(480px, calc(100% - 32px));
+    max-height: 90vh;
+    margin: auto;
+    padding: 28px;
+    border: none;
+    border-radius: 16px;
+    background-color: var(--corBrancoGeral);
+    color: var(--corPretoGeral);
+    font-size: 1.5rem;
+    overflow-wrap: anywhere;
+
+    &::backdrop {
+        background-color: rgba(0, 0, 0, 0.55);
+    }
+
+    h2 {
+        color: var(--corAzulPrimario);
+        font-size: 2.4rem;
+    }
+
+    .nome-campanha {
+        margin-top: 16px;
+        font-weight: 600;
+    }
+
+    .aviso-carteira { margin: 20px 0; }
+
+    label { display: block; margin-bottom: 8px; }
+
+    input {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #aaa;
+        border-radius: 8px;
+        font-size: 1.6rem;
+    }
+
+    .acoes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    button {
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        background-color: var(--corAzulPrimario);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .cancelar { background-color: #e5e5e5; color: var(--corPretoGeral); }
+    button:disabled { opacity: 0.6; cursor: wait; }
+    .mensagem-erro { margin-top: 16px; color: #a12815; }
+    .mensagem-sucesso { margin: 24px 0; color: var(--corAzulPrimario); }
+}
