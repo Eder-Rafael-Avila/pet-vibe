@@ -1,0 +1,213 @@
+.comp-ajude-ongs {
+    width: 100%;
+    min-height: 100vh;
+    padding: 40px 5%;
+    background: #f7f5ef;
+    color: #202020;
+
+    .titulo-campanha {
+        margin-bottom: 30px;
+
+        h3 {
+            color: #e87538;
+            font-size: 12px;
+            letter-spacing: 2px;
+        }
+
+        h1 {
+            color: #105f56;
+            font-size: 30px;
+            margin: 10px 0;
+        }
+
+        p {
+            color: #777;
+            font-size: 14px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+    }
+
+    .info-campanha {
+        background: #105f56;
+        color: white;
+        padding: 25px 35px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 35px;
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 14px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        span {
+            font-size: 55px;
+        }
+    }
+
+    .form-campanha {
+        background: white;
+        border: 1px solid #e9e5dc;
+        border-radius: 12px;
+        padding: 30px;
+
+        .titulo-form {
+            margin-bottom: 25px;
+
+            h2 {
+                color: #105f56;
+                font-size: 22px;
+                margin-bottom: 8px;
+            }
+
+            p {
+                color: #888;
+                font-size: 13px;
+            }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            width: 100%;
+
+            label {
+                color: #333;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            input,
+            textarea {
+                width: 100%;
+                padding: 13px 15px;
+                border: 1px solid #ddd;
+                border-radius: 7px;
+                outline: none;
+                background: white;
+                font-family: inherit;
+                font-size: 13px;
+                color: #333;
+
+                &:focus {
+                    border-color: #105f56;
+                }
+            }
+
+            textarea {
+                height: 130px;
+                resize: vertical;
+            }
+
+            input::placeholder,
+            textarea::placeholder {
+                color: #aaa;
+            }
+
+            input[type="file"] {
+                cursor: pointer;
+                background: #fafafa;
+            }
+
+            .preview-imagem {
+                width: 100%;
+                max-width: 450px;
+                height: 280px;
+                margin-top: 10px;
+                border-radius: 10px;
+                overflow: hidden;
+                border: 1px solid #ddd;
+                background: #f7f5ef;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    object-position: center;
+                }
+            }
+        }
+
+        .botoes-campanha {
+            display: flex;
+            justify-content: flex-end;
+            gap: 15px;
+            margin-top: 10px;
+
+            button {
+                padding: 13px 25px;
+                border-radius: 7px;
+                font-size: 13px;
+                font-weight: bold;
+                cursor: pointer;
+                transition: .3s;
+            }
+
+            .btn-limpar {
+                background: white;
+                color: #105f56;
+                border: 1px solid #105f56;
+
+                &:hover {
+                    background: #f0f5f3;
+                }
+            }
+
+            .btn-criar {
+                background: #e87538;
+                color: white;
+                border: none;
+
+                &:hover {
+                    background: #d45e24;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 650px) {
+    .comp-ajude-ongs {
+        padding: 25px 4%;
+
+        .titulo-campanha h1 {
+            font-size: 24px;
+        }
+
+        .info-campanha {
+            padding: 20px;
+
+            span {
+                display: none;
+            }
+        }
+
+        .form-campanha {
+            padding: 20px;
+
+            .botoes-campanha {
+                flex-direction: column;
+
+                button {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
