@@ -77,7 +77,7 @@ export default function AjudeONGs() {
                     </p>
                 </div>
 
-                <span>🐾</span>
+                
 
             </section>
 
