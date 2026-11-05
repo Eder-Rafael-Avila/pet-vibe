@@ -1,9 +1,13 @@
 import './index.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function Carteira() {
     const [valores, setValores] = useState(false);
     const [fundos, setFundos] = useState([]);
+
+    useEffect(() => {
+        BuscarFundos();
+    }, []);
 
     async function BuscarFundos() {
         try {
@@ -31,7 +35,7 @@ export default function Carteira() {
         <div className="comp-carteira">
             <div className="carteira" onClick={(e) => {
                 setValores(true);
-                BuscarFundos();
+
             }}>
                 <i className="fa-solid fa-wallet"></i>
 
@@ -43,14 +47,21 @@ export default function Carteira() {
 
                 {valores && (
                     <div className="modal">
-                        <button className='fechar-modal' onClick={(e) => {
-                            e.stopPropagation();
-                            setValores(false);
-                        }}>
+                        <button className='fechar-modal' onClick={(e) => { setValores(true); }}>
                             <i className="fa-solid fa-x"></i>
                         </button>
 
                         <div className="card-modal">
+                            <p>Adicionar fundos a carteira</p>
+                            <div className="tenho">
+                                <div className="cima">
+                                    <p>Você tem:</p>
+                                </div>
+                                <div className="baixo">
+                                    <p></p>
+
+                                </div>
+                            </div>
                         </div>
                     </div>
                 )}

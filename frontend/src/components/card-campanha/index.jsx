@@ -1,13 +1,20 @@
+
 import './index.scss';
 import { obterImagem } from '../../utils/obterImagem';
 
 export default function CardCampanha({ campanha, ajudarCampanha }) {
     const meta = Number(campanha.valor) || 0;
     const arrecadado = Number(campanha.valor_arrecadado) || 0;
-    const progresso = meta > 0 ? Math.min(100, arrecadado / meta * 100) : 0;
+
+    const progresso = meta > 0
+        ? Math.min(100, (arrecadado / meta) * 100)
+        : 0;
 
     function formatarValor(valor) {
-        return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        return valor.toLocaleString('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        });
     }
 
     return (
@@ -21,6 +28,7 @@ export default function CardCampanha({ campanha, ajudarCampanha }) {
                     event.currentTarget.src = '/assets/images/adote.webp';
                 }}
             />
+
             <div className="campanha-info">
                 <div className="ong-campanha">
                     <img
@@ -33,17 +41,37 @@ export default function CardCampanha({ campanha, ajudarCampanha }) {
                             }
                         }}
                     />
+
                     <div>
                         <p className="ong-label">Campanha organizada por</p>
-                        <p className="ong-nome">{campanha.nome_ong || 'ONG não informada'}</p>
+                        <p className="ong-nome">
+                            {campanha.nome_ong || 'ONG não informada'}
+                        </p>
                     </div>
                 </div>
+
                 <h2>{campanha.titulo}</h2>
+
                 <p className="descricao">{campanha.descricao}</p>
-                <p className="arrecadado">{formatarValor(arrecadado)} arrecadados</p>
-                <progress value={progresso} max="100" aria-label={`Progresso da campanha ${campanha.titulo}`} />
+
+                <p className="arrecadado">
+                    {formatarValor(arrecadado)} arrecadados
+                </p>
+
+                <div className="barra-progresso">
+                    <div
+                        className="progresso"
+                        style={{ width: `${progresso}%` }}
+                    />
+                </div>
+
                 <p>Meta: {formatarValor(meta)}</p>
-                <button type="button" className="ajudar-campanha" onClick={() => ajudarCampanha(campanha)}>
+
+                <button
+                    type="button"
+                    className="ajudar-campanha"
+                    onClick={() => ajudarCampanha(campanha)}
+                >
                     Ajudar campanha
                 </button>
             </div>

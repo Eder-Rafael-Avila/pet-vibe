@@ -40,14 +40,20 @@
     .card-modal {
         position: relative;
 
-        width: 90%;
+        width: 50%;
         height: 85vh;
 
         background-color: #fff;
         border-radius: 15px;
-
-
+        display: flex;
+        padding: 30px;
+        justify-content: center;
         box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        p{
+            color: #105F56;
+            font-weight: 600;
+            font-size: 25px;
+        }
     }
 
     .fechar-modal {
