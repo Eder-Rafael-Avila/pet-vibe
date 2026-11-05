@@ -1,88 +1,271 @@
 .comp-carteira {
-
     .carteira {
         width: 170px;
-        height: 30px;
+        height: 38px;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0px 20px;
-        background-color: #fff;
+        padding: 0 20px;
+        border: none;
         border-radius: 8px;
-        background-color: #105F56;
-
+        background-color: var(--corAzulPrimario);
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
 
         &:hover {
-            cursor: pointer;
+            background-color: var(--corAzulTerciario);
+            transform: translateY(-1px);
         }
 
-        p,
-        i {
-            color: #FFF;
+        &:focus-visible {
+            outline: 3px solid rgba(248, 86, 31, 0.35);
+            outline-offset: 3px;
         }
+    }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-
-    width: 100%;
-    height: 100vh;
-
-    background-color: rgba(0, 0, 0, 0.6);
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    z-index: 999;
+    .modal {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100vh;
+        padding: 24px;
+        background-color: rgba(14, 35, 32, 0.68);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+    }
 
     .card-modal {
         position: relative;
-
         width: 50%;
         height: 85vh;
-
+        padding: clamp(32px, 5vw, 64px);
+        border-radius: 20px;
         background-color: #fff;
-        border-radius: 15px;
-        display: flex;
-        padding: 30px;
-        justify-content: center;
-        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
-        p{
-            color: #105F56;
-            font-weight: 600;
-            font-size: 25px;
-        }
+        color: var(--corPretoGeral);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
+        overflow-y: auto;
     }
 
     .fechar-modal {
         position: absolute;
         top: 20px;
         right: 20px;
-
-        width: 35px;
-        height: 35px;
-
+        width: 38px;
+        height: 38px;
         display: flex;
         justify-content: center;
         align-items: center;
-
         border: none;
         border-radius: 50%;
-
-        background-color: #105F56;
-        color: #333;
-
+        background-color: #e9f2ef;
+        color: var(--corAzulPrimario);
         cursor: pointer;
-        font-size: 16px;
-
-        transition: 0.2s;
+        font-size: 1.5rem;
+        transition: background-color 0.2s, color 0.2s;
 
         &:hover {
-            background-color: #ddd;
+            background-color: var(--corAzulPrimario);
+            color: #fff;
         }
     }
-}
+
+    .conteudo-modal {
+        width: min(100%, 620px);
+        min-height: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .cabecalho-modal {
+        display: flex;
+        align-items: flex-start;
+        gap: 18px;
+        margin-bottom: 36px;
+
+        .subtitulo {
+            margin-bottom: 4px;
+            color: var(--corLaranjaContraste);
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--corAzulPrimario);
+            font-size: clamp(2.4rem, 3vw, 3.4rem);
+            line-height: 1.15;
+        }
+
+        .descricao {
+            margin-top: 8px;
+            color: #66736f;
+            font-size: 1.4rem;
+        }
+    }
+
+    .resumo-saldo {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        align-items: center;
+        gap: 18px;
+        margin-bottom: 34px;
+
+        > i {
+            color: #8ca09a;
+            font-size: 1.5rem;
+        }
+    }
+
+    .saldo-item {
+        min-width: 0;
+        padding: 22px;
+        border-radius: 14px;
+        background-color: var(--corBrancoGeral);
+
+        span {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--corAzulTerciario);
+            font-size: 1.3rem;
+        }
+
+        strong {
+            display: block;
+            color: var(--corPretoGeral);
+            font-size: clamp(1.8rem, 2.2vw, 2.6rem);
+            line-height: 1.2;
+            overflow-wrap: anywhere;
+        }
+    }
+
+    .saldo-futuro {
+        background-color: var(--corVerdeHero);
+
+        span,
+        strong {
+            color: var(--corBrancoGeral);
+        }
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 10px;
+        color: var(--corPretoGeral);
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .campo-valor {
+        display: flex;
+        align-items: center;
+        height: 58px;
+        padding: 0 18px;
+        border: 1px solid #b9c7c3;
+        border-radius: 12px;
+        background-color: #fff;
+
+        span {
+            padding-right: 14px;
+            border-right: 1px solid #d9e2df;
+            color: var(--corAzulPrimario);
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+
+        input {
+            width: 100%;
+            height: 100%;
+            padding-left: 14px;
+            border: none;
+            outline: none;
+            color: var(--corPretoGeral);
+            background: transparent;
+            font-size: 1.8rem;
+
+            &::placeholder {
+                color: #9aa7a3;
+            }
+        }
+    }
+
+    .botao-adicionar {
+        width: 100%;
+        min-height: 54px;
+        margin-top: 18px;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        border: none;
+        border-radius: 12px;
+        background-color: var(--corLaranjaContraste);
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.2s, transform 0.2s;
+
+        &:hover {
+            background-color: var(--corLaranjaSecundario);
+            transform: translateY(-1px);
+        }
+
+        &:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
+    }
+
+    .mensagem-erro {
+        margin-top: 10px;
+        color: #a12815;
+        font-size: 1.3rem;
+    }
+
+    @media (max-width: 900px) {
+        .card-modal {
+            width: min(680px, 92%);
+        }
+    }
+
+    @media (max-width: 600px) {
+        .modal {
+            padding: 12px;
+        }
+
+        .card-modal {
+            width: 100%;
+            height: min(85vh, 720px);
+            padding: 58px 24px 28px;
+        }
+
+        .cabecalho-modal {
+            margin-bottom: 24px;
+        }
+
+        .resumo-saldo {
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+
+            > i {
+                justify-self: center;
+                transform: rotate(90deg);
+            }
+        }
+
+        .saldo-item {
+            padding: 16px;
+        }
     }
 }
