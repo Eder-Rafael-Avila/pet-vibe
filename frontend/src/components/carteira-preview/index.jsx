@@ -47,21 +47,15 @@ export default function Carteira() {
 
                 {valores && (
                     <div className="modal">
-                        <button className='fechar-modal' onClick={(e) => { setValores(true); }}>
-                            <i className="fa-solid fa-x"></i>
-                        </button>
-
                         <div className="card-modal">
-                            <p>Adicionar fundos a carteira</p>
-                            <div className="tenho">
-                                <div className="cima">
-                                    <p>Você tem:</p>
-                                </div>
-                                <div className="baixo">
-                                    <p></p>
+                            <button className='fechar-modal' onClick={(e) => {
+                                e.stopPropagation();
+                                setValores(false);
+                            }}>
+                                <i className="fa-solid fa-x"></i>
+                            </button>
 
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 )}
