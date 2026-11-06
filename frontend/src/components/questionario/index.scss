@@ -1,209 +1,237 @@
-
 .opcoes-moradia {
-    background: black url("/assets/images/fundo-questionario.webp")
+    background: url("/assets/images/fundo-questionario.webp")
         no-repeat center center;
+
     background-size: cover;
 
     width: 100%;
-    min-height: 150vh;
-    padding: 40px 20px;
+    min-height: 130vh;
+
+    padding: 30px 5%;
     box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.cabecalho {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 20px 30px;
+    box-sizing: border-box;
+}
+
+
+.Conheça {
+    width: 55%;
+    position: relative;
+    bottom: 50px;
+
+    h1 {
+        color: white;
+        font-size: 40px;
+        font-weight: bold;
+        line-height: 1.2;
+
+        span {
+            color: #ff681b;
+        }
+    }
+
+    p {
+        color: white;
+        font-size: 20px;
+        margin-top: 15px;
+    }
+}
+
+.cachorro-e-gato {
+    width: 400px;
+    max-width: 40%;
+    position: relative;
+    bottom: 30px;
+
+    img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+}
+
+
+.conteudo-questionario {
+    width: 100%;
+    max-width: 850px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 35px;
+
+    margin-top: 30px;
+
+    h2 {
+        color: #101c20;
+        font-size: 32px;
+        text-align: center;
+    }
+}
+
+
+.lista-opcoes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 40px;
+    width: 100%;
+}
+
+.opcao {
+    width: 310px;
+    height: 220px;
+
+    background-color: #FCF8F3;
+
+    border: 2px solid transparent;
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 12px;
+
+    cursor: pointer;
+    position: relative;
+
+    transition: 0.3s;
+
+    img {
+        width: 110px;
+        height: 110px;
+        object-fit: contain;
+    }
+
+    h3 {
+        color: #101c20;
+        font-size: 21px;
+    }
+
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 5px 15px #00000020;
+    }
+
+    &.selecionada {
+        border: 2px solid #08796D;
+        background-color: #e8f5f1;
+    }
+}
+
+
+.radio {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    width: 23px;
+    height: 23px;
+
+    border: 2px solid #08796D;
+    border-radius: 50%;
 
     display: flex;
     justify-content: center;
     align-items: center;
 
+    color: white;
+    font-weight: bold;
+}
+
+.opcao.selecionada .radio {
+    background-color: #08796D;
+}
+
+.botoes {
+    width: 77%;
     position: relative;
 
-.cachorro-e-gato {
-    position: absolute;
-    top: -0px;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    justify-content: space-between;
 
-    z-index: 2;
+    margin-top: 10px;
 
-    width: 250px;
+    button {
+        padding: 12px 35px;
 
-    img {
-        width: 100%;
-        height: auto;
-        object-fit: contain;
+        border: none;
+        border-radius: 20px;
+
+        background-color: #ff681b;
+        color: white;
+
+        font-size: 16px;
+        font-weight: bold;
+
+        cursor: pointer;
+        transition: 0.3s;
+
+        &:hover {
+            background-color: #e85b15;
+        }
     }
 }
 
-    
-    
-    .conteudo-questionario {
-        width: 100%;
-        max-width: 850px;
 
-        display: flex;
+@media (max-width: 700px) {
+
+    .cabecalho {
         flex-direction: column;
-        align-items: center;
-        gap: 35px;
+        text-align: center;
+        gap: 20px;
     }
 
-    h1 {
-        font-size: 32px;
-        color: #101c20;
-        text-align: center;
-        margin: 0;
+    .Conheça {
+        width: 100%;
+
+        h1 {
+            font-size: 28px;
+        }
+    }
+
+    .cachorro-e-gato {
+        width: 300px;
+        max-width: 90%;
+    }
+
+    .conteudo-questionario {
+        margin-top: 20px;
     }
 
     .lista-opcoes {
-        width: 100%;
-
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        gap: 40px;
-      
-        margin-top: 00px;
+        flex-direction: column;
+        gap: 20px;
     }
 
     .opcao {
-        position: relative;
-
-        width: 310px;
-        height: 220px;
-        box-sizing: border-box;
-
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 5px;
-
-        border: 2px solid #d0d0d0;
-        border-radius: 20px;
-
-        cursor: pointer;
-        transition: 0.3s ease;
-
-        img {
-            width: 150px;
-            height: 140px;
-            object-fit: contain;
-        }
-
-        h2 {
-            margin: 0;
-            font-size: 25px;
-            color: #101c20;
-        }
-
-        .radio {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-
-            width: 25px;
-            height: 25px;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            border: 2px solid #aaa;
-            border-radius: 50%;
-
-            color: white;
-            font-size: 16px;
-        }
-
-        &.selecionada {
-            border: 2px solid #08796D;
-            background-color: #e8f5f1;
-            box-shadow: 0 0 10px #08796d30;
-
-            .radio {
-                background-color: #08796D;
-                border-color: #08796D;
-            }
-        }
-
-        &:hover {
-            border-color: #08796D;
-            transform: translateY(-3px);
-        }
+        width: 90%;
+        max-width: 310px;
     }
 
     .botoes {
-        width: 100%;
-
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        margin-top: 20px;
+        gap: 15px;
 
         button {
-            padding: 15px 40px;
-            border-radius: 30px;
-            border: 2px solid #08796D;
-
-            background-color: transparent;
-            color: #08796D;
-
-            font-size: 18px;
-            cursor: pointer;
-        }
-
-        button:last-child {
-            background-color: #ff681b;
-            border-color: #ff681b;
-            color: white;
+            padding: 10px 25px;
         }
     }
-}
-
-// Tablets e celulares
-@media (max-width: 700px) {
-    .opcoes-moradia {
-        .lista-opcoes {
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .opcao {
-            width: 90%;
-            max-width: 310px;
-            height: 200px;
-        }
-
-        .botoes {
-            max-width: 310px;
-            gap: 15px;
-
-            button {
-                padding: 12px 25px;
-                font-size: 16px;
-            }
-        }
-    }
-}
-
-@media (max-width: 400px) {
-    .opcoes-moradia {
-        h1 {
-            font-size: 25px;
-        }
-
-        .opcao {
-            height: 180px;
-
-            img {
-                width: 120px;
-                height: 110px;
-            }
-
-            h2 {
-                font-size: 21px;
-            }
-        }
-    }
-
-   
 }

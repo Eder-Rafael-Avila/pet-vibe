@@ -1,4 +1,3 @@
-
 import './index.scss';
 import { useState } from 'react';
 
@@ -8,20 +7,39 @@ export default function Questionario() {
 
     return (
         <div className="opcoes-moradia">
-           <div className="cachorro-e-gato">
-        <img
-            src="/assets/images/cachorro-e-gato.webp"
-            alt="Cachorro e gato"
-        />
-    </div>
 
+            {/* CABEÇALHO */}
+            <div className="cabecalho">
+
+                <div className="Conheça">
+                    <h1>
+                        CONHEÇA MELHOR <br />
+                        SUAS <span>PREFERÊNCIAS!</span>
+                    </h1>
+
+                    <p>
+                        Responda algumas perguntas para nos ajudar
+                        a encontrar o pet ideal para você.
+                    </p>
+                </div>
+
+                <div className="cachorro-e-gato">
+                    <img
+                        src="/assets/images/cachorro-e-gato.webp"
+                        alt="Cachorro e gato"
+                    />
+                </div>
+
+            </div>
+
+            {/* QUESTIONÁRIO */}
             <div className="conteudo-questionario">
 
-                <h1>Onde você mora?</h1>
+                <h2>Onde você mora?</h2>
 
                 <div className="lista-opcoes">
 
-                 
+                    {/* APARTAMENTO */}
                     <div
                         className={`opcao ${moradiaSelecionada === "apartamento" ? "selecionada" : ""}`}
                         onClick={() => setMoradiaSelecionada("apartamento")}
@@ -30,11 +48,15 @@ export default function Questionario() {
                             {moradiaSelecionada === "apartamento" && "✓"}
                         </span>
 
-                        <img src="/assets/images/apartamento.png" alt="Apartamento" />
+                        <img
+                            src="/assets/images/apartamento.png"
+                            alt="Apartamento"
+                        />
 
-                        <h2>Apartamento</h2>
+                        <h3>Apartamento</h3>
                     </div>
 
+                    {/* CASA */}
                     <div
                         className={`opcao ${moradiaSelecionada === "casa" ? "selecionada" : ""}`}
                         onClick={() => setMoradiaSelecionada("casa")}
@@ -43,13 +65,15 @@ export default function Questionario() {
                             {moradiaSelecionada === "casa" && "✓"}
                         </span>
 
-                        <img src="/assets/images/casa.png" alt="Casa" />
+                        <img
+                            src="/assets/images/casa.png"
+                            alt="Casa"
+                        />
 
-                        <h2>Casa</h2>
+                        <h3>Casa</h3>
                     </div>
 
                 </div>
-
                 <div className="botoes">
                     <button>Voltar</button>
                     <button>Próximo</button>
