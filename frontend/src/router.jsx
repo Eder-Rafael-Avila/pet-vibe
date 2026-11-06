@@ -11,6 +11,7 @@ import RotaProtegida from "./components/rotaProtegida";
 import Adocao from './pages/page-adocao';
 import CadastroOng from './pages/page-cadastroOng';
 import ONGPanel from './pages/page-painel-ong';
+import Questionarioo from './pages/questionario';
 
 export default function Router() {
     const [usuarioLogado, setUsuarioLogado] = useState(() => {
@@ -33,6 +34,7 @@ export default function Router() {
                 <Route path="/Cadastro" element={<Cadastro />} />
                 <Route path='/Adocao' element={<Adocao />} />
                 <Route path='/CadastroOng' element={<CadastroOng />} />
+                <Route path='/Questionario' element={<Questionarioo />} />
                 <Route path='/Adocao' element={<Adocao usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado}/>} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
