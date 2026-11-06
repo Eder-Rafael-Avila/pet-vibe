@@ -36,11 +36,6 @@ export default function Footer() {
                                 >Histórias de Sucesso</a>
                             </li>
                             <li>
-                                <NavLink to='/marketplace' 
-                                    className='link'
-                                >MarketPlace</NavLink>
-                            </li>
-                            <li>
                                 <NavLink to='/Adocao' 
                                     className='link'
                                 >Adoção</NavLink>
@@ -52,7 +47,7 @@ export default function Footer() {
 
                         <ul>
                             <li>
-                                <NavLink to='/comoFunciona' 
+                                <NavLink to='/PainelONG' 
                                     className='link'
                                 >Cadastrar ONGs</NavLink>
                             </li>

@@ -1,4 +1,5 @@
 import './index.scss';
+import { NavLink } from 'react-router-dom';
 
 export default function MainPanel() {
 
@@ -17,12 +18,19 @@ export default function MainPanel() {
                         </p>
                     </div>
                     <div className="buttons">
+                        
+                        <NavLink to='/Adocao'>
                         <button>
                             Quero adotar <i className="fa-solid fa-arrow-right"></i>
                         </button>
+
+                         </NavLink>
+
+                         <NavLink to='ajudeONGs'>
                         <button id='animais-disponiveis'>
-                            Ver animais disponíveis
+                            Ajude ONGs <i className="fa-solid fa-arrow-right"></i>
                         </button>
+                        </NavLink>
                     </div>
                 </div>
             </section>

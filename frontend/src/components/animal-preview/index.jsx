@@ -28,10 +28,12 @@ export default function AnimalPreview() {
                         </div>
 
                         <div className="botoes">
-                            <NavLink className="btn ver-mais">
+                            <NavLink to='/Adocao' className="btn ver-mais">
                                 <i class="fa-solid fa-paw" style={{color: "#ffff",}}></i>
                                 Ver mais
                             </NavLink>
+
+                            
                             <a href='#sobre' className="btn como-funciona">
                                 <i class="fa-solid fa-sliders icone-funciona"></i>
                                 Como funciona
