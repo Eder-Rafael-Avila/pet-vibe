@@ -1,60 +1,173 @@
 .comp-modal-doacao {
-    width: min(480px, calc(100% - 32px));
-    max-height: 90vh;
-    margin: auto;
-    padding: 28px;
-    border: none;
-    border-radius: 16px;
-    background-color: var(--corBrancoGeral);
-    color: var(--corPretoGeral);
-    font-size: 1.5rem;
-    overflow-wrap: anywhere;
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100vh;
+    padding: 24px;
+    background-color: rgba(0, 0, 0, 0.60);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
 
-    &::backdrop {
-        background-color: rgba(0, 0, 0, 0.55);
+    .card-modal {
+        position: relative;
+        width: 50%;
+        padding: clamp(32px, 5vw, 64px);
+        border-radius: 20px;
+        background-color: #fff;
+        color: var(--corPretoGeral);
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
     }
 
-    h2 {
+    .fechar-modal {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        width: 38px;
+        height: 38px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        border-radius: 50%;
+        background-color: #e9f2ef;
         color: var(--corAzulPrimario);
-        font-size: 2.4rem;
+        cursor: pointer;
+        font-size: 1.5rem;
+
+        &:hover {
+            background-color: var(--corAzulPrimario);
+            color: #fff;
+        }
     }
 
-    .nome-campanha {
-        margin-top: 16px;
+    .conteudo-modal {
+        width: min(100%, 620px);
+        margin: 0 auto;
+    }
+
+    .cabecalho-modal {
+        margin-bottom: 28px;
+
+        .subtitulo {
+            margin-bottom: 4px;
+            color: var(--corLaranjaContraste);
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            color: var(--corAzulPrimario);
+            font-size: clamp(2.4rem, 3vw, 3.4rem);
+        }
+
+        .nome-campanha {
+            margin-top: 12px;
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
+    }
+
+    .aviso-carteira {
+        margin-bottom: 20px;
+        color: #66736f;
+        font-size: 1.4rem;
+    }
+
+    form label {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 1.5rem;
         font-weight: 600;
     }
 
-    .aviso-carteira { margin: 20px 0; }
+    .campo-valor {
+        display: flex;
+        align-items: center;
+        height: 58px;
+        padding: 0 18px;
+        border: 1px solid #b9c7c3;
+        border-radius: 12px;
 
-    label { display: block; margin-bottom: 8px; }
+        span {
+            padding-right: 14px;
+            border-right: 1px solid #d9e2df;
+            color: var(--corAzulPrimario);
+            font-size: 1.6rem;
+            font-weight: 700;
+        }
 
-    input {
-        width: 100%;
-        padding: 12px;
-        border: 1px solid #aaa;
-        border-radius: 8px;
-        font-size: 1.6rem;
+        input {
+            width: 100%;
+            height: 100%;
+            padding-left: 14px;
+            border: none;
+            outline: none;
+            background-color: transparent;
+            font-size: 1.8rem;
+        }
     }
 
     .acoes {
         display: flex;
-        flex-wrap: wrap;
         gap: 12px;
         margin-top: 24px;
     }
 
-    button {
-        padding: 12px 20px;
+    .acoes button,
+    .botao-confirmar {
+        width: 100%;
+        min-height: 54px;
+        padding: 14px 20px;
         border: none;
-        border-radius: 8px;
-        background-color: var(--corAzulPrimario);
-        color: white;
-        font-weight: 600;
+        border-radius: 12px;
+        background-color: var(--corLaranjaContraste);
+        color: #fff;
+        font-size: 1.5rem;
+        font-weight: 700;
         cursor: pointer;
+
+        &:disabled {
+            opacity: 0.65;
+            cursor: wait;
+        }
     }
 
-    .cancelar { background-color: #e5e5e5; color: var(--corPretoGeral); }
-    button:disabled { opacity: 0.6; cursor: wait; }
-    .mensagem-erro { margin-top: 16px; color: #a12815; }
-    .mensagem-sucesso { margin: 24px 0; color: var(--corAzulPrimario); }
+    .acoes .cancelar {
+        background-color: #e9f2ef;
+        color: var(--corAzulPrimario);
+    }
+
+    .mensagem-erro {
+        margin-top: 10px;
+        color: #a12815;
+        font-size: 1.3rem;
+    }
+
+    .mensagem-sucesso {
+        margin-bottom: 24px;
+        color: var(--corAzulPrimario);
+        font-size: 1.6rem;
+    }
+
+    @media (max-width: 900px) {
+        .card-modal {
+            width: min(680px, 92%);
+        }
+    }
+
+    @media (max-width: 600px) {
+        padding: 12px;
+
+        .card-modal {
+            width: 100%;
+            padding: 58px 24px 28px;
+        }
+
+        .acoes {
+            flex-direction: column;
+        }
+    }
 }

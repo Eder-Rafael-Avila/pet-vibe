@@ -1,5 +1,5 @@
 import './index.scss';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const formatarReal = (valor) => new Intl.NumberFormat('pt-BR', {
     style: 'currency',
@@ -8,7 +8,7 @@ const formatarReal = (valor) => new Intl.NumberFormat('pt-BR', {
 
 export default function Carteira() {
     const [modalAberto, setModalAberto] = useState(false);
-    const [fundos, setFundos] = useState([]);
+    const [saldo, setSaldo] = useState(0);
     const [valorAdicionar, setValorAdicionar] = useState('');
     const [adicionando, setAdicionando] = useState(false);
     const [erro, setErro] = useState('');
@@ -29,7 +29,7 @@ export default function Carteira() {
                     throw new Error(dados.erro);
                 }
 
-                setFundos(dados.resposta);
+                setSaldo(Number(dados.resposta[0]?.fundos) || 0);
             } catch (err) {
                 console.log(err);
             }
@@ -39,22 +39,19 @@ export default function Carteira() {
     }, []);
 
     useEffect(() => {
-        if (!modalAberto) return undefined;
+        if (!modalAberto) return;
 
-        const fecharComEsc = (event) => {
-            if (event.key === 'Escape') setModalAberto(false);
-        };
+        function fecharComEsc(event) {
+            if (event.key === 'Escape') {
+                setModalAberto(false);
+            }
+        }
 
         document.addEventListener('keydown', fecharComEsc);
         return () => document.removeEventListener('keydown', fecharComEsc);
     }, [modalAberto]);
 
-    const saldoAtual = Number(fundos[0]?.fundos) || 0;
-    const valorNumerico = Number(valorAdicionar) || 0;
-    const saldoProjetado = useMemo(
-        () => saldoAtual + Math.max(valorNumerico, 0),
-        [saldoAtual, valorNumerico]
-    );
+    const saldoProjetado = saldo + Math.max(Number(valorAdicionar) || 0, 0);
 
     async function adicionarDinheiro(event) {
         event.preventDefault();
@@ -91,13 +88,12 @@ export default function Carteira() {
                 throw new Error(dados.erro || 'Não foi possível adicionar o dinheiro.');
             }
 
-            window.location.reload();
+            setSaldo(saldo + qtd);
+            setValorAdicionar('');
+            setModalAberto(false);
         } catch (err) {
-            setErro(
-                err instanceof TypeError
-                    ? 'Não foi possível conectar ao servidor. Tente novamente.'
-                    : err.message
-            );
+            setErro(err.message);
+        } finally {
             setAdicionando(false);
         }
     }
@@ -108,51 +104,38 @@ export default function Carteira() {
                 type="button"
                 className="carteira"
                 onClick={() => setModalAberto(true)}
-                aria-label={`Abrir carteira. Saldo atual: ${formatarReal(saldoAtual)}`}
             >
-                <i className="fa-solid fa-wallet" aria-hidden="true"></i>
-                <span>{formatarReal(saldoAtual)}</span>
+                <i className="fa-solid fa-wallet"></i>
+                <span>{formatarReal(saldo)}</span>
             </button>
 
             {modalAberto && (
-                <div
-                    className="modal"
-                    role="presentation"
-                    onMouseDown={(event) => {
-                        if (event.target === event.currentTarget) setModalAberto(false);
-                    }}
-                >
-                    <section
-                        className="card-modal"
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="titulo-carteira"
-                    >
+                <div className="modal">
+                    <section className="card-modal">
                         <button
                             type="button"
                             className="fechar-modal"
                             onClick={() => setModalAberto(false)}
-                            aria-label="Fechar carteira"
                             disabled={adicionando}
                         >
-                            <i className="fa-solid fa-x" aria-hidden="true"></i>
+                            <i className="fa-solid fa-x"></i>
                         </button>
 
                         <div className="conteudo-modal">
                             <div className="cabecalho-modal">
                                 <div>
                                     <p className="subtitulo">Minha carteira</p>
-                                    <h2 id="titulo-carteira">Adicionar dinheiro</h2>
+                                    <h2>Adicionar dinheiro</h2>
                                     <p className="descricao">Escolha quanto você quer colocar na sua carteira.</p>
                                 </div>
                             </div>
 
-                            <div className="resumo-saldo" aria-live="polite">
+                            <div className="resumo-saldo">
                                 <div className="saldo-item">
                                     <span>Você tem</span>
-                                    <strong>{formatarReal(saldoAtual)}</strong>
+                                    <strong>{formatarReal(saldo)}</strong>
                                 </div>
-                                <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                <i className="fa-solid fa-arrow-right"></i>
                                 <div className="saldo-item saldo-futuro">
                                     <span>Você terá</span>
                                     <strong>{formatarReal(saldoProjetado)}</strong>
@@ -160,30 +143,24 @@ export default function Carteira() {
                             </div>
 
                             <form onSubmit={adicionarDinheiro}>
-                                <label htmlFor="valor-adicionar">Quanto você quer colocar?</label>
+                                <label>Quanto você quer colocar?</label>
                                 <div className="campo-valor">
                                     <span>R$</span>
                                     <input
-                                        id="valor-adicionar"
                                         type="number"
-                                        min="0.01"
-                                        max="99999999.99"
-                                        step="0.01"
                                         placeholder="0,00"
                                         value={valorAdicionar}
                                         onChange={(event) => {
                                             setValorAdicionar(event.target.value);
                                             setErro('');
                                         }}
-                                        autoFocus
                                         disabled={adicionando}
-                                        required
                                     />
                                 </div>
-                                {erro && <p className="mensagem-erro" role="alert">{erro}</p>}
+                                {erro && <p className="mensagem-erro">{erro}</p>}
                                 <button type="submit" className="botao-adicionar" disabled={adicionando}>
                                     {adicionando ? 'Adicionando...' : 'Colocar dinheiro'}
-                                    <i className="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                    <i className="fa-solid fa-arrow-right"></i>
                                 </button>
                             </form>
                         </div>

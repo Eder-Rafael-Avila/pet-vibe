@@ -1,23 +1,29 @@
 import './index.scss';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 export default function ModalDoacao({ campanha, fechar, atualizarCampanhas, setUsuarioLogado }) {
-    const modal = useRef(null);
     const [valor, setValor] = useState('');
     const [enviando, setEnviando] = useState(false);
     const [erro, setErro] = useState('');
     const [sucesso, setSucesso] = useState(false);
 
     useEffect(() => {
-        modal.current.showModal();
-    }, []);
+        function fecharComEsc(event) {
+            if (event.key === 'Escape') {
+                fechar();
+            }
+        }
+
+        document.addEventListener('keydown', fecharComEsc);
+        return () => document.removeEventListener('keydown', fecharComEsc);
+    }, [fechar]);
 
     async function doar(event) {
         event.preventDefault();
-        if (enviando || sucesso) return;
 
         const valorDoacao = Number(valor);
-        if (!Number.isFinite(valorDoacao) || valorDoacao <= 0) {
+
+        if (valorDoacao <= 0) {
             setErro('Informe um valor maior que zero.');
             return;
         }
@@ -26,12 +32,11 @@ export default function ModalDoacao({ campanha, fechar, atualizarCampanhas, setU
         setEnviando(true);
 
         try {
-            const token = localStorage.getItem('token');
             const resposta = await fetch('http://localhost:6767/campanha/doar', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `Bearer ${token}`
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
                 },
                 body: JSON.stringify({
                     id: campanha.ID_campanha,
@@ -46,74 +51,77 @@ export default function ModalDoacao({ campanha, fechar, atualizarCampanhas, setU
             }
 
             const dados = await resposta.json();
+
             if (!resposta.ok) {
                 throw new Error(dados.erro || 'Não foi possível realizar a doação.');
             }
 
             setSucesso(true);
             atualizarCampanhas();
+        } catch (err) {
+            setErro(err.message);
+        } finally {
+            setEnviando(false);
         }
-        catch (err) {
-            if (err instanceof TypeError) {
-                setErro('A conexão falhou. Confira sua carteira antes de tentar doar novamente.');
-            }
-            else {
-                setErro(err.message);
-            }
-        }
-
-        setEnviando(false);
     }
 
     return (
-        <dialog
-            ref={modal}
-            className="comp-modal-doacao"
-            aria-labelledby="titulo-doacao"
-            onCancel={event => {
-                event.preventDefault();
-                if (!enviando) fechar();
-            }}
-        >
-            <h2 id="titulo-doacao">Ajudar campanha</h2>
-            <p className="nome-campanha">{campanha.titulo}</p>
-            <p>Organizada por {campanha.nome_ong}</p>
+        <div className="comp-modal-doacao">
+            <section className="card-modal">
+                <button type="button" className="fechar-modal" onClick={fechar}>
+                    <i className="fa-solid fa-x"></i>
+                </button>
 
-            {sucesso ? (
-                <div>
-                    <p className="mensagem-sucesso" role="status">Doação realizada com sucesso! Obrigado por ajudar.</p>
-                    <button type="button" onClick={() => {
-    fechar();
-    window.location.reload();
-}}>
-    Fechar
-</button>
-                </div>
-            ) : (
-                <form onSubmit={doar}>
-                    <p className="aviso-carteira">O valor será descontado da sua carteira.</p>
-                    <label htmlFor="valor-doacao">Valor da doação (R$)</label>
-                    <input
-                        id="valor-doacao"
-                        type="number"
-                        min="0.01"
-                        max="99999999.99"
-                        step="0.01"
-                        placeholder="Ex.: 25,00"
-                        value={valor}
-                        onChange={event => setValor(event.target.value)}
-                        disabled={enviando}
-                        required
-                    />
-                    {erro && <p className="mensagem-erro" role="alert">{erro}</p>}
-                    <div className="acoes">
-                        <button type="button" className="cancelar" onClick={fechar} disabled={enviando}>Cancelar</button>
-                        <button type="submit" disabled={enviando}>
-                            {enviando ? 'Doando...' : 'Confirmar doação'}
-                        </button>
+                <div className="conteudo-modal">
+                    <div className="cabecalho-modal">
+                        <p className="subtitulo">Doação</p>
+                        <h2>Ajudar campanha</h2>
+                        <p className="nome-campanha">{campanha.titulo}</p>
+                        <p>Organizada por {campanha.nome_ong}</p>
                     </div>
-                </form>
-            )}
-        </dialog>
+
+                    {sucesso ? (
+                        <div>
+                            <p className="mensagem-sucesso">
+                                Doação realizada com sucesso! Obrigado por ajudar.
+                            </p>
+                            <button type="button" className="botao-confirmar" onClick={() => window.location.reload()}>
+                                Fechar
+                            </button>
+                        </div>
+                    ) : (
+                        <form onSubmit={doar}>
+                            <p className="aviso-carteira">O valor será descontado da sua carteira.</p>
+                            <label>Valor da doação</label>
+
+                            <div className="campo-valor">
+                                <span>R$</span>
+                                <input
+                                    type="number"
+                                    placeholder="0,00"
+                                    value={valor}
+                                    onChange={event => {
+                                        setValor(event.target.value);
+                                        setErro('');
+                                    }}
+                                    disabled={enviando}
+                                />
+                            </div>
+
+                            {erro && <p className="mensagem-erro">{erro}</p>}
+
+                            <div className="acoes">
+                                <button type="button" className="cancelar" onClick={fechar} disabled={enviando}>
+                                    Cancelar
+                                </button>
+                                <button type="submit" className="botao-confirmar" disabled={enviando}>
+                                    {enviando ? 'Doando...' : 'Confirmar doação'}
+                                </button>
+                            </div>
+                        </form>
+                    )}
+                </div>
+            </section>
+        </div>
     );
 }
