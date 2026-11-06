@@ -45,15 +45,39 @@ export async function ListarCampanhasOng(idOng) {
 }
 
 export async function ExcluirCampanha(ID_campanha, idOng) {
-    const command= `
-    DELETE FROM campanhas
-    WHERE ID_campanha = ? AND ID_ONG = ?
-    `
+    const conexao = await con.getConnection();
 
-    let [resposta] = await con.query(command,[
-        ID_campanha, idOng
-    ])
-    return resposta.affectedRows
+    try {
+        await conexao.beginTransaction();
+
+        const [campanhas] = await conexao.query(
+            'SELECT ID_campanha FROM campanhas WHERE ID_campanha = ? AND ID_ONG = ? FOR UPDATE',
+            [ID_campanha, idOng]
+        );
+
+        if (campanhas.length === 0) {
+            await conexao.rollback();
+            return 0;
+        }
+
+        await conexao.query(
+            'DELETE FROM contribuidores WHERE ID_campanha = ?',
+            [ID_campanha]
+        );
+
+        const [resposta] = await conexao.query(
+            'DELETE FROM campanhas WHERE ID_campanha = ? AND ID_ONG = ?',
+            [ID_campanha, idOng]
+        );
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function BuscarCampanhaDaOng(idCampanha, idOng) {
