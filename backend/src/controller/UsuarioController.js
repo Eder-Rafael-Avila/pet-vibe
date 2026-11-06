@@ -4,7 +4,7 @@ const endpoints = Router();
 import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { EnviarEmail } from '../utils/VerificacaoEmail.js';
-import { gerarToken } from '../utils/TokenEvalidacao.js';
+import { gerarToken, gerarTokenOng } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
 import { GerarCodigo } from '../utils/GerarCódigo.js'
 import multer from 'multer';
@@ -79,12 +79,11 @@ endpoints.post('/usuario/login', async (req, resp) => {
     try {
         const { email, senha } = req.body;
 
-        const usuario = await LoginUsuarioService(email, senha)
+        const conta = await LoginUsuarioService(email, senha)
 
-
-        const token = gerarToken({
-            id_usuario: usuario.id_usuario
-        });
+        const token = conta.tipo === 'ONG'
+            ? gerarTokenOng({ id_ong: conta.id_ong })
+            : gerarToken({ id_usuario: conta.id_usuario });
 
         resp.send({ token });
     }
