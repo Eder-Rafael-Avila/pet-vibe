@@ -103,12 +103,14 @@ export default function Header({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
-                        })}
+                        })} end
                         ><p>Início</p></NavLink>
                     </li>
+
+                    
                     <li>
                         <NavLink
-                        to="/sobreNos"
+                        to="/"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
