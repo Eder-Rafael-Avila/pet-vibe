@@ -11,6 +11,20 @@ export default function AjudeONGs() {
     });
 
     const [preview, setPreview] = useState(null);
+    const [enviando, setEnviando] = useState(false);
+    const [erro, setErro] = useState('');
+    const [sucesso, setSucesso] = useState('');
+    const [temPermissao, setTemPermissao] = useState(() => {
+        try {
+            const token = localStorage.getItem('token');
+            const conteudo = token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+            const payload = JSON.parse(atob(conteudo));
+
+            return payload.tipo === 'ONG' && payload.exp * 1000 > Date.now();
+        } catch {
+            return false;
+        }
+    });
 
     function handleChange(e) {
         setCampanha({
@@ -33,6 +47,7 @@ export default function AjudeONGs() {
     }
 
     function limparFormulario() {
+        if (preview) URL.revokeObjectURL(preview);
         setCampanha({
             titulo: '',
             descricao: '',
@@ -43,13 +58,64 @@ export default function AjudeONGs() {
         setPreview(null);
     }
 
-    function criarCampanha(e) {
+    async function criarCampanha(e) {
         e.preventDefault();
+        if (enviando || !temPermissao) return;
 
-        console.log(campanha);
-        alert('Campanha criada com sucesso!');
+        const formulario = e.currentTarget;
+        setErro('');
+        setSucesso('');
+        setEnviando(true);
 
-        limparFormulario();
+        try {
+            const dados = new FormData();
+            dados.append('dados', JSON.stringify({
+                titulo: campanha.titulo,
+                descricao: campanha.descricao,
+                valor: Number(campanha.valor)
+            }));
+            dados.append('imagem', campanha.imagem);
+
+            const resposta = await fetch('http://localhost:6767/campanha/criar', {
+                method: 'POST',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: dados
+            });
+
+            const resultado = await resposta.json();
+
+            if (resposta.status === 401 || resposta.status === 403) {
+                setTemPermissao(false);
+                return;
+            }
+
+            if (!resposta.ok) {
+                throw new Error(resultado.erro || 'Não foi possível criar a campanha.');
+            }
+
+            limparFormulario();
+            formulario.reset();
+            setSucesso('Campanha criada com sucesso!');
+        } catch (err) {
+            setErro(err instanceof TypeError
+                ? 'Não foi possível conectar ao servidor. Tente novamente.'
+                : err.message);
+        } finally {
+            setEnviando(false);
+        }
+    }
+
+    if (!temPermissao) {
+        return (
+            <main className="comp-ajude-ongs">
+                <div className="titulo-campanha">
+                    <h1>Acesso restrito a ONGs</h1>
+                    <p>Entre com uma conta de ONG para criar campanhas de arrecadação.</p>
+                </div>
+            </main>
+        );
     }
 
     return (
@@ -102,6 +168,7 @@ export default function AjudeONGs() {
                             placeholder="Digite o título da campanha"
                             value={campanha.titulo}
                             onChange={handleChange}
+                            disabled={enviando}
                             required
                         />
                     </div>
@@ -114,6 +181,7 @@ export default function AjudeONGs() {
                             placeholder="Conte sobre sua campanha..."
                             value={campanha.descricao}
                             onChange={handleChange}
+                            disabled={enviando}
                             required
                         />
                     </div>
@@ -126,6 +194,7 @@ export default function AjudeONGs() {
                             name="imagem"
                             accept="image/*"
                             onChange={handleImagem}
+                            disabled={enviando}
                             required
                         />
 
@@ -146,12 +215,17 @@ export default function AjudeONGs() {
                             type="number"
                             name="valor"
                             placeholder="Ex: 5000"
-                            min="1"
+                            min="0.01"
+                            step="0.01"
                             value={campanha.valor}
                             onChange={handleChange}
+                            disabled={enviando}
                             required
                         />
                     </div>
+
+                    {erro && <p className="mensagem-erro">{erro}</p>}
+                    {sucesso && <p className="mensagem-sucesso">{sucesso}</p>}
 
                     <div className="botoes-campanha">
 
@@ -159,6 +233,7 @@ export default function AjudeONGs() {
                             type="button"
                             className="btn-limpar"
                             onClick={limparFormulario}
+                            disabled={enviando}
                         >
                             Limpar campos
                         </button>
@@ -166,8 +241,9 @@ export default function AjudeONGs() {
                         <button
                             type="submit"
                             className="btn-criar"
+                            disabled={enviando}
                         >
-                            + Criar campanha
+                            {enviando ? 'Criando...' : '+ Criar campanha'}
                         </button>
 
                     </div>

@@ -5,6 +5,21 @@
     background: #f1f6f1;
     color: #202020;
 
+    .mensagem-erro {
+        color: #a12815;
+        font-size: 14px;
+    }
+
+    .mensagem-sucesso {
+        color: #105f56;
+        font-size: 14px;
+    }
+
+    button:disabled {
+        opacity: 0.65;
+        cursor: wait;
+    }
+
     .titulo-campanha {
         margin-bottom: 30px;
         padding: 25px 30px;
