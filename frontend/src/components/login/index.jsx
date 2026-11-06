@@ -2,6 +2,7 @@ import "./index.scss";
 import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { obterDadosToken } from "../../utils/obterInfoToken.js";
 
 export default function Login({
     setUsuarioLogado
@@ -45,16 +46,22 @@ export default function Login({
             }
 
             localStorage.setItem('token', token);
-            setUsuarioLogado(true);
+
+            const tipoUsuario = obterDadosToken()?.tipo;
+
+            if (tipoUsuario !== 'USUARIO' && tipoUsuario !== 'ONG') {
+                localStorage.removeItem('token');
+                setErro('Não foi possível identificar o tipo da conta.');
+                return;
+            }
+
+            setUsuarioLogado(tipoUsuario);
 
             navegar('/');
 
         } catch (e) {
             console.error(e);
         }
-        
-
-
     }
 
     return (

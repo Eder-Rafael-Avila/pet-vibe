@@ -3,8 +3,8 @@ import { cnpj } from "cpf-cnpj-validator";
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexCelular = /^[1-9]{2}9\d{8}$/;
 
-export function ListarOngErrors(nome) {
-    if (!nome) {
+export function ListarOngErrors(id) {
+    if (!id) {
         throw new Error("Informe o nome da ONG.");
     }
 }

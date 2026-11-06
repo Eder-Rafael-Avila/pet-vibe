@@ -25,7 +25,7 @@ export default function CadastroOng() {
     async function cadastrarOng(e) {
         e.preventDefault();
 
-        const resposta = await fetch('http://localhost:3000/ong/criar', {
+        const resposta = await fetch('http://localhost:6767/ong/criar', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

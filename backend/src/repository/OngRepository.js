@@ -15,14 +15,25 @@ FROM ong
     return resposta;
 }
 
-export async function BuscarOngPorNome(nome) {
+export async function BuscarOngPorId(id) {
     const comando = `
-        SELECT nome, email, telefone, descricao, site
+        SELECT nome, email, telefone, cnpj, imagem
         FROM ong
-        WHERE nome LIKE ?
+        WHERE id_ong = ?
     `;
 
-    const [linhas] = await con.query(comando, [`%${nome}%`]);
+    const [linhas] = await con.query(comando, [id]);
+    return linhas;
+}
+
+export async function NomeImgPorId(id) {
+    const comando = `
+        SELECT nome, email, telefone,
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [`%${id}%`]);
     return linhas;
 }
 

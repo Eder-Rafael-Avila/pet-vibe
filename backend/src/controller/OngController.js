@@ -34,11 +34,11 @@ endpoints.get('/ongs', async (req, resp) => {
     }
 })
 
-endpoints.get('/ongs/nome/:nome', async (req, resp) => {
+endpoints.get('/ongs/consultar/:id', async (req, resp) => {
     try {
-        const nome = req.params.nome;
+        const id = req.params.id;
 
-        const resposta = await ListarOngService(nome)
+        const resposta = await ListarOngService(id)
 
         resp.send({ resposta });
     }
