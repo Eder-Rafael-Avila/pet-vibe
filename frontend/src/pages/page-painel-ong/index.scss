@@ -1,0 +1,89 @@
+.page-panel-ong {
+    height: 100vh;
+    width: 100%;
+
+    main {
+        display: flex;
+        flex-direction: column;
+
+        .navegacao {
+            width: 100%;
+            height: 6rem;
+
+            padding: 1.5rem;
+            margin-bottom: 5rem;
+            
+            border-bottom: 1px solid var(--corPretoGeral);
+    
+            ul {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                gap: 2rem;
+    
+                list-style: none;
+    
+                .nav-item {
+                    button {
+                        color: var(--corPretoGeral);
+                        background-color: transparent;
+                        
+                        padding: .5rem .2rem;
+                        border: none;
+    
+                        font-weight: 500;
+    
+                        &:hover {
+                            cursor: pointer;
+                            border-bottom: 2px solid var(--corPretoGeral);
+                        }
+                    }
+
+                    .logout {
+                        color: rgb(255, 68, 68);
+
+                        &:hover {
+                            border-bottom: 2px solid rgb(255, 68, 68);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        .pagina-carregada {
+            width: 100%;
+
+            padding: 2rem;
+        }
+
+        .pagina-nao-carregada {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 100%;
+            min-height: 75vh;
+
+            .nao-carregado {
+                width: 50%;
+
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+
+                border: 3px dashed var(--corPretoGeral);
+                border-radius: 2rem;
+
+                padding: 2rem;
+
+                h2 {
+                    color: var(--corPretoGeral);
+                    font-size: 2.2rem;
+                }
+            }
+        }
+
+    }
+
+}

@@ -1,7 +1,7 @@
 import './index.scss'
 import { NavLink } from 'react-router-dom';
 import { useState } from 'react';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaArrowLeft } from "react-icons/fa";
 import * as formatacao from '../../utils/formatacaoUtils.js';
 
 export default function Cadastro(){
@@ -176,7 +176,10 @@ export default function Cadastro(){
                         </div>
                     </div>
                 </form>
+                                                        <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta" /> Voltar</b></button></NavLink>
+
             </div>
+            
         </div>
     )
 }

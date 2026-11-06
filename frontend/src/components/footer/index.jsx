@@ -27,34 +27,22 @@ export default function Footer() {
                         <ul>
                             <li>
                                 <NavLink to='/comoFunciona' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Como Funciona</NavLink>
                             </li>
                             <li>
                                 <a href='#feedback' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Histórias de Sucesso</a>
                             </li>
                             <li>
                                 <NavLink to='/marketplace' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >MarketPlace</NavLink>
                             </li>
                             <li>
                                 <NavLink to='/Adocao' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Adoção</NavLink>
                             </li>
                         </ul>
@@ -65,34 +53,22 @@ export default function Footer() {
                         <ul>
                             <li>
                                 <NavLink to='/comoFunciona' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Cadastrar ONGs</NavLink>
                             </li>
                             <li>
                                 <a href='#feedback' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Nossos Parceiros</a>
                             </li>
                             <li>
                                 <NavLink to='/marketplace' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Doações</NavLink>
                             </li>
                             <li>
                                 <NavLink to='/Adocao' 
-                                         style={{
-                                            color: '#12a58ccb',
-                                            textDecoration: 'none',
-                                         }}
+                                    className='link'
                                 >Termos de Uso</NavLink>
                             </li>
                         </ul>

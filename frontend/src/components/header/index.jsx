@@ -10,7 +10,8 @@ import { obterImagem } from '../../utils/obterImagem';
 
 export default function Header({ 
     logado,
-    setUsuarioLogado
+    setUsuarioLogado,
+    tipoUsuario = true
  }) {
     
     const [isActive, setIsActive] = useState(false);
@@ -45,6 +46,8 @@ export default function Header({
                 nome: dados.resposta.nome,
                 img: dados.resposta.imagem
             }
+
+            console.log(infoUsuario.img);
             
             return infoUsuario;
 
@@ -68,6 +71,8 @@ export default function Header({
                 setNomeUsuario(infoUsuario.nome);
                 setProfileImg(obterImagem(infoUsuario.img) || imgDefault);
             }
+
+            console.log('Usuario logado?', logado)
         }
 
         carregarUsuario();
@@ -113,17 +118,17 @@ export default function Header({
                     </li>
                     <li>
                         <NavLink
-                        to="/comoFunciona"
+                        to="/ajudeONGs"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>Marketplace</p></NavLink>
+                        ><p>Ajude ONGs</p></NavLink>
                     </li>
                     <li>
                         <NavLink
-                        to="/animais"
+                        to="/Adocao"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
@@ -132,39 +137,49 @@ export default function Header({
                         ><p>Adoção</p></NavLink>
                     </li>
                     <li>
-                        <NavLink
-                        to="/ongsParceiras"
-                        style={({ isActive }) => ({
-                            fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#156957',
-                            textDecoration: 'none'
-                        })}
-                        ><p>ONGs Parceiras</p></NavLink>
+                        {tipoUsuario ? (
+                            <NavLink
+                                to='/PainelONG'
+                                className='ong-panel'
+                            >
+                                <button>Painel ONG</button>
+                            </NavLink>
+                        ) : (
+                            <NavLink
+                            to="/cadastroONGs"
+                            style={({ isActive }) => ({
+                                fontWeight: 'bold',
+                                color: isActive ? '#F8561F' : '#156957',
+                                textDecoration: 'none'
+                            })}
+                            ><p>Cadastre sua ONG</p></NavLink>
+                        )}
                     </li>
                 </ul>
             </nav>
 
             {!logado ? (
                 <div className="buttons">
-                    <button>
-                        <NavLink 
+                    <NavLink 
                         to="/Login"
                         style={() => ({
                             color: 'white',
                             textDecoration: 'none'
                         })}
-                        >Entrar</NavLink>
-                    </button>
+                        >
+                    <button>
+                        Entrar
+                    </button></NavLink>
 
-                    <button id='cadastro'>
-                        <NavLink 
+                     <NavLink 
                         to="/cadastro"
                         style={() => ({
                             color: '#F8561F',
                             textDecoration: 'none'
                         })}
-                        >Cadastre-se</NavLink>
-                    </button>
+                        ><button id='cadastro'>
+                       Cadastre-se
+                    </button></NavLink>
                 </div>
             ) : (
                 <div className="conta-preview">
