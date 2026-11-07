@@ -22,26 +22,69 @@ export default function Adocao({
 }) {
   const [animal, setAnimal] = useState("");
   const [castrado, setCastrado] = useState("");
-  const [sexo, setSexo] = useState("Todos");
+  const [sexo, setSexo] = useState("");
   const [raca, setRaca] = useState("");
   const [porte, setPorte] = useState("");
+  const [filtrosAplicados, setFiltrosAplicados] = useState({
+    animal: "",
+    castrado: "",
+    sexo: "",
+    raca: "",
+    porte: ""
+  });
 
   const [aberta, setAberta] = useState(0);
 
   const [animais, setAnimais] = useState([]);
+  const [carregandoAnimais, setCarregandoAnimais] = useState(true);
+  const [erroAnimais, setErroAnimais] = useState("");
+
+  function normalizar(valor) {
+    return String(valor ?? "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLocaleLowerCase("pt-BR");
+  }
+
+  function normalizarSexo(valor) {
+    const sexoNormalizado = normalizar(valor);
+    if (["feminino", "femea"].includes(sexoNormalizado)) return "feminino";
+    if (["masculino", "macho"].includes(sexoNormalizado)) return "masculino";
+    return sexoNormalizado;
+  }
+
+  function normalizarCastracao(valor) {
+    if (valor === true || valor === 1) return true;
+    if (valor === false || valor === 0) return false;
+
+    const valorNormalizado = normalizar(valor);
+    if (["1", "true", "sim"].includes(valorNormalizado)) return true;
+    if (["0", "false", "nao"].includes(valorNormalizado)) return false;
+    return null;
+  }
 
   function limparFiltros() {
-    setAnimal('');
-    setCastrado('');
-    setSexo('Todos');
-    setRaca('')
-    setPorte('');
+    setAnimal("");
+    setCastrado("");
+    setSexo("");
+    setRaca("");
+    setPorte("");
+    setFiltrosAplicados({
+      animal: "",
+      castrado: "",
+      sexo: "",
+      raca: "",
+      porte: ""
+    });
+  }
+
+  function buscarAnimais() {
+    setFiltrosAplicados({ animal, castrado, sexo, raca, porte });
   }
 
   async function listarAnimais() {
-
     try {
-
       const resposta = await fetch('http://localhost:6767/animais/listar', {
         method: 'GET'
       });
@@ -51,31 +94,38 @@ export default function Adocao({
       }
 
       const dados = await resposta.json();
+      if (!Array.isArray(dados.resposta)) {
+        throw new Error('A resposta da lista de animais é inválida.');
+      }
       setAnimais(dados.resposta);
-
-      console.log('Resposta completa da API:', dados);
-      console.log('Dados dos Animais:', dados.resposta);
-      console.log('É um array?', Array.isArray(dados.resposta))
-  
-
     } catch (e) {
-      console.log(e);
+      console.error('Erro ao listar animais:', e);
+      setErroAnimais(e.message || 'Não foi possível carregar os animais.');
+    } finally {
+      setCarregandoAnimais(false);
     }
-
   }
 
   useEffect(() => {
-    function pegarInfoAnimais() {
-      const infoAnimais = listarAnimais();
-      return infoAnimais;
-    }
+    Promise.resolve().then(listarAnimais);
+  }, []);
 
-    pegarInfoAnimais();
-  }, [])
+  const animaisFiltrados = animais.filter((item) => {
+    const criterios = [
+      !filtrosAplicados.animal
+        || normalizar(item.tipo) === normalizar(filtrosAplicados.animal),
+      !filtrosAplicados.sexo
+        || normalizarSexo(item.sexo) === normalizarSexo(filtrosAplicados.sexo),
+      !filtrosAplicados.porte
+        || normalizar(item.porte) === normalizar(filtrosAplicados.porte),
+      !filtrosAplicados.raca
+        || normalizar(item.raca).includes(normalizar(filtrosAplicados.raca)),
+      !filtrosAplicados.castrado
+        || normalizarCastracao(item.castrado) === (filtrosAplicados.castrado === "Sim")
+    ];
 
-  useEffect(() => {
-    console.log('Estado dos Animais atualizado:', animais);
-  }, [animais])
+    return criterios.every(Boolean);
+  });
 
   return (
     <div className="page-adocao">
@@ -89,6 +139,7 @@ export default function Adocao({
 
         <div className="cont-limpar">
           <button
+            type="button"
             className="limpar-filtros"
             onClick={limparFiltros}
           >Limpar filtros</button>
@@ -105,8 +156,13 @@ export default function Adocao({
                 placeholder="Digite a raça"
                 value={raca}
                 onChange={(e) => setRaca(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") buscarAnimais();
+                }}
               />
-              <FaSearch />
+              <button type="button" aria-label="Buscar por raça" onClick={buscarAnimais}>
+                <FaSearch />
+              </button>
             </div>
           </div>
 
@@ -116,7 +172,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={animal === "Cachorro" ? "selecionado" : ""}
-                onClick={() => setAnimal("Cachorro")}
+                aria-pressed={animal === "Cachorro"}
+                onClick={() => setAnimal(atual => atual === "Cachorro" ? "" : "Cachorro")}
               >
                 Cachorro
               </button>
@@ -124,7 +181,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={animal === "Gato" ? "selecionado" : ""}
-                onClick={() => setAnimal("Gato")}
+                aria-pressed={animal === "Gato"}
+                onClick={() => setAnimal(atual => atual === "Gato" ? "" : "Gato")}
               >
                 Gato
               </button>
@@ -137,7 +195,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={sexo === "Masculino" ? "selecionado" : ""}
-                onClick={() => setSexo("Masculino")}
+                aria-pressed={sexo === "Masculino"}
+                onClick={() => setSexo(atual => atual === "Masculino" ? "" : "Masculino")}
               >
                 Masculino
               </button>
@@ -145,7 +204,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={sexo === "Feminino" ? "selecionado" : ""}
-                onClick={() => setSexo("Feminino")}
+                aria-pressed={sexo === "Feminino"}
+                onClick={() => setSexo(atual => atual === "Feminino" ? "" : "Feminino")}
               >
                 Feminino
               </button>
@@ -158,7 +218,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={castrado === "Sim" ? "selecionado" : ""}
-                onClick={() => setCastrado("Sim")}
+                aria-pressed={castrado === "Sim"}
+                onClick={() => setCastrado(atual => atual === "Sim" ? "" : "Sim")}
               >
                 Sim
               </button>
@@ -166,7 +227,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={castrado === "Não" ? "selecionado" : ""}
-                onClick={() => setCastrado("Não")}
+                aria-pressed={castrado === "Não"}
+                onClick={() => setCastrado(atual => atual === "Não" ? "" : "Não")}
               >
                 Não
               </button>
@@ -179,7 +241,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={porte === "Pequeno" ? "selecionado" : ""}
-                onClick={() => setPorte("Pequeno")}
+                aria-pressed={porte === "Pequeno"}
+                onClick={() => setPorte(atual => atual === "Pequeno" ? "" : "Pequeno")}
               >
                 Pequeno
               </button>
@@ -187,7 +250,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={porte === "Médio" ? "selecionado" : ""}
-                onClick={() => setPorte("Médio")}
+                aria-pressed={porte === "Médio"}
+                onClick={() => setPorte(atual => atual === "Médio" ? "" : "Médio")}
               >
                 Médio
               </button>
@@ -195,7 +259,8 @@ export default function Adocao({
               <button
                 type="button"
                 className={porte === "Grande" ? "selecionado" : ""}
-                onClick={() => setPorte("Grande")}
+                aria-pressed={porte === "Grande"}
+                onClick={() => setPorte(atual => atual === "Grande" ? "" : "Grande")}
               >
                 Grande
               </button>
@@ -203,7 +268,7 @@ export default function Adocao({
           </div>
         </div>
         <div className="btn-animais">
-          <button className="btn-busca">
+          <button type="button" className="btn-busca" onClick={buscarAnimais}>
             <h2>
               Buscar Animais <FaSearch />
             </h2>
@@ -216,28 +281,47 @@ export default function Adocao({
       </div>
 
       <section className="VerAnimais">
-        {animais.length != 0 ? (<div className="cont-cards">
-          {animais.map((animal) => (
+        {carregandoAnimais ? (
+          <div className="animals-not-found" role="status">
+            <h2>Carregando animais...</h2>
+          </div>
+        ) : erroAnimais ? (
+          <div className="animals-not-found" role="alert">
+            <h2>{erroAnimais}</h2>
+          </div>
+        ) : animaisFiltrados.length > 0 ? (
+          <>
+            <p className="resultado-filtros">
+              {animaisFiltrados.length} {animaisFiltrados.length === 1 ? 'animal encontrado' : 'animais encontrados'}
+            </p>
+            <div className="cont-cards">
+          {animaisFiltrados.map((animal) => (
             <CardAnimais
               key={animal.id_animal}
-              imagem={'/assets/images/maxsuel.webp'}
+              imagem={animal.imagem}
               nome={animal.nome_animal}
               especie={animal.tipo}
               idade={animal.idade}
               genero={animal.sexo}
-              castrado={animal.castrado == 1 ? 'castrado' : 'não castrado'}
+              castrado={animal.castrado}
               porte={animal.porte}
-              desc={animal.desc}
+              raca={animal.raca}
+              dataNascimento={animal.data_nascimento}
+              nomeOng={animal.nome_ong}
+              descricao={animal.descricao}
               btn='Adotar animal'
             />
           ))}
-        </div>) : (
-          <div className="animals-not-found">
-            <h2>Nenhum animal encontrado <i class="fa-solid fa-spinner icone-girando"></i></h2>
-
-            <div className="img">
-              <img src="/assets/images/optimized-notfound2.png" alt="" />
             </div>
+          </>
+        ) : (
+          <div className="animals-not-found">
+            <h2>{animais.length > 0 ? 'Nenhum animal corresponde aos filtros selecionados.' : 'Nenhum animal disponível para adoção.'}</h2>
+            {animais.length > 0 && (
+              <button type="button" className="limpar-filtros" onClick={limparFiltros}>
+                Limpar filtros
+              </button>
+            )}
           </div>
         )}
       </section>

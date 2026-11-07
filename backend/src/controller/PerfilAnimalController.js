@@ -42,10 +42,14 @@ endpoints.get('/animal/listar/:nome', async (req, resp) => {
 
 endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem'), async (req, resp) => {
     try {
-        let dados = JSON.parse(req.body.dados);
+        if (!req.file) {
+            throw new Error('Envie uma imagem do animal.');
+        }
+
+        let dados = JSON.parse(req.body?.dados || '{}');
         const idOng = req.usuario.id_ong
         let animal = {
-            id_ong: req.idOng,
+            id_ong: idOng,
             imagem: req.file.filename,
             tipo: dados.tipo,
             nome: dados.nome,
