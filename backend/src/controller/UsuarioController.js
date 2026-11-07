@@ -1,28 +1,28 @@
-import { Router } from 'express';
+import { Router } from "express";
 const endpoints = Router();
 
-import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
-import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
-import { EnviarEmail } from '../utils/VerificacaoEmail.js';
-import { gerarToken, gerarTokenOng } from '../utils/TokenEvalidacao.js';
-import { validarToken } from '../utils/TokenEvalidacao.js';
-import { GerarCodigo } from '../utils/GerarCódigo.js'
-import multer from 'multer';
-const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
+import { gerarTokenValidacaoUsuario } from "../utils/TokenEvalidacao.js";
+import { validarTokenValidacaoUsuario } from "../utils/TokenEvalidacao.js";
+import { EnviarEmail } from "../utils/VerificacaoEmail.js";
+import { gerarToken, gerarTokenOng } from "../utils/TokenEvalidacao.js";
+import { validarToken } from "../utils/TokenEvalidacao.js";
+import { GerarCodigo } from "../utils/GerarCódigo.js";
+import multer from "multer";
+const uploadUsuario = multer({ dest: "src/uploads/ImagemUsuarios" });
 
-import { ListarUsuariosService } from '../service/usuario/ListarUsuariosService.js';
-import { ListarUsuarioService } from '../service/usuario/ListarUsuarioService.js';
-import { CriarUsuarioService } from '../service/usuario/CriarUsuarioService.js';
-import { LoginUsuarioService } from '../service/usuario/LoginUsuarioService.js';
-import { ImagemUsuarioService } from '../service/usuario/ImagemUsuarioService.js';
-import { ExcluirUsuarioService } from '../service/usuario/ExcluirUsuarioService.js';
-import { AlterarSenhaUsuarioService } from '../service/usuario/AlterarSenhaUsuarioService.js';
-import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefoneUsuarioService.js';
-import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
-import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
-import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
-import { BuscarEmailPorIdService } from '../service/usuario/BuscarEmailPorIdService.js';
-let codigoCriado = ""
+import { ListarUsuariosService } from "../service/usuario/ListarUsuariosService.js";
+import { ListarUsuarioService } from "../service/usuario/ListarUsuarioService.js";
+import { CriarUsuarioService } from "../service/usuario/CriarUsuarioService.js";
+import { LoginUsuarioService } from "../service/usuario/LoginUsuarioService.js";
+import { ImagemUsuarioService } from "../service/usuario/ImagemUsuarioService.js";
+import { ExcluirUsuarioService } from "../service/usuario/ExcluirUsuarioService.js";
+import { AlterarSenhaUsuarioService } from "../service/usuario/AlterarSenhaUsuarioService.js";
+import { AlterarTelefoneUsuarioService } from "../service/usuario/AlterarTelefoneUsuarioService.js";
+import { AlterarEmailUsuarioService } from "../service/usuario/AlterarEmailUsuarioService.js";
+import { ListarImagemENome } from "../service/usuario/ListarImagemENomeService.js";
+import { ListarTudoUsuarioService } from "../service/usuario/ListarTudoService.js";
+import { BuscarEmailPorIdService } from "../service/usuario/BuscarEmailPorIdService.js";
+let codigoCriado = "";
 
 async function enviarCodigoDeVerificacao(idUsuario) {
     codigoCriado = await GerarCodigo();
@@ -30,242 +30,233 @@ async function enviarCodigoDeVerificacao(idUsuario) {
     await EnviarEmail(email, codigoCriado);
 }
 
-endpoints.get('/usuarios', async (req, resp) => {
-
+endpoints.get("/usuarios", async (req, resp) => {
     let resposta = await ListarUsuariosService();
 
     resp.send({
-        resposta: resposta
-    })
-})
+        resposta: resposta,
+    });
+});
 
-endpoints.get('/usuario/nome/:nome', async (req, resp) => {
+endpoints.get("/usuario/nome/:nome", async (req, resp) => {
     try {
         let nome = req.params.nome;
 
-        let resposta = await ListarUsuarioService(nome)
-
+        let resposta = await ListarUsuarioService(nome);
 
         resp.send({
-            resposta: resposta
-        })
-    }
-    catch (err) {
+            resposta: resposta,
+        });
+    } catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.post('/usuario/cadastrar', async (req, resp) => {
+endpoints.post("/usuario/cadastrar", async (req, resp) => {
     try {
         let usuario = req.body;
-
-
 
         let resposta = await CriarUsuarioService(usuario);
         console.log(resposta);
 
         resp.send({
-            resposta: resposta
-        })
-    }
-    catch (err) {
+            resposta: resposta,
+        });
+    } catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.post('/usuario/login', async (req, resp) => {
+endpoints.post("/usuario/login", async (req, resp) => {
     try {
         const { email, senha } = req.body;
 
-        const conta = await LoginUsuarioService(email, senha)
+        const conta = await LoginUsuarioService(email, senha);
 
-        const token = conta.tipo === 'ONG'
-            ? gerarTokenOng({ id_ong: conta.id_ong })
-            : gerarToken({ id_usuario: conta.id_usuario });
+        const token =
+            conta.tipo === "ONG"
+                ? gerarTokenOng({ id_ong: conta.id_ong })
+                : gerarToken({ id_usuario: conta.id_usuario });
 
         resp.send({ token });
-    }
-    catch (err) {
-        logError(err);
-        return resp.status(400).send(erroJson(err));
-    }
-
-})
-
-endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
-    try {
-        const imagem = await ImagemUsuarioService(req.usuario.id_usuario, req.file);
-
-        resp.send({ imagem });
-    }
-    catch (err) {
+    } catch (err) {
         logError(err);
         return resp.status(400).send(erroJson(err));
     }
 });
 
-endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
+endpoints.put(
+    "/usuario/imagem",
+    validarToken,
+    uploadUsuario.single("imagem"),
+    async (req, resp) => {
+        try {
+            const imagem = await ImagemUsuarioService(
+                req.usuario.id_usuario,
+                req.file,
+            );
+
+            resp.send({ imagem });
+        } catch (err) {
+            logError(err);
+            return resp.status(400).send(erroJson(err));
+        }
+    },
+);
+
+endpoints.delete("/usuario/excluir", validarToken, async (req, resp) => {
     try {
-        let resposta = ""
+        let resposta = "";
         const idUsuario = req.usuario.id_usuario;
         const token = req.headers.tokenpermitido;
-        if(!token){
+        if (!token) {
             await enviarCodigoDeVerificacao(idUsuario);
             resp.status(202).send({
-                resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-            })
+                resposta:
+                    "Foi enviado um email com o código de verificação a sua caixa de notificações",
+            });
+        } else {
+            resposta = await ExcluirUsuarioService(idUsuario);
+            resp.send({
+                resposta: resposta,
+            });
         }
-        else{
-            resposta = await ExcluirUsuarioService(idUsuario)
-                    resp.send({
-            resposta: resposta
-        });
-        }
-         
-    }
-    catch (err) {
+    } catch (err) {
         logError(err);
         return resp.status(400).send(erroJson(err));
     }
 });
 
-endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
-  try {
-    let resposta = "";
+endpoints.put("/usuario/alterarSenha", validarToken, async (req, resp) => {
+    try {
+        let resposta = "";
         const { senha } = req.body;
-    const idUsuario = req.usuario.id_usuario;
+        const idUsuario = req.usuario.id_usuario;
+        const token = req.headers.tokenpermitido;
+        if (!token) {
+            await enviarCodigoDeVerificacao(idUsuario);
+            resp.status(202).send({
+                resposta:
+                    "Foi enviado um email com o código de verificação a sua caixa de notificações",
+            });
+        } else {
+            resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
+            resp.send({
+                resposta: resposta,
+            });
+        }
+    } catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+endpoints.put(
+    "/usuario/alterarTelefone",
+    validarTokenValidacaoUsuario,
+    async (req, resp) => {
+        try {
+            let resposta = "";
+            const { telefone } = req.body;
+            const idUsuario = req.usuario.id_usuario;
             const token = req.headers.tokenpermitido;
-    if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
+            if (!token) {
+                await enviarCodigoDeVerificacao(idUsuario);
+                resp.status(202).send({
+                    resposta:
+                        "Foi enviado um email com o código de verificação a sua caixa de notificações",
+                });
+            } else {
+                resposta = await AlterarTelefoneUsuarioService(
+                    telefone,
+                    idUsuario,
+                );
+                resp.send({
+                    resposta: resposta,
+                });
+            }
+        } catch (err) {
+            logError(err);
+            resp.status(400).send(erroJson(err));
+        }
+    },
+);
 
+endpoints.put(
+    "/usuario/alterarEmail",
+    validarTokenValidacaoUsuario,
+    async (req, resp) => {
+        try {
+            let resposta = "";
+            const { email } = req.body;
+            const idUsuario = req.usuario.id_usuario;
+            const token = req.headers.tokenpermitido;
+            if (!token) {
+                await enviarCodigoDeVerificacao(idUsuario);
+                resp.status(202).send({
+                    resposta:
+                        "Foi enviado um email com o código de verificação a sua caixa de notificações",
+                });
+            } else {
+                resposta = await AlterarEmailUsuarioService(email, idUsuario);
+                resp.send({
+                    resposta: resposta,
+                });
+            }
+        } catch (err) {
+            logError(err);
+            resp.status(400).send(erroJson(err));
+        }
+    },
+);
 
-    }
-    catch (err) {
-        logError(err);
-        resp.status(400).send(erroJson(err));
-    }
-});
-endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (req, resp) => {
-  try {
-    let resposta = "";
-        const { telefone } = req.body;
-    const idUsuario = req.usuario.id_usuario;
-    const token = req.headers.tokenpermitido;
-    if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
-    
-
-    }
-    catch (err) {
-        logError(err);
-        resp.status(400).send(erroJson(err));
-    }
-});
-
-endpoints.put('/usuario/alterarEmail', validarTokenValidacaoUsuario, async (req, resp) => {
-  try {
-    let resposta = "";
-        const { email } = req.body;
-    const idUsuario = req.usuario.id_usuario;
-    const token = req.headers.tokenpermitido;
-    if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarEmailUsuarioService(email, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
-
-
-    }
-    catch (err) {
-        logError(err);
-        resp.status(400).send(erroJson(err));
-    }
-}
-)
-
-endpoints.get('/usuario/listarNomeeIMG', validarToken, async (req,resp) => {
-    try{
+endpoints.get("/usuario/listarNomeeIMG", validarToken, async (req, resp) => {
+    try {
         const id = req.usuario.id_usuario;
 
-        const resposta = await ListarImagemENome(id)
+        const resposta = await ListarImagemENome(id);
         resp.send({
-            resposta: resposta
-        })
-    }
-    catch(err){
-                logError(err);
+            resposta: resposta,
+        });
+    } catch (err) {
+        logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
-  try {
-    let id = req.usuario.id_usuario
+endpoints.get("/usuario/listarTudo", validarToken, async (req, resp) => {
+    try {
+        let id = req.usuario.id_usuario;
 
-    const resposta = await ListarTudoUsuarioService(id);
+        const resposta = await ListarTudoUsuarioService(id);
 
-    resp.send({
-      resposta: resposta
-    });
-  }
-  catch (err) {
-    logError(err);
-    resp.status(400).send(erroJson(err));
-  }
-}) 
-
-endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
-
-    try{
-        let codigoEnviado = req.body.codigo;
-
-        if(codigoEnviado == codigoCriado){
         resp.send({
-            token: gerarTokenValidacaoUsuario(req.usuario.id_usuario)
-        })
-        }
-
-        else{
-        resp.send({
-            resposta: "Código Incorreto"
-        })
-        }
-
-
+            resposta: resposta,
+        });
+    } catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
     }
-    catch(err){
-            logError(err);
-    resp.status(400).send(erroJson(err));
-    }
-})
+});
 
-export default endpoints
+endpoints.get("/usuario/liberarPermissao", validarToken, async (req, resp) => {
+    try {
+        const codigoEnviado = req.query.codigo ?? req.body?.codigo;
+
+        if (codigoEnviado == codigoCriado) {
+            resp.send({
+                token: gerarTokenValidacaoUsuario(req.usuario.id_usuario),
+            });
+        } else {
+            resp.send({
+                resposta: "Código Incorreto",
+            });
+        }
+    } catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+
+export default endpoints;

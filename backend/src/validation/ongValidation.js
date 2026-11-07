@@ -82,6 +82,18 @@ export function AlterarSenhaOngErrors(senha) {
     }
 }
 
+export function AlterarNomeOngErrors(nome) {
+    if (!nome || !String(nome).trim()) throw new Error("Informe o nome da ONG.");
+}
+
+export function AlterarTelefoneOngErrors(telefone) {
+    const telefoneSemMascara = String(telefone || "").replace(/\D/g, "");
+
+    if (!regexCelular.test(telefoneSemMascara)) {
+        throw new Error("O telefone informado é inválido. Verifique o DDD e o número.");
+    }
+}
+
 export function AlterarEmailOngErrors(email) {
     if (!email) throw new Error("Informe o novo e-mail da ONG.");
 

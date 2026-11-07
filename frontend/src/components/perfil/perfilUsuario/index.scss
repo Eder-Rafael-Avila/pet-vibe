@@ -374,7 +374,7 @@
 
                 .container {
                     display: flex;
-                    justify-content: space-between;
+                    justify-content: end;
                     gap: .8rem;
 
                     width: 34%;
@@ -405,6 +405,133 @@
                         font-size: 1.5rem;
                         width: 100%;
                         border-radius: 1rem;
+                    }
+
+                    &.cont-senha {
+                        &:not(.editando) {
+                            width: 34%;
+                            flex-direction: column;
+                            align-items: stretch;
+
+                            .verificar {
+                                align-self: flex-end;
+                            }
+
+                            .aviso-senha,
+                            > input {
+                                width: 92%;
+                                align-self: center;
+                                box-sizing: border-box;
+                            }
+                        }
+
+                        &.editando {
+                            width: 50%;
+                        }
+
+                        .aviso-senha {
+                            display: block;
+                            padding: 0.6rem 0.8rem;
+                            border-left: 3px solid #d99000;
+                            border-radius: 0.3rem;
+                            background-color: #fff6db;
+                            color: #765000;
+                            font-size: 1.2rem;
+                            line-height: 1.4;
+                        }
+
+                        .verificacao-senha {
+                            display: flex;
+                            width: 92%;
+                            align-self: center;
+                            flex-direction: column;
+                            gap: 0.7rem;
+                            margin-top: 0.5rem;
+
+                            label {
+                                color: var(--corPretoGeral);
+                                font-size: 1.2rem;
+                                font-weight: 600;
+                            }
+
+                            input {
+                                box-sizing: border-box;
+                                width: 100%;
+                            }
+
+                            .acoes-verificacao-senha {
+                                display: flex;
+                                flex-wrap: wrap;
+                                justify-content: flex-end;
+                                gap: 0.6rem;
+                                margin-top: 0.5rem;
+
+                                button {
+                                    padding: 0.6rem 0.9rem;
+                                    border: 1px solid var(--corAzulPrimario);
+                                    border-radius: 0.8rem;
+                                    background: transparent;
+                                    color: var(--corAzulPrimario);
+                                    font-size: 1.2rem;
+                                    font-weight: 600;
+
+                                    &:hover:not(:disabled) {
+                                        background: var(--corAzulPrimario);
+                                        color: white;
+                                        cursor: pointer;
+                                    }
+
+                                    &:disabled {
+                                        cursor: wait;
+                                        opacity: 0.65;
+                                    }
+                                }
+
+                                .confirmar {
+                                    border-color: #156957;
+                                    background: #156957;
+                                    color: white;
+                                }
+
+                                .cancelar {
+                                    border-color: #b42318;
+                                    color: #b42318;
+
+                                    &:hover:not(:disabled) {
+                                        background: #b42318;
+                                    }
+                                }
+                            }
+                        }
+
+                        .mensagem-senha {
+                            width: 92%;
+                            align-self: center;
+                            font-size: 1.2rem;
+                            line-height: 1.4;
+                        }
+
+                        .mensagem-senha.erro {
+                            color: #b42318;
+                        }
+
+                        .mensagem-senha.sucesso {
+                            color: #156957;
+                        }
+
+                        .editar {
+                            &.verificar {
+                                border-color: var(--corPretoGeral);
+                                color: var(--corPretoGeral);
+
+                                padding: .7rem 1rem;
+
+                                &:hover {
+                                    background-color: var(--corPretoGeral);
+                                    color: white;
+                                }
+                            }
+                        }
                     }
                 }
 
@@ -627,6 +754,10 @@
 
                     .container {
                         gap: .6rem;
+
+                        &.cont-senha:not(.editando) {
+                            width: 100%;
+                        }
 
                         .editar,
                         .enviar {
