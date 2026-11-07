@@ -9,6 +9,17 @@ import { formatarTelefone } from '../../../utils/formatacaoUtils';
 import Cropper from 'react-easy-crop';
 import recortarImagem from '../../../utils/recortarImagem';
 
+function mascararCpf(cpf) {
+    if (!cpf) return '';
+
+    let digitosRestantes = String(cpf).replace(/\D/g, '').length;
+
+    return String(cpf).replace(/\d/g, digito => {
+        digitosRestantes -= 1;
+        return digitosRestantes < 2 ? digito : '•';
+    });
+}
+
 export default function PerfilUsuario({ setUsuarioLogado }) {
 
     const navegar = useNavigate();
@@ -23,6 +34,10 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
 
     const [senha, setSenha] = useState('');
     const [editandoSenha, setEditandoSenha] = useState(false);
+    const [codigoVerificacaoSenha, setCodigoVerificacaoSenha] = useState('');
+    const [mensagemSenha, setMensagemSenha] = useState('');
+    const [processandoSenha, setProcessandoSenha] = useState(false);
+    const [erroSenha, setErroSenha] = useState(false);
 
     const [telefone, setTelefone] = useState('');
     const [editandoTel, setEditandoTel] = useState(false);
@@ -112,34 +127,94 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
         }
     }
 
+    async function solicitarCodigoSenha() {
+        const token = localStorage.getItem('token');
+        setProcessandoSenha(true);
+        setMensagemSenha('');
+        setErroSenha(false);
+
+        try {
+            const resposta = await fetch('http://localhost:6767/usuario/alterarSenha', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+                body: JSON.stringify({ senha: '' })
+            });
+            const dados = await resposta.json();
+
+            if (resposta.status !== 202) {
+                throw new Error(dados.erro || 'Não foi possível solicitar o código de verificação.');
+            }
+
+            setEditandoSenha(true);
+            setMensagemSenha(dados.resposta || 'Enviamos um código de verificação para seu e-mail.');
+        } catch (e) {
+            console.error(`Erro ao solicitar código para alterar senha: ${e.message}`);
+            setMensagemSenha(e.message || 'Não foi possível solicitar o código de verificação.');
+            setErroSenha(true);
+        } finally {
+            setProcessandoSenha(false);
+        }
+    }
+
     async function alterarSenha(e) {
         e.preventDefault();
 
         const token = localStorage.getItem('token');
+        const codigo = codigoVerificacaoSenha.trim();
+        setProcessandoSenha(true);
+        setMensagemSenha('');
+        setErroSenha(false);
 
         try {
+            const parametros = new URLSearchParams({ codigo });
+            const respostaVerificacao = await fetch(
+                `http://localhost:6767/usuario/liberarPermissao?${parametros}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const dadosVerificacao = await respostaVerificacao.json();
+
+            if (!respostaVerificacao.ok || !dadosVerificacao.token) {
+                throw new Error(
+                    dadosVerificacao.erro ||
+                    dadosVerificacao.resposta ||
+                    'O código de verificação está incorreto ou expirou.'
+                );
+            }
 
             const resposta = await fetch('http://localhost:6767/usuario/alterarSenha', {
                 method: 'PUT',
                 headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    tokenpermitido: dadosVerificacao.token
                 },
                 body: JSON.stringify({ senha })
             });
-
             const dados = await resposta.json();
 
             if (!resposta.ok) {
-                setErro(dados?.erro);
-                throw new Error('Não foi possível mudar a senha.');
+                throw new Error(dados.erro || 'Não foi possível alterar a senha.');
             }
 
+            setSenha('');
+            setCodigoVerificacaoSenha('');
             setEditandoSenha(false);
-            window.location.reload();
-
+            setUserInfo(usuarioAtual => ({ ...usuarioAtual, senha: '' }));
+            setMensagemSenha('Senha alterada com sucesso.');
         } catch (e) {
-            console.log(e);
+            console.error(`Erro ao alterar senha: ${e.message}`);
+            setMensagemSenha(e.message || 'Não foi possível alterar a senha.');
+            setErroSenha(true);
+        } finally {
+            setProcessandoSenha(false);
         }
     }
 
@@ -530,41 +605,97 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                             </div>
                         )}
                     </div>
+
+                    <hr />
+
                     <div className="campo">
                         <label htmlFor="">Senha</label>
-                        {editandoSenha ? (
-                            <form className='container editando'
-                                onSubmit={alterarSenha}
-                            >
-                                <button className="cancelar"
-                                    onClick={() => setEditandoSenha(!editandoSenha)}
-                                >
-                                    Cancelar
-                                </button>
-                                <button type='submit' className="enviar">
-                                    alterar
-                                </button>
-
-                                <input type='text'
-                                    value={senha}
-                                    onChange={e => setSenha(e.target.value)}
-                                />
-                            </form>
-                        ) : (
-                            <div className="container">
-                                <button className="editar"
-                                    onClick={() => setEditandoSenha(!editandoSenha)}
-                                >
-                                    editar
-                                </button>
-
-                                <input type="password"
-                                    value={userInfo.senha}
-                                    disabled
-                                />
+                        <div className="container cont-senha">
+                            <div className="aviso-senha">
+                                * exige verificação por e-mail para alterar
                             </div>
-                        )}
+                            <input
+                                type="password"
+                                value={userInfo.senha || ''}
+                                placeholder="Senha privada"
+                                disabled
+                            />
+                            {!editandoSenha ? (
+                                <button className="editar verificar"
+                                    type="button"
+                                    onClick={solicitarCodigoSenha}
+                                    disabled={processandoSenha}
+                                >
+                                    {processandoSenha ? 'Enviando código...' : 'Enviar código'}
+                                </button>
+                            ) : (
+                                <form className="verificacao-senha" onSubmit={alterarSenha}>
+                                    <label htmlFor="codigo-verificacao-senha">Código enviado para seu e-mail</label>
+                                    <input
+                                        id="codigo-verificacao-senha"
+                                        type="text"
+                                        inputMode="numeric"
+                                        autoComplete="one-time-code"
+                                        maxLength={4}
+                                        required
+                                        value={codigoVerificacaoSenha}
+                                        onChange={e => setCodigoVerificacaoSenha(e.target.value.replace(/\D/g, ''))}
+                                    />
+
+                                    <label htmlFor="nova-senha">Nova senha</label>
+                                    <input
+                                        id="nova-senha"
+                                        type="password"
+                                        autoComplete="new-password"
+                                        minLength={8}
+                                        required
+                                        value={senha}
+                                        onChange={e => setSenha(e.target.value)}
+                                    />
+
+                                    <div className="acoes-verificacao-senha">
+                                        <button
+                                            type="button"
+                                            className="reenviar"
+                                            onClick={solicitarCodigoSenha}
+                                            disabled={processandoSenha}
+                                        >
+                                            Reenviar código
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="cancelar"
+                                            onClick={() => {
+                                                setEditandoSenha(false);
+                                                setCodigoVerificacaoSenha('');
+                                                setSenha('');
+                                                setMensagemSenha('');
+                                                setErroSenha(false);
+                                            }}
+                                            disabled={processandoSenha}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button
+                                            type="submit"
+                                            className="confirmar"
+                                            disabled={processandoSenha}
+                                        >
+                                            {processandoSenha ? 'Validando...' : 'Confirmar e alterar'}
+                                        </button>
+                                    </div>
+                                </form>
+                            )}
+                            {mensagemSenha && (
+                                <p className={`mensagem-senha ${erroSenha ? 'erro' : 'sucesso'}`} role={erroSenha ? 'alert' : 'status'}>
+                                    {mensagemSenha}
+                                </p>
+                            )}
+                        </div>
                     </div>
+
+                    <hr />
+
                     <div className="campo">
                         <label htmlFor="">Telefone</label>
                         {editandoTel ? (
@@ -603,7 +734,7 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                     <div className="campo">
                         <label htmlFor="">CPF</label>
                         <input type="text" disabled
-                            value={userInfo.cpf}
+                            value={mascararCpf(userInfo.cpf)}
                         />
                     </div>
                     <div className="campo">

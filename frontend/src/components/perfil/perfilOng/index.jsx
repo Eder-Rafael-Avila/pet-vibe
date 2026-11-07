@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { obterImagem } from '../../../utils/obterImagem.js';
 import { obterDadosToken } from '../../../utils/obterInfoToken.js';
+import { formatarTelefone } from '../../../utils/formatacaoUtils.js';
 import Cropper from 'react-easy-crop';
 import recortarImagem from '../../../utils/recortarImagem.js';
 
@@ -23,6 +24,17 @@ export default function PerfilOng({ setUsuarioLogado }) {
     const [editorAberto, setEditorAberto] = useState(false);
     const [salvandoFoto, setSalvandoFoto] = useState(false);
     const [erroFoto, setErroFoto] = useState('');
+    const [nome, setNome] = useState('');
+    const [telefone, setTelefone] = useState('');
+    const [editandoNome, setEditandoNome] = useState(false);
+    const [editandoTelefone, setEditandoTelefone] = useState(false);
+    const [erroAlteracao, setErroAlteracao] = useState('');
+    const [senha, setSenha] = useState('');
+    const [codigoVerificacaoSenha, setCodigoVerificacaoSenha] = useState('');
+    const [editandoSenha, setEditandoSenha] = useState(false);
+    const [mensagemSenha, setMensagemSenha] = useState('');
+    const [erroSenha, setErroSenha] = useState(false);
+    const [processandoSenha, setProcessandoSenha] = useState(false);
     const [confirmacaoExclusaoAberta, setConfirmacaoExclusaoAberta] = useState(false);
     const [excluindoConta, setExcluindoConta] = useState(false);
     const [erroExclusao, setErroExclusao] = useState('');
@@ -166,6 +178,147 @@ export default function PerfilOng({ setUsuarioLogado }) {
             setErroFoto(e.message || 'Erro ao alterar a foto de perfil.');
         } finally {
             setSalvandoFoto(false);
+        }
+    }
+
+    async function alterarNome(e) {
+        e.preventDefault();
+        setErroAlteracao('');
+
+        try {
+            const resposta = await fetch('http://localhost:6767/ong/alterarNome', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ nome })
+            });
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados.erro || 'Não foi possível alterar o nome da ONG.');
+            }
+
+            setOngInfo(ongAtual => ({ ...ongAtual, nome: nome.trim() }));
+            setEditandoNome(false);
+        } catch (e) {
+            console.error(`Erro ao alterar nome da ONG: ${e.message}`);
+            setErroAlteracao(e.message);
+        }
+    }
+
+    async function alterarTelefone(e) {
+        e.preventDefault();
+        setErroAlteracao('');
+
+        try {
+            const telefoneSemMascara = telefone.replace(/\D/g, '');
+            const resposta = await fetch('http://localhost:6767/ong/alterarTelefone', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ telefone: telefoneSemMascara })
+            });
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados.erro || 'Não foi possível alterar o telefone da ONG.');
+            }
+
+            setOngInfo(ongAtual => ({ ...ongAtual, telefone: telefoneSemMascara }));
+            setEditandoTelefone(false);
+        } catch (e) {
+            console.error(`Erro ao alterar telefone da ONG: ${e.message}`);
+            setErroAlteracao(e.message);
+        }
+    }
+
+    async function solicitarCodigoSenha() {
+        setProcessandoSenha(true);
+        setMensagemSenha('');
+        setErroSenha(false);
+
+        try {
+            const resposta = await fetch('http://localhost:6767/ong/alterarSenha', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                },
+                body: JSON.stringify({ senha: '' })
+            });
+            const dados = await resposta.json();
+
+            if (resposta.status !== 202) {
+                throw new Error(dados.erro || 'Não foi possível solicitar o código de verificação.');
+            }
+
+            setEditandoSenha(true);
+            setMensagemSenha(dados.resposta || 'Enviamos um código de verificação para o e-mail da ONG.');
+        } catch (e) {
+            console.error(`Erro ao solicitar código para alterar senha da ONG: ${e.message}`);
+            setMensagemSenha(e.message || 'Não foi possível solicitar o código de verificação.');
+            setErroSenha(true);
+        } finally {
+            setProcessandoSenha(false);
+        }
+    }
+
+    async function alterarSenha(e) {
+        e.preventDefault();
+        setProcessandoSenha(true);
+        setMensagemSenha('');
+        setErroSenha(false);
+
+        try {
+            const parametros = new URLSearchParams({ codigo: codigoVerificacaoSenha.trim() });
+            const respostaVerificacao = await fetch(
+                `http://localhost:6767/ong/liberarPermissao?${parametros}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem('token')}`
+                    }
+                }
+            );
+            const dadosVerificacao = await respostaVerificacao.json();
+
+            if (!respostaVerificacao.ok || !dadosVerificacao.token) {
+                throw new Error(
+                    dadosVerificacao.erro ||
+                    dadosVerificacao.resposta ||
+                    'O código de verificação está incorreto ou expirou.'
+                );
+            }
+
+            const resposta = await fetch('http://localhost:6767/ong/alterarSenha', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    tokenpermitido: dadosVerificacao.token
+                },
+                body: JSON.stringify({ senha })
+            });
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados.erro || 'Não foi possível alterar a senha da ONG.');
+            }
+
+            setSenha('');
+            setCodigoVerificacaoSenha('');
+            setEditandoSenha(false);
+            setMensagemSenha('Senha alterada com sucesso.');
+        } catch (e) {
+            console.error(`Erro ao alterar senha da ONG: ${e.message}`);
+            setMensagemSenha(e.message || 'Não foi possível alterar a senha da ONG.');
+            setErroSenha(true);
+        } finally {
+            setProcessandoSenha(false);
         }
     }
 
@@ -369,20 +522,196 @@ export default function PerfilOng({ setUsuarioLogado }) {
                         <>
                             <div className="campo">
                                 <label htmlFor="ong-nome">Nome da ONG</label>
-                                <input id="ong-nome" type="text" value={ongInfo.nome || ''} disabled />
+                                {editandoNome ? (
+                                    <form className="container editando" onSubmit={alterarNome}>
+                                        <button
+                                            type="button"
+                                            className="cancelar"
+                                            onClick={() => {
+                                                setEditandoNome(false);
+                                                setNome('');
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" className="enviar">Salvar</button>
+                                        <input
+                                            id="ong-nome"
+                                            type="text"
+                                            required
+                                            value={nome}
+                                            onChange={e => setNome(e.target.value)}
+                                        />
+                                    </form>
+                                ) : (
+                                    <div className="container">
+                                        <button
+                                            type="button"
+                                            className="editar"
+                                            onClick={() => {
+                                                setNome(ongInfo.nome || '');
+                                                setEditandoNome(true);
+                                            }}
+                                        >
+                                            editar
+                                        </button>
+                                        <input id="ong-nome" type="text" value={ongInfo.nome || ''} disabled />
+                                    </div>
+                                )}
                             </div>
+
+                            <hr />
+
                             <div className="campo">
                                 <label htmlFor="ong-email">E-mail</label>
                                 <input id="ong-email" type="email" value={ongInfo.email || ''} disabled />
                             </div>
                             <div className="campo">
                                 <label htmlFor="ong-telefone">Telefone</label>
-                                <input id="ong-telefone" type="text" value={ongInfo.telefone || ''} disabled />
+                                {editandoTelefone ? (
+                                    <form className="container editando" onSubmit={alterarTelefone}>
+                                        <button
+                                            type="button"
+                                            className="cancelar"
+                                            onClick={() => {
+                                                setEditandoTelefone(false);
+                                                setTelefone('');
+                                            }}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" className="enviar">Salvar</button>
+                                        <input
+                                            id="ong-telefone"
+                                            type="tel"
+                                            required
+                                            value={telefone}
+                                            onChange={e => setTelefone(formatarTelefone(e.target.value))}
+                                        />
+                                    </form>
+                                ) : (
+                                    <div className="container">
+                                        <button
+                                            type="button"
+                                            className="editar"
+                                            onClick={() => {
+                                                setTelefone(formatarTelefone(ongInfo.telefone || ''));
+                                                setEditandoTelefone(true);
+                                            }}
+                                        >
+                                            editar
+                                        </button>
+                                        <input
+                                            id="ong-telefone"
+                                            type="text"
+                                            value={formatarTelefone(ongInfo.telefone || '')}
+                                            disabled
+                                        />
+                                    </div>
+                                )}
                             </div>
+
+                            <hr />
+
                             <div className="campo">
                                 <label htmlFor="ong-cnpj">CNPJ</label>
                                 <input id="ong-cnpj" type="text" value={ongInfo.cnpj || ''} disabled />
                             </div>
+
+                            <hr />
+
+                            <div className="campo">
+                                <label htmlFor="senha-ong-atual">Senha</label>
+                                <div className="container cont-senha">
+                                    <div className="aviso-senha">
+                                        * exige verificação por e-mail para alterar
+                                    </div>
+                                    <input
+                                        id="senha-ong-atual"
+                                        type="password"
+                                        placeholder="Senha privada"
+                                        disabled
+                                    />
+                                    {!editandoSenha ? (
+                                        <button
+                                            type="button"
+                                            className="editar verificar"
+                                            onClick={solicitarCodigoSenha}
+                                            disabled={processandoSenha}
+                                        >
+                                            {processandoSenha ? 'Enviando código...' : 'Enviar código'}
+                                        </button>
+                                    ) : (
+                                        <form className="verificacao-senha" onSubmit={alterarSenha}>
+                                            <label htmlFor="codigo-verificacao-ong">Código enviado para o e-mail da ONG</label>
+                                            <input
+                                                id="codigo-verificacao-ong"
+                                                type="text"
+                                                inputMode="numeric"
+                                                autoComplete="one-time-code"
+                                                maxLength={4}
+                                                required
+                                                value={codigoVerificacaoSenha}
+                                                onChange={e => setCodigoVerificacaoSenha(e.target.value.replace(/\D/g, ''))}
+                                            />
+
+                                            <label htmlFor="nova-senha-ong">Nova senha</label>
+                                            <input
+                                                id="nova-senha-ong"
+                                                type="password"
+                                                autoComplete="new-password"
+                                                minLength={8}
+                                                required
+                                                value={senha}
+                                                onChange={e => setSenha(e.target.value)}
+                                            />
+
+                                            <div className="acoes-verificacao-senha">
+                                                <button
+                                                    type="button"
+                                                    className="reenviar"
+                                                    onClick={solicitarCodigoSenha}
+                                                    disabled={processandoSenha}
+                                                >
+                                                    Reenviar código
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    className="cancelar"
+                                                    onClick={() => {
+                                                        setEditandoSenha(false);
+                                                        setCodigoVerificacaoSenha('');
+                                                        setSenha('');
+                                                        setMensagemSenha('');
+                                                        setErroSenha(false);
+                                                    }}
+                                                    disabled={processandoSenha}
+                                                >
+                                                    Cancelar
+                                                </button>
+                                                <button
+                                                    type="submit"
+                                                    className="confirmar"
+                                                    disabled={processandoSenha}
+                                                >
+                                                    {processandoSenha ? 'Validando...' : 'Confirmar e alterar'}
+                                                </button>
+                                            </div>
+                                        </form>
+                                    )}
+                                    {mensagemSenha && (
+                                        <p
+                                            className={`mensagem-senha ${erroSenha ? 'erro' : 'sucesso'}`}
+                                            role={erroSenha ? 'alert' : 'status'}
+                                        >
+                                            {mensagemSenha}
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
+                            {erroAlteracao && (
+                                <p className="status-message erro" role="alert">{erroAlteracao}</p>
+                            )}
                         </>
                     )}
                 </section>
