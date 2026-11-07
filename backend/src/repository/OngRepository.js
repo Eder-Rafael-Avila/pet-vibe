@@ -75,6 +75,17 @@ export async function BuscarPorEmail(email) {
     return linhas[0];
 }
 
+export async function BuscarEmailPorId(idOng) {
+    const command = `
+        SELECT email
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(command, [idOng]);
+    return linhas[0];
+}
+
 export async function ImagemOng(idOng, imagem) {
     const command = `
         UPDATE ong
