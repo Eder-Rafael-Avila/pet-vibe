@@ -97,17 +97,6 @@ export async function validarTokenValidacaoUsuario(req, resp, next) {
     }
 }
 
-export function gerarTokenValidacaoOng(idOng) {
-    return jwt.sign(
-        {
-            permissao: 'Permitido',
-            id_ong: idOng
-        },
-        SECRET_KEY,
-        { expiresIn: '1h' }
-    );
-}
-
 export function validarTokenValidacaoOng(req, resp, next) {
     try {
         const token = req.headers.tokenpermitidoong;
