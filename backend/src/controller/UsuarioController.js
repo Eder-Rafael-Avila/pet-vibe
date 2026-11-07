@@ -1,12 +1,9 @@
 import { Router } from 'express';
 const endpoints = Router();
 
-import { gerarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
-import { EnviarEmail } from '../utils/VerificacaoEmail.js';
 import { gerarToken } from '../utils/TokenEvalidacao.js';
 import { validarToken } from '../utils/TokenEvalidacao.js';
-import { GerarCodigo } from '../utils/GerarCódigo.js'
 import multer from 'multer';
 const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
 
@@ -21,14 +18,7 @@ import { AlterarTelefoneUsuarioService } from '../service/usuario/AlterarTelefon
 import { AlterarEmailUsuarioService } from '../service/usuario/AlterarEmailUsuarioService.js';
 import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.js';
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
-import { BuscarEmailPorIdService } from '../service/usuario/BuscarEmailPorIdService.js';
-let codigoCriado = ""
-
-async function enviarCodigoDeVerificacao(idUsuario) {
-    codigoCriado = await GerarCodigo();
-    const email = await BuscarEmailPorIdService(idUsuario);
-    await EnviarEmail(email, codigoCriado);
-}
+import { EnviarCodigoVerificacaoUsuarioService, LiberarPermissaoUsuarioService } from '../service/usuario/VerificacaoUsuarioService.js';
 
 endpoints.get('/usuarios', async (req, resp) => {
 
@@ -107,13 +97,13 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
     }
 });
 
-endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
+endpoints.delete('/usuario/excluir', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
     try {
         let resposta = ""
         const idUsuario = req.usuario.id_usuario;
         const token = req.headers.tokenpermitido;
         if(!token){
-            await enviarCodigoDeVerificacao(idUsuario);
+            await EnviarCodigoVerificacaoUsuarioService(idUsuario);
             resp.status(202).send({
                 resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
             })
@@ -132,14 +122,14 @@ endpoints.delete('/usuario/excluir', validarToken, async (req, resp) => {
     }
 });
 
-endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
+endpoints.put('/usuario/alterarSenha', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
   try {
     let resposta = "";
         const { senha } = req.body;
     const idUsuario = req.usuario.id_usuario;
             const token = req.headers.tokenpermitido;
     if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
+      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -158,14 +148,14 @@ endpoints.put('/usuario/alterarSenha', validarToken, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 });
-endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (req, resp) => {
+endpoints.put('/usuario/alterarTelefone', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
   try {
     let resposta = "";
         const { telefone } = req.body;
     const idUsuario = req.usuario.id_usuario;
     const token = req.headers.tokenpermitido;
     if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
+      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -185,14 +175,14 @@ endpoints.put('/usuario/alterarTelefone', validarTokenValidacaoUsuario, async (r
     }
 });
 
-endpoints.put('/usuario/alterarEmail', validarTokenValidacaoUsuario, async (req, resp) => {
+endpoints.put('/usuario/alterarEmail', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
   try {
     let resposta = "";
         const { email } = req.body;
     const idUsuario = req.usuario.id_usuario;
     const token = req.headers.tokenpermitido;
     if (!token) {
-      await enviarCodigoDeVerificacao(idUsuario);
+      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
       resp.status(202).send({
           resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
       })
@@ -247,19 +237,10 @@ endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
 endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
 
     try{
-        let codigoEnviado = req.body.codigo;
+        const idUsuario = req.usuario.id_usuario;
+        const token = LiberarPermissaoUsuarioService(idUsuario, req.body?.codigo);
 
-        if(codigoEnviado == codigoCriado){
-        resp.send({
-            token: gerarTokenValidacaoUsuario(req.usuario.id_usuario)
-        })
-        }
-
-        else{
-        resp.send({
-            resposta: "Código Incorreto"
-        })
-        }
+        resp.send({ token });
 
 
     }

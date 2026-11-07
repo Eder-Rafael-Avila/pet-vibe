@@ -7,6 +7,7 @@ const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 import multer from 'multer';
 
 import { gerarTokenOng, validarTokenOng } from '../utils/TokenEvalidacao.js';
+import { validarTokenValidacaoOng } from '../utils/TokenEvalidacao.js';
 
 import { ListarOngService } from '../service/ong/ListarOngService.js';
 import { ListarOngsService } from '../service/ong/ListarOngsService.js';
@@ -18,6 +19,7 @@ import { AlterarDescOngService } from '../service/ong/AlterarDescOngService.js';
 import { AlterarEmailOngService } from '../service/ong/AlterarEmailOngService.js';
 import { AlterarSenhaOngService } from '../service/ong/AlterarSenhaOngService.js';
 import { AlterarSiteOngService } from '../service/ong/AlterarSiteOngService.js';
+import { EnviarCodigoVerificacaoOngService, LiberarPermissaoOngService } from '../service/ong/VerificacaoOngService.js';
 
 endpoints.get('/ongs', async (req, resp) => {
     try {
@@ -96,10 +98,14 @@ endpoints.post('/ong/login', async (req, resp) => {
 
 })
 
-endpoints.delete('/ong/excluir', validarTokenOng, async (req, resp) => {
+endpoints.delete('/ong/excluir', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
         const idOng = req.usuario.id_ong
 
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(idOng);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
 
         const resposta = await ExcluirOngService(idOng)
 
@@ -113,11 +119,15 @@ endpoints.delete('/ong/excluir', validarTokenOng, async (req, resp) => {
     }
 })
 
-endpoints.put('/ong/alterarEmail', validarTokenOng, async (req, resp) => {
+endpoints.put('/ong/alterarEmail', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
         let id = req.usuario.id_ong
         const { email } = req.body;
 
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(id);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
         let resposta = await AlterarEmailOngService(id, email)
 
         resp.send({
@@ -130,11 +140,15 @@ endpoints.put('/ong/alterarEmail', validarTokenOng, async (req, resp) => {
     }
 })
 
-endpoints.put('/ong/alterarSenha', validarTokenOng, async (req, resp) => {
+endpoints.put('/ong/alterarSenha', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
         let id = req.usuario.id_ong
         const { senha } = req.body;
 
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(id);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
         let resposta = await AlterarSenhaOngService(id, senha)
 
         resp.send({
@@ -180,5 +194,17 @@ endpoints.put('/ong/alterarDesc', validarTokenOng, async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 })
+
+endpoints.get('/ong/liberarPermissao', validarTokenOng, async (req, resp) => {
+    try {
+        const idOng = req.usuario.id_ong;
+        const token = LiberarPermissaoOngService(idOng, req.body?.codigo);
+
+        resp.send({ token });
+    } catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
 
 export default endpoints
