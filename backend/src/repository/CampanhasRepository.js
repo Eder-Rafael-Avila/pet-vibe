@@ -19,7 +19,11 @@ export async function CriarCampanha(campanha,id) {
 
 export async function ListarCampanhas() {
     let command = `
-    SELECT ID_campanha,imagem,titulo,descricao,valor,valor_arrecadado FROM campanhas
+    SELECT campanhas.ID_campanha, campanhas.imagem, campanhas.titulo,
+           campanhas.descricao, campanhas.valor, campanhas.valor_arrecadado,
+           ong.nome AS nome_ong, ong.imagem AS imagem_ong
+    FROM campanhas
+    INNER JOIN ong ON ong.id_ong = campanhas.ID_ONG
     `
 
     let [resposta] = await con.query(command,[])
@@ -28,9 +32,12 @@ export async function ListarCampanhas() {
 
 export async function ListarCampanhasOng(idOng) {
     const command = `
-    SELECT ID_campanha,imagem,titulo,descricao,valor,valor_arrecadado
+    SELECT campanhas.ID_campanha, campanhas.imagem, campanhas.titulo,
+           campanhas.descricao, campanhas.valor, campanhas.valor_arrecadado,
+           ong.nome AS nome_ong, ong.imagem AS imagem_ong
     FROM campanhas
-    WHERE ID_ONG = ?
+    INNER JOIN ong ON ong.id_ong = campanhas.ID_ONG
+    WHERE campanhas.ID_ONG = ?
     `;
 
     let [resposta] = await con.query(command, [idOng]);

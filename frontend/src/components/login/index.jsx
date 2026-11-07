@@ -1,7 +1,8 @@
 import "./index.scss";
-import { FaEye, FaEyeSlash, FaLock, FaEnvelope } from "react-icons/fa";
+import { FaEye, FaEyeSlash, FaLock, FaEnvelope, FaArrowLeft } from "react-icons/fa";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
+import { obterDadosToken } from "../../utils/obterInfoToken.js";
 
 export default function Login({
     setUsuarioLogado
@@ -45,16 +46,22 @@ export default function Login({
             }
 
             localStorage.setItem('token', token);
-            setUsuarioLogado(true);
+
+            const tipoUsuario = obterDadosToken()?.tipo;
+
+            if (tipoUsuario !== 'USUARIO' && tipoUsuario !== 'ONG') {
+                localStorage.removeItem('token');
+                setErro('Não foi possível identificar o tipo da conta.');
+                return;
+            }
+
+            setUsuarioLogado(tipoUsuario);
 
             navegar('/');
 
         } catch (e) {
             console.error(e);
         }
-        
-
-
     }
 
     return (
@@ -117,17 +124,26 @@ export default function Login({
                     <button type="submit" className="Login">
                         Login
                     </button>
+<div className="Cadastrar">
+    <p>
+        Não tem uma conta?
+        <NavLink to="/Cadastro" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
 
-                    <div className="Cadastrar">
-                        <p>
-                            Não tem uma conta?
-                            <NavLink to="/Cadastro" className="cadastro-link">
-                                <span>Cadastre-se</span>
-                            </NavLink>
-                        </p>
-                    </div>
-                </form>
+    <p>
+        Você é uma ONG e nao tem uma conta?
+        <NavLink to="/CadastroOng" className="cadastro-link">
+            Cadastre-se
+        </NavLink>
+    </p>
+</div>
+        
+            </form>
+           <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta"/> Voltar</b></button></NavLink> 
             </div>
+
         </div>
     );
 }

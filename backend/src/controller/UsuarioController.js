@@ -1,11 +1,7 @@
 import { Router } from 'express';
-const endpoints = Router();
-
-import { validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
-import { gerarToken } from '../utils/TokenEvalidacao.js';
-import { validarToken } from '../utils/TokenEvalidacao.js';
 import multer from 'multer';
-const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
+
+import { gerarToken, gerarTokenOng, validarToken, validarTokenValidacaoUsuario } from '../utils/TokenEvalidacao.js';
 
 import { ListarUsuariosService } from '../service/usuario/ListarUsuariosService.js';
 import { ListarUsuarioService } from '../service/usuario/ListarUsuarioService.js';
@@ -20,61 +16,56 @@ import { ListarImagemENome } from '../service/usuario/ListarImagemENomeService.j
 import { ListarTudoUsuarioService } from '../service/usuario/ListarTudoService.js';
 import { EnviarCodigoVerificacaoUsuarioService, LiberarPermissaoUsuarioService } from '../service/usuario/VerificacaoUsuarioService.js';
 
+const endpoints = Router();
+const uploadUsuario = multer({ dest: 'src/uploads/ImagemUsuarios' });
+
 endpoints.get('/usuarios', async (req, resp) => {
+    try {
+        const resposta = await ListarUsuariosService();
 
-    let resposta = await ListarUsuariosService();
-
-    resp.send({
-        resposta: resposta
-    })
-})
+        resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
 
 endpoints.get('/usuario/nome/:nome', async (req, resp) => {
     try {
-        let nome = req.params.nome;
+        const nome = req.params.nome;
+        const resposta = await ListarUsuarioService(nome);
 
-        let resposta = await ListarUsuarioService(nome)
-
-
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.post('/usuario/cadastrar', async (req, resp) => {
     try {
-        let usuario = req.body;
+        const usuario = req.body;
+        const resposta = await CriarUsuarioService(usuario);
 
-
-
-        let resposta = await CriarUsuarioService(usuario);
         console.log(resposta);
-
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.post('/usuario/login', async (req, resp) => {
     try {
         const { email, senha } = req.body;
+        const conta = await LoginUsuarioService(email, senha);
 
-        const usuario = await LoginUsuarioService(email, senha)
-
-
-        const token = gerarToken({
-            id_usuario: usuario.id_usuario
-        });
+        const token = conta.tipo === 'ONG'
+            ? gerarTokenOng({ id_ong: conta.id_ong })
+            : gerarToken({ id_usuario: conta.id_usuario });
 
         resp.send({ token });
     }
@@ -82,8 +73,7 @@ endpoints.post('/usuario/login', async (req, resp) => {
         logError(err);
         return resp.status(400).send(erroJson(err));
     }
-
-})
+});
 
 endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), async (req, resp) => {
     try {
@@ -99,22 +89,19 @@ endpoints.put('/usuario/imagem', validarToken, uploadUsuario.single('imagem'), a
 
 endpoints.delete('/usuario/excluir', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
     try {
-        let resposta = ""
         const idUsuario = req.usuario.id_usuario;
         const token = req.headers.tokenpermitido;
-        if(!token){
+
+        if (!token) {
             await EnviarCodigoVerificacaoUsuarioService(idUsuario);
-            resp.status(202).send({
-                resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-            })
+            return resp.status(202).send({
+                resposta: 'Foi enviado um email com o código de verificação a sua caixa de notificações'
+            });
         }
-        else{
-            resposta = await ExcluirUsuarioService(idUsuario)
-                    resp.send({
-            resposta: resposta
-        });
-        }
-         
+
+        const resposta = await ExcluirUsuarioService(idUsuario);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
@@ -123,131 +110,112 @@ endpoints.delete('/usuario/excluir', validarToken, validarTokenValidacaoUsuario,
 });
 
 endpoints.put('/usuario/alterarSenha', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
-  try {
-    let resposta = "";
+    try {
         const { senha } = req.body;
-    const idUsuario = req.usuario.id_usuario;
-            const token = req.headers.tokenpermitido;
-    if (!token) {
-      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
+        const idUsuario = req.usuario.id_usuario;
+        const token = req.headers.tokenpermitido;
 
+        if (!token) {
+            await EnviarCodigoVerificacaoUsuarioService(idUsuario);
+            return resp.status(202).send({
+                resposta: 'Foi enviado um email com o código de verificação a sua caixa de notificações'
+            });
+        }
 
+        const resposta = await AlterarSenhaUsuarioService(senha, idUsuario);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
-        resp.status(400).send(erroJson(err));
+        return resp.status(400).send(erroJson(err));
     }
 });
-endpoints.put('/usuario/alterarTelefone', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
-  try {
-    let resposta = "";
-        const { telefone } = req.body;
-    const idUsuario = req.usuario.id_usuario;
-    const token = req.headers.tokenpermitido;
-    if (!token) {
-      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
-    
 
+endpoints.put('/usuario/alterarTelefone', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
+    try {
+        const { telefone } = req.body;
+        const idUsuario = req.usuario.id_usuario;
+        const token = req.headers.tokenpermitido;
+
+        if (!token) {
+            await EnviarCodigoVerificacaoUsuarioService(idUsuario);
+            return resp.status(202).send({
+                resposta: 'Foi enviado um email com o código de verificação a sua caixa de notificações'
+            });
+        }
+
+        const resposta = await AlterarTelefoneUsuarioService(telefone, idUsuario);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
-        resp.status(400).send(erroJson(err));
+        return resp.status(400).send(erroJson(err));
     }
 });
 
 endpoints.put('/usuario/alterarEmail', validarToken, validarTokenValidacaoUsuario, async (req, resp) => {
-  try {
-    let resposta = "";
+    try {
         const { email } = req.body;
-    const idUsuario = req.usuario.id_usuario;
-    const token = req.headers.tokenpermitido;
-    if (!token) {
-      await EnviarCodigoVerificacaoUsuarioService(idUsuario);
-      resp.status(202).send({
-          resposta:"Foi enviado um email com o código de verificação a sua caixa de notificações"
-      })
-    }
-    else {
-      resposta = await AlterarEmailUsuarioService(email, idUsuario);
-      resp.send({
-        resposta:resposta
-      })
-    }
+        const idUsuario = req.usuario.id_usuario;
+        const token = req.headers.tokenpermitido;
 
+        if (!token) {
+            await EnviarCodigoVerificacaoUsuarioService(idUsuario);
+            return resp.status(202).send({
+                resposta: 'Foi enviado um email com o código de verificação a sua caixa de notificações'
+            });
+        }
 
+        const resposta = await AlterarEmailUsuarioService(email, idUsuario);
+
+        resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
+});
+
+endpoints.get('/usuario/listarNomeeIMG', validarToken, async (req, resp) => {
+    try {
+        const id = req.usuario.id_usuario;
+        const resposta = await ListarImagemENome(id);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-}
-)
-
-endpoints.get('/usuario/listarNomeeIMG', validarToken, async (req,resp) => {
-    try{
-        const id = req.usuario.id_usuario;
-
-        const resposta = await ListarImagemENome(id)
-        resp.send({
-            resposta: resposta
-        })
-    }
-    catch(err){
-                logError(err);
-        resp.status(400).send(erroJson(err));
-    }
-})
+});
 
 endpoints.get('/usuario/listarTudo', validarToken, async (req, resp) => {
-  try {
-    let id = req.usuario.id_usuario
+    try {
+        const id = req.usuario.id_usuario;
+        const resposta = await ListarTudoUsuarioService(id);
 
-    const resposta = await ListarTudoUsuarioService(id);
+        resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
 
-    resp.send({
-      resposta: resposta
-    });
-  }
-  catch (err) {
-    logError(err);
-    resp.status(400).send(erroJson(err));
-  }
-}) 
-
-endpoints.get('/usuario/liberarPermissao', validarToken, async (req,resp) =>{
-
-    try{
+endpoints.get('/usuario/liberarPermissao', validarToken, async (req, resp) => {
+    try {
         const idUsuario = req.usuario.id_usuario;
-        const token = LiberarPermissaoUsuarioService(idUsuario, req.body?.codigo);
+        const codigo = req.query.codigo ?? req.body?.codigo;
+        const token = await LiberarPermissaoUsuarioService(idUsuario, codigo);
 
         resp.send({ token });
-
-
     }
-    catch(err){
-            logError(err);
-    resp.status(400).send(erroJson(err));
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
     }
-})
+});
 
-export default endpoints
+export default endpoints;

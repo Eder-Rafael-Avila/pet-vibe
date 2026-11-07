@@ -5,11 +5,11 @@ export async function BuscarEmailPorIdOngService(idOng) {
         throw new Error('ID da ONG inválido.');
     }
 
-    const ong = await DBOng.BuscarEmailPorId(idOng);
+    const email = await DBOng.BuscarEmailPorIdOng(idOng);
 
-    if (!ong) {
-        throw new Error('ONG não encontrada.');
+    if (!email) {
+        throw new Error('Não foi possível encontrar o e-mail da ONG.');
     }
 
-    return ong.email;
+    return email;
 }

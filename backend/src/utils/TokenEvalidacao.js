@@ -47,6 +47,27 @@ export function gerarTokenValidacaoUsuario(idUsuario) {
     );
 }
 
+export function gerarTokenValidacaoOng(idOng) {
+    return jwt.sign(
+        {
+            permissao: 'Permitido',
+            id_ong: idOng
+        },
+        SECRET_KEY,
+        { expiresIn: '1h' }
+    );
+}
+
+export function verificarTokenValidacaoOng(token) {
+    const tipoToken = jwt.verify(token, SECRET_KEY);
+
+    if (tipoToken.permissao !== 'Permitido' || !tipoToken.id_ong) {
+        throw new Error('Token de permissão inválido.');
+    }
+
+    return tipoToken;
+}
+
 export async function validarTokenValidacaoUsuario(req, resp, next) {
     try {
         const token = req.headers.tokenpermitido;

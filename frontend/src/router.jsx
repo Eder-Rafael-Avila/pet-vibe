@@ -2,39 +2,118 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import { validarToken } from "./utils/validarToken";
+import { obterDadosToken } from './utils/obterInfoToken.js';
 
 import Home from "./pages/page-home";
 import Login from "./pages/page-login";
 import Cadastro from "./pages/page-cadastro";
 import Perfil from "./pages/page-perfil";
-import RotaProtegida from "./components/rotaProtegida";
-import Adocao from './pages/page-adocao';
-import ONGPanel from './pages/page-painel-ong';
+import RotaProtegidaOng from "./components/rotaProtegidaOng/index.jsx";
+import RotaProtegidaUsuario from "./components/rotaProtegidaUsuario";
+import Campanhas from "./pages/page-campanhas";
+import Adocao from "./pages/page-adocao";
+import CadastroOng from "./pages/page-cadastroOng";
+import ONGPanel from "./pages/page-painel-ong";
 
 export default function Router() {
-    const [usuarioLogado, setUsuarioLogado] = useState(() => {
-        const token = localStorage.getItem('token');
+    const [tipoUsuarioLogado, setTipoUsuarioLogado] = useState(() => {
+        const token = localStorage.getItem("token");
 
         if (!token || !validarToken(token)) {
-            localStorage.removeItem('token');
+            localStorage.removeItem("token");
             return false;
         }
 
-        return true;
+        const dados = obterDadosToken();
+        console.log(dados);
 
+        const tipoUsuario = dados.tipo;
+
+        return tipoUsuario;
     });
 
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Home usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado} />} />
-                <Route path="/Login" element={<Login setUsuarioLogado={setUsuarioLogado} />} />
-                <Route path="/Cadastro" element={<Cadastro />} />
-                <Route path='/Adocao' element={<Adocao usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado}/>} />
+                <Route
+                    path="/"
+                    element={
+                        <Home
+                            usuarioLogado={tipoUsuarioLogado}
+                            setUsuarioLogado={setTipoUsuarioLogado}
+                        />
+                    }
+                />
 
-                <Route element={<RotaProtegida logado={usuarioLogado} />}>
-                    <Route path="/PainelONG" element={<ONGPanel />} />
-                    <Route path="/Personalizacao" element={<Perfil setUsuarioLogado={setUsuarioLogado} />} />
+                <Route
+                    path="/Login"
+                    element={
+                        <Login
+                            setUsuarioLogado={setTipoUsuarioLogado}
+                        />
+                    }
+                />
+
+                <Route
+                    path="/Cadastro"
+                    element={<Cadastro />}
+                />
+
+                <Route
+                    path="/Adocao"
+                    element={
+                        <Adocao
+                            usuarioLogado={tipoUsuarioLogado}
+                            setUsuarioLogado={setTipoUsuarioLogado}
+                        />
+                    }
+                />
+
+                <Route
+                    path="/CadastroOng"
+                    element={<CadastroOng />}
+                />
+
+                <Route
+                    element={
+                        <RotaProtegidaUsuario
+                            logado={tipoUsuarioLogado}
+                        />
+                    }
+                >
+
+                    <Route
+                        path="/Personalizacao"
+                        element={
+                            <Perfil
+                                setUsuarioLogado={setTipoUsuarioLogado}
+                                tipo={tipoUsuarioLogado}
+                            />
+                        }
+                    />
+
+                    <Route
+                        element={
+                            <RotaProtegidaOng
+                                logado={tipoUsuarioLogado}
+                            />
+                        }
+                    >
+                        <Route
+                            path="/campanhas"
+                            element={
+                                <Campanhas
+                                    usuarioLogado={tipoUsuarioLogado}
+                                    setUsuarioLogado={setTipoUsuarioLogado}
+                                />
+                            }
+                        />
+
+                        <Route
+                            path="/PainelONG"
+                            element={<ONGPanel />}
+                        />
+                    </Route>
                 </Route>
             </Routes>
         </BrowserRouter>

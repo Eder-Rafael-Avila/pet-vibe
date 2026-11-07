@@ -6,12 +6,12 @@ import { NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 import { obterImagem } from '../../utils/obterImagem';
+import { obterDadosToken } from '../../utils/obterInfoToken.js';
 
 
 export default function Header({ 
     logado,
-    setUsuarioLogado,
-    tipoUsuario = true
+    setUsuarioLogado
  }) {
     
     const [isActive, setIsActive] = useState(false);
@@ -22,61 +22,98 @@ export default function Header({
 
     const [dropdownAtivo, setDropdownAtivo] = useState(false);
 
-    console.log(logado);
+    console.log('Tipo de usuário:', logado);
 
-    async function getUsuarioInfo() {
 
-        try {
-            const token = localStorage.getItem('token');
-
-            const resposta = await fetch('http://localhost:6767/usuario/listarNomeeIMG', {
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            if (!resposta.ok) {
-                throw new Error('Não foi possível encontar um usuário');
-            }
-
-            const dados = await resposta.json();
-
-            const infoUsuario = {
-                nome: dados.resposta.nome,
-                img: dados.resposta.imagem
-            }
-
-            console.log(infoUsuario.img);
-            
-            return infoUsuario;
-
-        } catch(e) {
-            console.log(e.message);
-        }
-
-    }
 
     function sairDaConta() {
         localStorage.removeItem('token');
         setUsuarioLogado(false);
-        window.location.reload();
+        setDropdownAtivo(false);
     }
 
     useEffect(() => {
+        let requisicaoAtual = true;
+
+        async function getUsuarioInfo() {
+            try {
+                if (logado === 'USUARIO') {
+                    const token = localStorage.getItem('token');
+                    if (!token) return null;
+
+                    const resposta = await fetch('http://localhost:6767/usuario/listarNomeeIMG', {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (!resposta.ok) {
+                        throw new Error('Não foi possível encontar um usuário');
+                    }
+
+                    const dados = await resposta.json();
+
+                    const infoUsuario = {
+                        nome: dados.resposta.nome,
+                        img: dados.resposta.imagem
+                    }
+                    
+                    return infoUsuario;
+                } else if (logado === 'ONG') {
+                    const token = localStorage.getItem('token');
+                    const dadosToken = obterDadosToken();
+                    const idOng = dadosToken?.id_ong;
+                    if (!token || !idOng) return null;
+
+                    const resposta = await fetch(`http://localhost:6767/ongs/consultar/${idOng}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    if (!resposta.ok) {
+                        throw new Error('Não foi possível encontar uma ONG');
+                    }
+
+                    const dados = await resposta.json();
+                    const ong = dados.resposta?.[0];
+                    if (!ong) return null;
+
+                    const infoOng = {
+                        nome: ong.nome,
+                        img: ong.imagem
+                    }
+                    
+                    return infoOng;
+                }
+            } catch(e) {
+                console.log('Erro ao consultar:', e.message);
+            }
+        }
+
         async function carregarUsuario() {
+
+            setNomeUsuario('');
+            setProfileImg(imgDefault);
+
+            if (!logado) return;
+
             const infoUsuario = await getUsuarioInfo();
 
-            if (infoUsuario) {
+            if (requisicaoAtual && infoUsuario) {
                 setNomeUsuario(infoUsuario.nome);
                 setProfileImg(obterImagem(infoUsuario.img) || imgDefault);
             }
-
-            console.log('Usuario logado?', logado)
         }
 
         carregarUsuario();
-    }, [logado])
+
+        return () => {
+            requisicaoAtual = false;
+        };
+    }, [logado]);
 
     return (
         <header className='comp-header'>
@@ -137,7 +174,7 @@ export default function Header({
                         ><p>Adoção</p></NavLink>
                     </li>
                     <li>
-                        {tipoUsuario ? (
+                        {logado === 'ONG' ? (
                             <NavLink
                                 to='/PainelONG'
                                 className='ong-panel'
@@ -146,7 +183,7 @@ export default function Header({
                             </NavLink>
                         ) : (
                             <NavLink
-                            to="/cadastroONGs"
+                            to="/CadastroOng"
                             style={({ isActive }) => ({
                                 fontWeight: 'bold',
                                 color: isActive ? '#F8561F' : '#156957',
@@ -160,27 +197,28 @@ export default function Header({
 
             {!logado ? (
                 <div className="buttons">
-                    <button>
-                        <NavLink 
+                    <NavLink 
                         to="/Login"
                         style={() => ({
                             color: 'white',
                             textDecoration: 'none'
                         })}
-                        >Entrar</NavLink>
-                    </button>
+                        >
+                    <button>
+                        Entrar
+                    </button></NavLink>
 
-                    <button id='cadastro'>
-                        <NavLink 
+                     <NavLink 
                         to="/cadastro"
                         style={() => ({
                             color: '#F8561F',
                             textDecoration: 'none'
                         })}
-                        >Cadastre-se</NavLink>
-                    </button>
+                        ><button id='cadastro'>
+                       Cadastre-se
+                    </button></NavLink>
                 </div>
-            ) : (
+            ) : logado === 'USUARIO' ? (
                 <div className="conta-preview">
                     <div className={`temp ${dropdownAtivo ? 'absolute' : ''}`}>
                         <div className="nome">
@@ -192,7 +230,7 @@ export default function Header({
                         <button className={`dropdown-arrow ${dropdownAtivo ? 'rotacionado' : ''}`}
                             onClick={() => setDropdownAtivo(!dropdownAtivo)}
                         >
-                            <i class="fa-solid fa-gear" style={{color: "#156957",}}></i>
+                            <i className="fa-solid fa-gear" style={{color: "#156957",}}></i>
                         </button>
                     </div>
                     <div className={`account-dropdown ${dropdownAtivo ? 'active' : 'inactive'}`}>
@@ -212,7 +250,39 @@ export default function Header({
                         </div>
                     </div>
                 </div>
-            )}
+            ) : logado === 'ONG' ? (
+                <div className="conta-preview">
+                    <div className={`temp ${dropdownAtivo ? 'absolute' : ''}`}>
+                        <div className="nome">
+                            <p>{nomeUsuario}</p>
+                        </div>
+                        <div className="icone">
+                            <img src={profileImg} alt="PFP" />
+                        </div>
+                        <button className={`dropdown-arrow ${dropdownAtivo ? 'rotacionado' : ''}`}
+                            onClick={() => setDropdownAtivo(!dropdownAtivo)}
+                        >
+                            <i className="fa-solid fa-gear" style={{color: "#156957",}}></i>
+                        </button>
+                    </div>
+                    <div className={`account-dropdown ${dropdownAtivo ? 'active' : 'inactive'}`}>
+                        <div className='items'>        
+                            <NavLink
+                                to='/Personalizacao'
+                                className="link-personalizacao"
+                                state={{ nome: nomeUsuario }}
+                            >
+                                Personalização de Conta
+                            </NavLink>
+                            <button
+                                onClick={sairDaConta}
+                            >
+                                Sair da conta
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            ) : null}
             
         </header>
     );
