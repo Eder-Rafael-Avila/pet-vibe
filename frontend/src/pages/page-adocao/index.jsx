@@ -15,6 +15,7 @@ import { NavLink } from "react-router-dom";
 import Header from "../../components/header/index.jsx";
 import CardAnimais from "../../components/card-animal/index.jsx";
 import Footer from '../../components/footer';
+import { obterImagem } from "../../utils/obterImagem.js";
 
 export default function Adocao({
     usuarioLogado,
@@ -34,10 +35,30 @@ export default function Adocao({
   });
 
   const [aberta, setAberta] = useState(0);
+  const [animalSelecionado, setAnimalSelecionado] = useState(null);
+  const [enviandoAdocao, setEnviandoAdocao] = useState(false);
+  const [erroAdocao, setErroAdocao] = useState("");
+  const [adocaoEnviada, setAdocaoEnviada] = useState(false);
+  const [precisaLogin, setPrecisaLogin] = useState(false);
+  const [declarouMaioridade, setDeclarouMaioridade] = useState(false);
+  const [enderecoAdocao, setEnderecoAdocao] = useState({
+    cep: "",
+    rua: "",
+    numero: "",
+    complemento: "",
+    bairro: "",
+    cidade: "",
+    estado: ""
+  });
+  const [tokenEnderecoCriado, setTokenEnderecoCriado] = useState("");
 
   const [animais, setAnimais] = useState([]);
   const [carregandoAnimais, setCarregandoAnimais] = useState(true);
   const [erroAnimais, setErroAnimais] = useState("");
+
+  const enderecoJaCadastrado = Boolean(
+    tokenEnderecoCriado && tokenEnderecoCriado === localStorage.getItem("token")
+  );
 
   function normalizar(valor) {
     return String(valor ?? "")
@@ -109,6 +130,154 @@ export default function Adocao({
   useEffect(() => {
     Promise.resolve().then(listarAnimais);
   }, []);
+
+  useEffect(() => {
+    if (!animalSelecionado) return undefined;
+
+    function fecharComEscape(evento) {
+      if (evento.key === "Escape") setAnimalSelecionado(null);
+    }
+
+    window.addEventListener("keydown", fecharComEscape);
+    return () => window.removeEventListener("keydown", fecharComEscape);
+  }, [animalSelecionado]);
+
+  function abrirModalAdocao(animalSelecionado) {
+    setAnimalSelecionado(animalSelecionado);
+    setErroAdocao("");
+    setAdocaoEnviada(false);
+    setPrecisaLogin(false);
+    setDeclarouMaioridade(false);
+    if (tokenEnderecoCriado !== localStorage.getItem("token")) {
+      setEnderecoAdocao({
+        cep: "",
+        rua: "",
+        numero: "",
+        complemento: "",
+        bairro: "",
+        cidade: "",
+        estado: ""
+      });
+    }
+  }
+
+  const [consultandoCep, setConsultandoCep] = useState(null);
+  const [erroCep, setErroCep] = useState(null);
+
+  async function buscarEnderecoPorCep() {
+    if (enderecoAdocao.cep.length !== 8) return;
+
+    setConsultandoCep(true);
+    setErroCep("");
+
+    try {
+      const resposta = await fetch(`https://viacep.com.br/ws/${enderecoAdocao.cep}/json/`);
+
+      if (!resposta.ok) {
+        throw new Error('Erro ao consultar o CEP.');
+      }
+
+      const dados = await resposta.json();
+
+      if (dados.erro) {
+        throw new Error('CEP não encontrado. Verifique os números digitados.')
+      }
+
+      setEnderecoAdocao(atual => ({
+        ...atual,
+        rua: dados.logradouro || "",
+        bairro: dados.bairro || "",
+        cidade: dados.localidade || "",
+        estado: dados.uf || ""
+        }));
+      } catch (e) {
+      setErroCep(e.message || 'Erro ao consultar o CEP.');
+      } finally {
+        setConsultandoCep(false);
+      }
+  }
+
+  function fecharModalAdocao() {
+    if (enviandoAdocao) return;
+    setAnimalSelecionado(null);
+    setErroAdocao("");
+    setAdocaoEnviada(false);
+    setPrecisaLogin(false);
+    setDeclarouMaioridade(false);
+  }
+
+  async function solicitarAdocao(evento) {
+    evento.preventDefault();
+
+    if (!declarouMaioridade) return;
+
+    const token = localStorage.getItem("token");
+    if (!token) {
+      setPrecisaLogin(true);
+      setErroAdocao("Entre na sua conta para solicitar a adoção.");
+      return;
+    }
+
+    setEnviandoAdocao(true);
+    setErroAdocao("");
+    setPrecisaLogin(false);
+
+    try {
+      if (tokenEnderecoCriado !== token) {
+        const respostaEndereco = await fetch("http://localhost:6767/endereco-usuario/criar", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify(enderecoAdocao)
+        });
+        const dadosEndereco = await respostaEndereco.json();
+
+        if (respostaEndereco.status === 401) {
+          localStorage.removeItem("token");
+          setUsuarioLogado(false);
+          setPrecisaLogin(true);
+          throw new Error("Sua sessão expirou. Entre novamente para solicitar a adoção.");
+        }
+
+        if (!respostaEndereco.ok) {
+          throw new Error(dadosEndereco.erro || "Não foi possível cadastrar seu endereço.");
+        }
+
+        setTokenEnderecoCriado(token);
+      }
+
+      const resposta = await fetch("http://localhost:6767/adocoes/criar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ id_animal: animalSelecionado.id_animal })
+      });
+
+      const dados = await resposta.json();
+      if (resposta.status === 401) {
+        localStorage.removeItem("token");
+        setUsuarioLogado(false);
+        setPrecisaLogin(true);
+        throw new Error("Sua sessão expirou. Entre novamente para solicitar a adoção.");
+      }
+
+      if (!resposta.ok) {
+        throw new Error(dados.erro || "Não foi possível solicitar a adoção.");
+      }
+
+      setAdocaoEnviada(true);
+    } catch (erro) {
+      setErroAdocao(erro instanceof TypeError
+        ? "Não foi possível conectar ao servidor. Tente novamente."
+        : erro.message);
+    } finally {
+      setEnviandoAdocao(false);
+    }
+  }
 
   const animaisFiltrados = animais.filter((item) => {
     const criterios = [
@@ -310,6 +479,7 @@ export default function Adocao({
               nomeOng={animal.nome_ong}
               descricao={animal.descricao}
               btn='Adotar animal'
+              onAdotar={() => abrirModalAdocao(animal)}
             />
           ))}
             </div>
@@ -325,6 +495,214 @@ export default function Adocao({
           </div>
         )}
       </section>
+
+      {animalSelecionado && (
+        <div
+          className="modal-adocao-overlay"
+          onClick={(evento) => {
+            if (evento.target === evento.currentTarget) fecharModalAdocao();
+          }}
+        >
+          <section
+            className="modal-adocao"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-adocao-titulo"
+          >
+            <button
+              className="modal-adocao-fechar"
+              type="button"
+              aria-label="Fechar solicitação de adoção"
+              onClick={fecharModalAdocao}
+              disabled={enviandoAdocao}
+            >
+              ×
+            </button>
+            <p className="modal-adocao-subtitulo">Confirme o animal da sua solicitação</p>
+            {adocaoEnviada ? (
+              <div className="modal-adocao-resultado" role="status">
+                <p>Sua solicitação de adoção foi enviada com sucesso!</p>
+                <button type="button" onClick={fecharModalAdocao}>Concluir</button>
+              </div>
+            ) : (
+              <form className="modal-adocao-formulario" onSubmit={solicitarAdocao}>
+                <div className="modal-adocao-conteudo">
+                  <img
+                    className="modal-adocao-imagem"
+                    src={obterImagem(animalSelecionado.imagem)}
+                    alt={animalSelecionado.nome_animal
+                      ? `Foto de ${animalSelecionado.nome_animal}`
+                      : "Foto do animal selecionado para adoção"}
+                  />
+                  <div className="modal-adocao-detalhes">
+                    <h3>{animalSelecionado.nome_animal || "Animal sem nome"}</h3>
+                    <p>{[animalSelecionado.tipo, animalSelecionado.raca].filter(Boolean).join(" • ") || "Espécie não informada"}</p>
+                    <p>Idade: {animalSelecionado.idade ?? "Não informada"}</p>
+                    {animalSelecionado.nome_ong && <p>Responsável: {animalSelecionado.nome_ong}</p>}
+                    <p className="modal-adocao-aviso">
+                      A solicitação será registrada para a sua conta e encaminhada à ONG responsável.
+                    </p>
+                  </div>
+                </div>
+                {erroAdocao && (
+                  <p className="modal-adocao-erro" role="alert">
+                    {erroAdocao}
+                    {precisaLogin && <>{" "}<NavLink to="/Login">Entrar</NavLink></>}
+                  </p>
+                )}
+                <fieldset className="modal-adocao-endereco" disabled={enderecoJaCadastrado}>
+                  <legend>Seu endereço</legend>
+                  <p>
+                    {enderecoJaCadastrado
+                      ? "Endereço cadastrado e pronto para ser usado na solicitação."
+                      : "Informe o endereço para contato sobre a adoção."}
+                  </p>
+                  <div className="modal-adocao-endereco-campos">
+                    <label>
+                      CEP
+                      <input
+                        type="text"
+                        name="cep"
+                        inputMode="numeric"
+                        autoComplete="postal-code"
+                        pattern="[0-9]{8}"
+                        maxLength={8}
+                        placeholder="00000000"
+                        value={enderecoAdocao.cep}
+                        onChange={(evento) => {
+                          const cep = evento.target.value.replace(/\D/g, "").slice(0, 8);
+
+                          setEnderecoAdocao(atual => ({
+                            ...atual,
+                            cep
+                          }));
+
+                          setErroCep("");
+                        }}
+                        onBlur={() => buscarEnderecoPorCep(enderecoAdocao.cep)}
+                        required
+                      />
+                      {consultandoCep && (
+                          <small>Buscando endereço...</small>
+                      )}
+
+                      {erroCep && (
+                          <small className="erro-cep">{erroCep}</small>
+                      )}
+                    </label>
+                    <label>
+                      Rua
+                      <input
+                        type="text"
+                        name="rua"
+                        autoComplete="street-address"
+                        value={enderecoAdocao.rua}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          rua: evento.target.value
+                        })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      Número
+                      <input
+                        type="text"
+                        name="numero"
+                        inputMode="numeric"
+                        autoComplete="address-line2"
+                        value={enderecoAdocao.numero}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          numero: evento.target.value
+                        })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      Complemento
+                      <input
+                        type="text"
+                        name="complemento"
+                        value={enderecoAdocao.complemento}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          complemento: evento.target.value
+                        })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      Bairro
+                      <input
+                        type="text"
+                        name="bairro"
+                        autoComplete="address-level3"
+                        value={enderecoAdocao.bairro}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          bairro: evento.target.value
+                        })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      Cidade
+                      <input
+                        type="text"
+                        name="cidade"
+                        autoComplete="address-level2"
+                        value={enderecoAdocao.cidade}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          cidade: evento.target.value
+                        })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      Estado (UF)
+                      <input
+                        type="text"
+                        name="estado"
+                        autoComplete="address-level1"
+                        maxLength={2}
+                        placeholder="SP"
+                        value={enderecoAdocao.estado}
+                        onChange={(evento) => setEnderecoAdocao({
+                          ...enderecoAdocao,
+                          estado: evento.target.value.toUpperCase().slice(0, 2)
+                        })}
+                        required
+                      />
+                    </label>
+                  </div>
+                </fieldset>
+
+                <label className="modal-adocao-maioridade">
+                  <input
+                    type="checkbox"
+                    name="declaracaoMaioridade"
+                    checked={declarouMaioridade}
+                    onChange={(evento) => setDeclarouMaioridade(evento.target.checked)}
+                    required
+                  />
+                  <span>Declaro que sou <b>maior de 18 anos</b>, li e estou ciente das informações passadas e de acordo em compartilhar meus dados para fins de contato por uma ONG/protetor parceiro da <b>PetVibe</b>. Entendo que o formulário capta o interesse em ser contactado pela ONG/protetor parceiro para entrevista e não garante reserva do pet caso seja identificado como disponível na rede PetVibe.</span>
+                </label>
+
+                <div className="modal-adocao-acoes">
+                  <button type="button" className="modal-adocao-cancelar" onClick={fecharModalAdocao} disabled={enviandoAdocao}>
+                    Cancelar
+                  </button>
+                  <button type="submit" className="modal-adocao-confirmar" disabled={enviandoAdocao || !declarouMaioridade}>
+                    {enviandoAdocao ? "Enviando..." : "Confirmar solicitação"}
+                  </button>
+                </div>
+              </form>
+            )}
+          </section>
+        </div>
+      )}
 
       <hr />
 
