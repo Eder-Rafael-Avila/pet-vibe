@@ -3,84 +3,215 @@ import { useState } from 'react';
 
 export default function Questionario() {
 
-    const [moradiaSelecionada, setMoradiaSelecionada] = useState("");
+   
+    const perguntas = [
+        {
+            id: "moradia",
+            pergunta: "Onde você mora?",
+            opcoes: [
+                {
+                    nome: "Apartamento",
+                    imagem: "/assets/images/apartamento.png"
+                },
+                {
+                    nome: "Casa",
+                    imagem: "/assets/images/casa.png"
+                }
+            ]
+        },
+        {
+            id: "tempo_sozinho",
+            pergunta: "Durante um dia comum, por quanto tempo o animal ficará sozinho?",
+            opcoes: [
+                {
+                    nome: "Até 4 horas por dia"
+                },
+                {
+                    nome: "Mais de 4 horas por dia"
+                }
+            ]
+        },
+        {
+            id: "possui_animais",
+            pergunta: "Você possui outros animais?",
+            opcoes: [
+                { nome: "Sim" },
+                { nome: "Não" }
+            ]
+        },
+        {
+            id: "possui_criancas",
+            pergunta: "Existem crianças na residência?",
+            opcoes: [
+                { nome: "Sim" },
+                { nome: "Não" }
+            ]
+        },
+        {
+            id: "experiencia",
+            pergunta: "Você já teve animais?",
+            opcoes: [
+                { nome: "Sim" },
+                { nome: "Não" }
+            ]
+        }
+    ];
+
+
+    const [indicePergunta, setIndicePergunta] = useState(0);
+
+
+    const [respostas, setRespostas] = useState({});
+
+  
+    const perguntaAtual = perguntas[indicePergunta];
+
+
+    const progresso = ((indicePergunta + 1) / perguntas.length) * 100;
+
+
+    function selecionarResposta(opcao) {
+
+        setRespostas({
+            ...respostas,
+            [perguntaAtual.id]: opcao
+        });
+
+    }
+
+    function proximaPergunta() {
+
+        if (!respostas[perguntaAtual.id]) {
+            return;
+        }
+
+        if (indicePergunta < perguntas.length - 1) {
+
+            setIndicePergunta(indicePergunta + 1);
+
+        } else {
+
+            console.log("Questionário finalizado:", respostas);
+
+        }
+
+    }
+
+    function voltarPergunta() {
+
+        if (indicePergunta > 0) {
+            setIndicePergunta(indicePergunta - 1);
+        }
+
+    }
 
     return (
         <div className="opcoes-moradia">
 
-            {/* CABEÇALHO */}
+          
             <div className="cabecalho">
 
                 <div className="Conheça">
+
                     <h1>
                         CONHEÇA MELHOR <br />
                         SUAS <span>PREFERÊNCIAS!</span>
                     </h1>
 
                     <p>
-                        Responda algumas perguntas para nos ajudar
+                        Responda algumas perguntas para nos ajudar <br />
                         a encontrar o pet ideal para você.
                     </p>
+
                 </div>
 
                 <div className="cachorro-e-gato">
+
                     <img
                         src="/assets/images/cachorro-e-gato.webp"
                         alt="Cachorro e gato"
                     />
+
                 </div>
 
             </div>
-
-            {/* QUESTIONÁRIO */}
             <div className="conteudo-questionario">
+                <div className="progresso-container">
 
-                <h2>Onde você mora?</h2>
+                    <div className="barra-progresso">
+
+                        <div
+                            className="progresso"
+                            style={{ width: `${progresso}%` }}
+                        />
+
+                    </div>
+
+                    <span>
+                        {indicePergunta + 1} de {perguntas.length}
+                    </span>
+
+                </div>
+                <h2>{perguntaAtual.pergunta}</h2>
 
                 <div className="lista-opcoes">
 
-                    {/* APARTAMENTO */}
-                    <div
-                        className={`opcao ${moradiaSelecionada === "apartamento" ? "selecionada" : ""}`}
-                        onClick={() => setMoradiaSelecionada("apartamento")}
-                    >
-                        <span className="radio">
-                            {moradiaSelecionada === "apartamento" && "✓"}
-                        </span>
+                    {perguntaAtual.opcoes.map((opcao) => (
 
-                        <img
-                            src="/assets/images/apartamento.png"
-                            alt="Apartamento"
-                        />
+                        <div
+                            key={opcao.nome}
+                            className={`opcao ${
+                                respostas[perguntaAtual.id] === opcao.nome
+                                    ? "selecionada"
+                                    : ""
+                            }`}
+                            onClick={() => selecionarResposta(opcao.nome)}
+                        >
 
-                        <h3>Apartamento</h3>
-                    </div>
+                            <span className="radio">
 
-                    {/* CASA */}
-                    <div
-                        className={`opcao ${moradiaSelecionada === "casa" ? "selecionada" : ""}`}
-                        onClick={() => setMoradiaSelecionada("casa")}
-                    >
-                        <span className="radio">
-                            {moradiaSelecionada === "casa" && "✓"}
-                        </span>
+                                {respostas[perguntaAtual.id] === opcao.nome && "✓"}
 
-                        <img
-                            src="/assets/images/casa.png"
-                            alt="Casa"
-                        />
+                            </span>
 
-                        <h3>Casa</h3>
-                    </div>
+                            {opcao.imagem && (
+                                <img
+                                    src={opcao.imagem}
+                                    alt={opcao.nome}
+                                />
+                            )}
+
+                            <h3>{opcao.nome}</h3>
+
+                        </div>
+
+                    ))}
 
                 </div>
+
                 <div className="botoes">
-                    <button>Voltar</button>
-                    <button>Próximo</button>
+
+                    <button
+                        onClick={voltarPergunta}
+                        disabled={indicePergunta === 0}
+                    >
+                        Voltar
+                    </button>
+
+                    <button
+                        onClick={proximaPergunta}
+                        disabled={!respostas[perguntaAtual.id]}
+                    >
+                        {indicePergunta === perguntas.length - 1
+                            ? "Finalizar"
+                            : "Próximo"}
+                    </button>
+
                 </div>
 
             </div>
 
         </div>
     );
+
 }
