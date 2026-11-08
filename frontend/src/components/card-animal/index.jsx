@@ -34,7 +34,8 @@ export default function CardAnimais({
     dataNascimento,
     nomeOng,
     descricao,
-    btn = 'Adotar animal'
+    btn = 'Adotar animal',
+    onAdotar
 }) {
     return (
         <article className="card-animal">
@@ -75,7 +76,7 @@ export default function CardAnimais({
 
                 {nomeOng && <p className="ong">Responsável: <strong>{nomeOng}</strong></p>}
 
-                <button className="btn-adotar" type="button">{btn}</button>
+                <button className="btn-adotar" type="button" onClick={onAdotar}>{btn}</button>
             </div>
         </article>
     );

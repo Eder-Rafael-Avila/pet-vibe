@@ -18,6 +18,7 @@ create table endereco_usuarios(
 id_endereco_usuario INT PRIMARY KEY AUTO_INCREMENT,
 id_usuario INT UNIQUE,
 cep VARCHAR(10),
+rua VARCHAR(200),
 
 numero VARCHAR(20),
 complemento VARCHAR(100),
@@ -136,4 +137,3 @@ CREATE TABLE contribuidores(
     FOREIGN KEY (ID_campanha) REFERENCES campanhas(ID_campanha),
     FOREIGN KEY (ID_usuario) REFERENCES usuarios(id_usuario)
 );
-
