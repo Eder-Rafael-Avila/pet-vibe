@@ -109,14 +109,7 @@ export default function Header({
 
                     
                     <li>
-                        <NavLink
-                        to="/"
-                        style={({ isActive }) => ({
-                            fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#156957',
-                            textDecoration: 'none'
-                        })}
-                        ><p>Sobre Nós</p></NavLink>
+                        <a href='#sobre'><p>Sobre Nós</p></a>
                     </li>
                     <li>
                         <NavLink
