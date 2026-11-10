@@ -1,3 +1,4 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
@@ -35,6 +36,7 @@ export default function Router() {
     return (
         <BrowserRouter>
             <Routes>
+
                 <Route
                     path="/"
                     element={
@@ -74,6 +76,7 @@ export default function Router() {
                     element={<CadastroOng />}
                 />
 
+                {/* ROTAS EXCLUSIVAS DE USUÁRIO */}
                 <Route
                     element={
                         <RotaProtegidaUsuario
@@ -92,29 +95,34 @@ export default function Router() {
                         }
                     />
 
-                    <Route
-                        element={
-                            <RotaProtegidaOng
-                                logado={tipoUsuarioLogado}
-                            />
-                        }
-                    >
-                        <Route
-                            path="/campanhas"
-                            element={
-                                <Campanhas
-                                    usuarioLogado={tipoUsuarioLogado}
-                                    setUsuarioLogado={setTipoUsuarioLogado}
-                                />
-                            }
-                        />
+<Route
+    path="/campanhas"
+    element={
+        <Campanhas
+            usuarioLogado={tipoUsuarioLogado}
+            setUsuarioLogado={setTipoUsuarioLogado}
+        />
+    }
+/>
 
-                        <Route
-                            path="/PainelONG"
-                            element={<ONGPanel />}
-                        />
-                    </Route>
                 </Route>
+
+                {/* ROTAS EXCLUSIVAS DE ONG */}
+                <Route
+                    element={
+                        <RotaProtegidaOng
+                            logado={tipoUsuarioLogado}
+                        />
+                    }
+                >
+
+                    <Route
+                        path="/PainelONG"
+                        element={<ONGPanel />}
+                    />
+
+                </Route>
+
             </Routes>
         </BrowserRouter>
     );
