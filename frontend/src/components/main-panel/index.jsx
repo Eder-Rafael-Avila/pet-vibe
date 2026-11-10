@@ -26,9 +26,9 @@ export default function MainPanel() {
 
                          </NavLink>
 
-                         <NavLink to='ajudeONGs'>
+                         <NavLink to='/campanhas'>
                         <button id='animais-disponiveis'>
-                            Ajude ONGs <i className="fa-solid fa-arrow-right"></i>
+                            Veja campanhas <i className="fa-solid fa-arrow-right"></i>
                         </button>
                         </NavLink>
                     </div>
