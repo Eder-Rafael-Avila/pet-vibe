@@ -97,7 +97,7 @@ export default function Header({
             <nav className='default-nav'>
                 <ul>
                     <li>
-                        <NavLink
+                        <NavLink id='inicio'
                         to="/"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
@@ -109,21 +109,21 @@ export default function Header({
 
                     
                     <li>
-                        <a href='#sobre'><p>Sobre Nós</p></a>
+                        <a href='/#sobre'><p>Sobre Nós</p></a>
                     </li>
                     <li>
                         <NavLink
-                        to="/ajudeONGs"
+                        to="/campanhas"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>Ajude ONGs</p></NavLink>
+                        ><p>Campanhas de ONGs</p></NavLink>
                     </li>
                     <li>
                         <NavLink
-                        to="/Adocao"
+                        to="/Adocao" id='Adocao'
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
