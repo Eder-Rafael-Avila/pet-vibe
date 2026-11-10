@@ -3,6 +3,7 @@ const endpoints = Router();
 import { validarTokenOng } from '../utils/TokenEvalidacao.js';
 import multer from 'multer';
 import { ListarAnimaisService } from '../service/perfil_animal/ListarAnimaisService.js';
+import { ListarAnimaisOngService } from '../service/perfil_animal/ListarAnimaisOngService.js';
 import { ListarAnimalPorNomeService } from '../service/perfil_animal/ListarAnimalPorNomeService.js';
 import { CriarAnimalService } from '../service/perfil_animal/CriarAnimalService.js';
 import { ExcluirAnimalService } from '../service/perfil_animal/ExcluirAnimalService.js';
@@ -16,6 +17,19 @@ endpoints.get('/animais/listar', async (req, resp) => {
         resp.send({
             resposta: resposta
         })
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+})
+
+endpoints.get('/animais/ong/listar', validarTokenOng, async (req, resp) => {
+    try {
+        const idOng = req.usuario.id_ong;
+        const resposta = await ListarAnimaisOngService(idOng);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
@@ -79,9 +93,14 @@ endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem
 
 endpoints.delete('/animal/excluir/:id', validarTokenOng, async (req, resp) => {
     try {
-        let id = req.params.id;
+        const idAnimal = req.params.id;
+        const idOng = req.usuario.id_ong;
 
-        let resposta = await ExcluirAnimalService(id);
+        const resposta = await ExcluirAnimalService(idAnimal, idOng);
+
+        if (resposta === 0) {
+            return resp.status(404).send({ erro: 'Animal não encontrado para esta ONG.' });
+        }
 
         resp.send({
             resposta: resposta

@@ -15,6 +15,36 @@
         display: flex;
         align-items: center;
 
+        .back-home {
+            display: flex;
+            align-items: center;
+            align-self: start;
+            justify-content: center;
+
+            width: 2.75rem;
+            height: 2.75rem;
+            margin: 0 1rem;
+            border: none;
+            border-radius: 50%;
+
+            color: white;
+            background-color: var(--corAzulPrimario);
+            font-size: 1.1rem;
+
+            transition: background-color 0.2s ease, transform 0.2s ease;
+
+            &:hover {
+                cursor: pointer;
+                background-color: var(--corLaranjaContraste);
+                transform: translateX(-2px);
+            }
+
+            &:focus-visible {
+                outline: 3px solid var(--corLaranjaContraste);
+                outline-offset: 3px;
+            }
+        }
+
         .logo {
             width: 12rem;
         }

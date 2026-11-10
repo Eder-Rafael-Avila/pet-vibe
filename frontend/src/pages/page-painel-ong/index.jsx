@@ -36,7 +36,7 @@ export default function PageONGPanel() {
                             <button
                                 onClick={() => setPaginaSelecionada('SolicitacoesAdocao')}
                             >
-                                Solicitações de adoção
+                                Animais cadastrados
                             </button>
                         </li>
                         <li className='nav-item'>

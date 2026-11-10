@@ -1,12 +1,23 @@
 import './index.scss';
+import { useNavigate } from 'react-router-dom';
+import { FaArrowLeft } from 'react-icons/fa';
 
 export default function Header() {
+    const navegar = useNavigate();
 
     let nomeONG = 'AdotePetz'
 
     return (
         <header className='comp-ong-header'>
             <div className="identidade">
+                <button
+                    className="back-home"
+                    aria-label="Voltar para a página inicial"
+                    title="Voltar para a página inicial"
+                    onClick={() => navegar('/')}
+                >
+                    <FaArrowLeft aria-hidden="true" />
+                </button>
                 <div className="logo">
                     <img src="/assets/images/logo4.png" alt="" />
                 </div>
