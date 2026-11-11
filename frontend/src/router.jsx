@@ -1,9 +1,8 @@
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useState } from "react";
 
 import { validarToken } from "./utils/validarToken";
-import { obterDadosToken } from './utils/obterInfoToken.js';
+import { obterDadosToken } from "./utils/obterInfoToken.js";
 
 import Home from "./pages/page-home";
 import Login from "./pages/page-login";
@@ -19,6 +18,7 @@ import ONGPanel from "./pages/page-painel-ong";
 import ScrollToTop from "./components/scrollToTop";
 
 export default function Router() {
+
     const [tipoUsuarioLogado, setTipoUsuarioLogado] = useState(() => {
         const token = localStorage.getItem("token");
 
@@ -38,10 +38,11 @@ export default function Router() {
     return (
         <BrowserRouter>
 
-        <ScrollToTop/>
-        
+            <ScrollToTop />
+
             <Routes>
 
+                {/* PÁGINA INICIAL */}
                 <Route
                     path="/"
                     element={
@@ -52,6 +53,7 @@ export default function Router() {
                     }
                 />
 
+                {/* LOGIN */}
                 <Route
                     path="/Login"
                     element={
@@ -61,11 +63,13 @@ export default function Router() {
                     }
                 />
 
+                {/* CADASTRO DE USUÁRIO */}
                 <Route
                     path="/Cadastro"
                     element={<Cadastro />}
                 />
 
+                {/* ADOÇÃO */}
                 <Route
                     path="/Adocao"
                     element={
@@ -76,6 +80,7 @@ export default function Router() {
                     }
                 />
 
+                {/* CADASTRO DE ONG */}
                 <Route
                     path="/CadastroOng"
                     element={<CadastroOng />}
@@ -90,6 +95,7 @@ export default function Router() {
                     }
                 >
 
+                    {/* PERFIL DO USUÁRIO */}
                     <Route
                         path="/Personalizacao"
                         element={
@@ -100,15 +106,16 @@ export default function Router() {
                         }
                     />
 
-<Route
-    path="/campanhas"
-    element={
-        <Campanhas
-            usuarioLogado={tipoUsuarioLogado}
-            setUsuarioLogado={setTipoUsuarioLogado}
-        />
-    }
-/>
+                    {/* CAMPANHAS */}
+                    <Route
+                        path="/campanhas"
+                        element={
+                            <Campanhas
+                                usuarioLogado={tipoUsuarioLogado}
+                                setUsuarioLogado={setTipoUsuarioLogado}
+                            />
+                        }
+                    />
 
                 </Route>
 
@@ -121,14 +128,20 @@ export default function Router() {
                     }
                 >
 
+                    {/* PAINEL DA ONG */}
                     <Route
                         path="/PainelONG"
-                        element={<ONGPanel />}
+                        element={
+                            <ONGPanel
+                                setUsuarioLogado={setTipoUsuarioLogado}
+                            />
+                        }
                     />
 
                 </Route>
 
             </Routes>
+
         </BrowserRouter>
     );
 }

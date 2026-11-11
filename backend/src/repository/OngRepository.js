@@ -26,6 +26,17 @@ export async function BuscarOngPorId(id) {
     return linhas;
 }
 
+export async function BuscarNomeOngPorId(id) {
+    const comando = `
+        SELECT nome
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [id]);
+    return linhas[0];
+}
+
 export async function BuscarEmailPorIdOng(idOng) {
     const comando = `
         SELECT email

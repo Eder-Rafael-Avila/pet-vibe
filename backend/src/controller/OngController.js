@@ -16,9 +16,26 @@ import { AlterarSiteOngService } from '../service/ong/AlterarSiteOngService.js';
 import { AlterarNomeOngService } from '../service/ong/AlterarNomeOngService.js';
 import { AlterarTelefoneOngService } from '../service/ong/AlterarTelefoneOngService.js';
 import { EnviarCodigoVerificacaoOngService, LiberarPermissaoOngService } from '../service/ong/VerificacaoOngService.js';
+import * as DBOng from '../repository/OngRepository.js';
 
 const endpoints = Router();
 const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
+
+endpoints.get('/ong/perfil', validarTokenOng, async (req, resp) => {
+    try {
+        const ong = await DBOng.BuscarNomeOngPorId(req.usuario.id_ong);
+
+        if (!ong) {
+            return resp.status(404).send({ erro: 'ONG não encontrada.' });
+        }
+
+        resp.send({ resposta: ong });
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
 
 endpoints.get('/ongs', async (req, resp) => {
     try {

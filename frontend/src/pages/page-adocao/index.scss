@@ -409,6 +409,42 @@
       }
     }
 
+    .modal-adocao-login {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-top: 2rem;
+      border: 1px solid #c6d9d2;
+      border-radius: .8rem;
+      padding: 1.5rem;
+      background: #eef5f2;
+
+      p {
+        margin: 0;
+        color: #34443e;
+        font-size: 1.25rem;
+        line-height: 1.5;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: .7rem;
+        padding: .9rem 1.3rem;
+        background: #105f56;
+        color: white;
+        font-size: 1.15rem;
+        font-weight: 700;
+        text-decoration: none;
+
+        &:hover {
+          background: #0a4a43;
+        }
+      }
+    }
+
     .modal-adocao-maioridade {
       display: flex;
       align-items: center;
