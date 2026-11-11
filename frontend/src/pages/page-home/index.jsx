@@ -194,7 +194,7 @@ export default function Home({
                             </div>
 
                             <div className="imagem-equipe">
-                                 <img src="public/assets/images/equipe-gato.jfif" alt="" />
+                                 <img src="/assets/images/equipe-gato.jfif" alt="Gato ao lado da equipe da PetVibe" />
                             </div>
                         </div>
 

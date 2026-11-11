@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 import { validarToken } from "./utils/validarToken";
@@ -14,6 +14,7 @@ import Campanhas from "./pages/page-campanhas";
 import Adocao from "./pages/page-adocao";
 import CadastroOng from "./pages/page-cadastroOng";
 import ONGPanel from "./pages/page-painel-ong";
+import SolicitacoesAdocaoUsuario from "./pages/page-solicitacoesAdocaoUsuario/index.jsx";
 
 import ScrollToTop from "./components/scrollToTop";
 
@@ -57,16 +58,20 @@ export default function Router() {
                 <Route
                     path="/Login"
                     element={
-                        <Login
-                            setUsuarioLogado={setTipoUsuarioLogado}
-                        />
+                        tipoUsuarioLogado
+                            ? <Navigate to="/" replace />
+                            : <Login setUsuarioLogado={setTipoUsuarioLogado} />
                     }
                 />
 
                 {/* CADASTRO DE USUÁRIO */}
                 <Route
                     path="/Cadastro"
-                    element={<Cadastro />}
+                    element={
+                        tipoUsuarioLogado
+                            ? <Navigate to="/" replace />
+                            : <Cadastro />
+                    }
                 />
 
                 {/* ADOÇÃO */}
@@ -94,6 +99,16 @@ export default function Router() {
                         />
                     }
                 >
+
+                    <Route
+                        path="/SolicitacoesAdocao"
+                        element={
+                            <SolicitacoesAdocaoUsuario
+                                logado={tipoUsuarioLogado}
+                                setUsuarioLogado={setTipoUsuarioLogado}
+                            />
+                        }
+                    />
 
                     {/* PERFIL DO USUÁRIO */}
                     <Route

@@ -1,0 +1,112 @@
+.page-solic-usuario {
+    min-height: 100vh;
+    background: #f7f5ef;
+
+    .lista-solicitacoes-adocao {
+        width: min(1100px, calc(100% - 2rem));
+        margin: clamp(2rem, 5vw, 4rem) auto;
+
+        > header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+
+            h2 {
+                margin: 0;
+                color: #105f56;
+                font-size: clamp(1.7rem, 3vw, 2.4rem);
+            }
+
+            p {
+                margin: .6rem 0 0;
+                color: #53615c;
+                line-height: 1.6;
+            }
+
+            .atualizar-solicitacoes {
+                flex: 0 0 auto;
+                padding: .7rem 1rem;
+                border: 1px solid #105f56;
+                border-radius: .6rem;
+                background: #fff;
+                color: #105f56;
+                font: inherit;
+                font-weight: 700;
+                cursor: pointer;
+
+                &:disabled {
+                    cursor: wait;
+                    opacity: .65;
+                }
+            }
+        }
+
+        .total-solicitacoes {
+            margin: 0 0 1rem;
+            color: #53615c;
+            font-weight: 600;
+        }
+
+        .lista {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .estado-solicitacoes {
+            padding: 1.25rem;
+            border: 1px solid #d5e2dc;
+            border-radius: .9rem;
+            background: #fff;
+            color: #46534f;
+            line-height: 1.6;
+
+            p {
+                margin: 0;
+            }
+
+            button {
+                margin-top: .75rem;
+                padding: .65rem 1rem;
+                border: 0;
+                border-radius: .55rem;
+                background: #105f56;
+                color: #fff;
+                font: inherit;
+                font-weight: 600;
+                cursor: pointer;
+            }
+        }
+
+        .erro-solicitacoes,
+        .mensagem-acao.erro {
+            border-color: #e8b8b0;
+            color: #9c3327;
+        }
+
+        .mensagem-acao {
+            margin: 0 0 1rem;
+            padding: .85rem 1rem;
+            border: 1px solid;
+            border-radius: .7rem;
+
+            &.erro {
+                background: #fff1ef;
+            }
+
+            &.sucesso {
+                border-color: #b8d8c6;
+                background: #edf8f1;
+                color: #24633d;
+            }
+        }
+
+        @media (max-width: 620px) {
+            > header {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+        }
+    }
+}

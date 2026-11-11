@@ -1,6 +1,6 @@
 import './index.scss';
 
-import { useState } from 'react';
+import { useId, useState } from 'react';
 
 export default function CardAdotados({
     imgAnimal,
@@ -8,46 +8,41 @@ export default function CardAdotados({
     historiaAnimalExpandida,
     previewHistAnimal
 }) {
-
     const [histAnimalExpandida, setHistAnimalExpandida] = useState(false);
+    const historiaId = useId();
 
     return (
-        <main className='comp-card-adotados'>
+        <article className={`comp-card-adotados${histAnimalExpandida ? ' expandido' : ''}`}>
             <div className="imagem">
-                <img src={imgAnimal} alt="Imagem do Animal" />
+                <img src={imgAnimal} alt={`Foto de ${nomeAnimal}`} loading="lazy" />
             </div>
-            <div className="nome">
-                <h2>{nomeAnimal}</h2>
-            </div>
-            <div className="historia">
-                {histAnimalExpandida ? (
-                    <p>
-                        {historiaAnimalExpandida}
-                    </p>
-                ) : (
-                    <p>
-                        {previewHistAnimal}
-                    </p>
-                )}
-            </div>
-            <div className="ver-mais">
-
-                {histAnimalExpandida ? (
+            <div className="conteudo">
+                <div className="nome">
+                    <span className="rotulo">História de adoção</span>
+                    <h2>{nomeAnimal}</h2>
+                </div>
+                <div
+                    className={`historia${histAnimalExpandida ? ' aberta' : ''}`}
+                    id={historiaId}
+                >
+                    <div className="historia-conteudo">
+                        <p>
+                            {histAnimalExpandida ? historiaAnimalExpandida : previewHistAnimal}
+                        </p>
+                    </div>
+                </div>
+                <div className="ver-mais">
                     <button
-                        className='fechar'
+                        type="button"
+                        className={histAnimalExpandida ? 'fechar' : ''}
+                        aria-expanded={histAnimalExpandida}
+                        aria-controls={historiaId}
                         onClick={() => setHistAnimalExpandida(!histAnimalExpandida)}
                     >
-                        Fechar
+                        {histAnimalExpandida ? 'Mostrar menos' : 'Ler história completa'}
                     </button>
-                ) : (
-                    <button
-                        onClick={() => setHistAnimalExpandida(!histAnimalExpandida)}
-                    >
-                        Ver mais
-                    </button>
-                )}
-
+                </div>
             </div>
-        </main>
+        </article>
     );
 }
