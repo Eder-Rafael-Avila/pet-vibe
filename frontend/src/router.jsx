@@ -16,6 +16,8 @@ import Adocao from "./pages/page-adocao";
 import CadastroOng from "./pages/page-cadastroOng";
 import ONGPanel from "./pages/page-painel-ong";
 
+import ScrollToTop from "./components/scrollToTop";
+
 export default function Router() {
     const [tipoUsuarioLogado, setTipoUsuarioLogado] = useState(() => {
         const token = localStorage.getItem("token");
@@ -35,6 +37,9 @@ export default function Router() {
 
     return (
         <BrowserRouter>
+
+        <ScrollToTop/>
+        
             <Routes>
 
                 <Route

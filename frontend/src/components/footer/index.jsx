@@ -26,23 +26,30 @@ export default function Footer() {
 
                         <ul>
                             <li>
-                                <NavLink to='/comoFunciona' 
+                                <NavLink to='/' 
                                     className='link'
-                                >Como Funciona</NavLink>
+                                    onClick={() => {
+                                        window.scrollTo({
+                                            top:0,
+                                            behavior:'smooth'
+                                        })
+                                    }}
+                                >Inicio</NavLink>
                             </li>
                             <li>
-                                <a href='#feedback' 
+                                <a href='/campanhas' 
                                     className='link'
-                                >Histórias de Sucesso</a>
-                            </li>
-                            <li>
-                                <NavLink to='/marketplace' 
-                                    className='link'
-                                >MarketPlace</NavLink>
+                                >Campanhas</a>
                             </li>
                             <li>
                                 <NavLink to='/Adocao' 
                                     className='link'
+                                    onClick={() => {
+                                        window.scrollTo({
+                                            top:0,
+                                            behavior:'smooth'
+                                        })
+                                    }}
                                 >Adoção</NavLink>
                             </li>
                         </ul>
@@ -52,25 +59,11 @@ export default function Footer() {
 
                         <ul>
                             <li>
-                                <NavLink to='/comoFunciona' 
+                                <NavLink to='/PainelONG' 
                                     className='link'
                                 >Cadastrar ONGs</NavLink>
                             </li>
-                            <li>
-                                <a href='#feedback' 
-                                    className='link'
-                                >Nossos Parceiros</a>
-                            </li>
-                            <li>
-                                <NavLink to='/marketplace' 
-                                    className='link'
-                                >Doações</NavLink>
-                            </li>
-                            <li>
-                                <NavLink to='/Adocao' 
-                                    className='link'
-                                >Termos de Uso</NavLink>
-                            </li>
+                            
                         </ul>
                     </nav>
                 </div>
