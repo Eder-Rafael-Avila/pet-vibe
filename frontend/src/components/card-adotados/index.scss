@@ -1,65 +1,151 @@
 .comp-card-adotados {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    min-width: 0;
+    overflow: hidden;
+    border: 1px solid rgba(16, 95, 86, .16);
+    border-radius: 1.4rem;
+    background: #fff;
+    box-shadow: 0 .7rem 2rem rgba(9, 46, 38, .12);
+    transition: box-shadow .25s ease, transform .25s ease;
 
-    min-width: 35%;
-    max-width: 35%;
+    &:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 1rem 2.5rem rgba(9, 46, 38, .18);
+    }
 
     .imagem {
-        width: 100%;
+        position: relative;
+        height: clamp(14rem, 24vw, 21rem);
+        overflow: hidden;
+        background: #e7f0ec;
+
+        &::after {
+            position: absolute;
+            inset: 45% 0 0;
+            background: linear-gradient(transparent, rgba(6, 43, 35, .3));
+            content: "";
+            pointer-events: none;
+        }
 
         img {
+            display: block;
             width: 100%;
-            border-radius: 1rem;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
         }
     }
 
-    .nome {
-        color: var(--corAzulPrimario);
+    &:hover .imagem img {
+        transform: scale(1.04);
+    }
 
-        font-size: 1.4rem;
+    .conteudo {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: clamp(1.25rem, 2vw, 1.8rem);
+    }
+
+    .nome {
+        .rotulo {
+            color: #64736d;
+            font-size: .8rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        h2 {
+            margin: .25rem 0 0;
+            color: var(--corAzulPrimario);
+            font-size: clamp(1.6rem, 2vw, 2rem);
+        }
     }
 
     .historia {
+        display: grid;
+        width: 100%;
+        grid-template-rows: 0fr;
+        opacity: .88;
+        transition: grid-template-rows .45s cubic-bezier(.2, .75, .25, 1), opacity .3s ease;
+
+        &.aberta {
+            grid-template-rows: 1fr;
+            opacity: 1;
+        }
+
+        .historia-conteudo {
+            min-height: 0;
+            overflow: hidden;
+        }
+
         p {
-            color: var(--corPretoGeral);
-            text-align: justify;
-            font-size: 1.3rem;
-            font-weight: 500;
-            line-height: 2.3rem;
+            margin: 0;
+            color: #34443e;
+            font-size: 1.05rem;
+            font-weight: 400;
+            line-height: 1.75;
+            text-align: left;
         }
     }
 
     .ver-mais {
+        margin-top: auto;
+        padding-top: .25rem;
+
         button {
-            color: var(--corLaranjaContraste);
-
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 2.8rem;
             border: 1px solid var(--corLaranjaContraste);
-            border-radius: 1rem;
+            border-radius: .75rem;
+            padding: .65rem 1.1rem;
+            background: transparent;
+            color: var(--corLaranjaContraste);
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color .2s ease, color .2s ease, border-color .2s ease;
 
-            padding: .3rem 1.8rem;
-
-            font-weight: 500;
-            font-size: 1.3rem;
-
-            transition: .1s ease-in;
-
-            &:hover {
-                background-color: var(--corLaranjaContraste);
+            &:hover,
+            &:focus-visible {
+                background: var(--corLaranjaContraste);
                 color: white;
             }
 
+            &:focus-visible {
+                outline: 3px solid rgba(248, 86, 31, .3);
+                outline-offset: 3px;
+            }
+
             &.fechar {
+                border-color: var(--corAzulPrimario);
                 color: var(--corAzulPrimario);
 
-                border: 1px solid var(--corAzulPrimario);
-
-                &:hover {
-                    background-color: var(--corAzulPrimario);
+                &:hover,
+                &:focus-visible {
+                    background: var(--corAzulPrimario);
                     color: white;
                 }
             }
         }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .comp-card-adotados,
+    .comp-card-adotados .imagem img,
+    .comp-card-adotados .historia,
+    .comp-card-adotados .ver-mais button {
+        transition: none;
+    }
+
+    .comp-card-adotados:hover {
+        transform: none;
     }
 }

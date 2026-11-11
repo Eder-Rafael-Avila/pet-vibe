@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { useState } from "react";
 
 import { validarToken } from "./utils/validarToken";
@@ -57,16 +57,20 @@ export default function Router() {
                 <Route
                     path="/Login"
                     element={
-                        <Login
-                            setUsuarioLogado={setTipoUsuarioLogado}
-                        />
+                        tipoUsuarioLogado
+                            ? <Navigate to="/" replace />
+                            : <Login setUsuarioLogado={setTipoUsuarioLogado} />
                     }
                 />
 
                 {/* CADASTRO DE USUÁRIO */}
                 <Route
                     path="/Cadastro"
-                    element={<Cadastro />}
+                    element={
+                        tipoUsuarioLogado
+                            ? <Navigate to="/" replace />
+                            : <Cadastro />
+                    }
                 />
 
                 {/* ADOÇÃO */}

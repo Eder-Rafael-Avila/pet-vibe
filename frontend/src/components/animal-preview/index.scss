@@ -138,39 +138,156 @@
 
     .container-animais {
         width: 100%;
-
+        box-sizing: border-box;
         display: flex;
         flex-direction: column;
         align-items: center;
-        gap: 5rem;
+        gap: 2.5rem;
+        padding: 5rem clamp(1.25rem, 6vw, 6rem);
+        background:
+            radial-gradient(ellipse at 50% 0, rgba(21, 105, 87, .1), transparent 60%),
+            #f7faf8;
 
         .title {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: .75rem;
+            width: min(100%, 58rem);
+            text-align: center;
 
-            width: 100%;
+            .subtitulo {
+                margin: 0;
+                color: var(--corLaranjaContraste);
+                font-size: .9rem;
+                font-weight: 700;
+                letter-spacing: .14em;
+            }
 
             h2 {
-                width: 88%;
-
-                text-align: center;
-
+                margin: 0;
                 color: var(--corLaranjaContraste);
+                font-size: clamp(2rem, 3.2vw, 2.8rem);
+                font-weight: 700;
+            }
 
-                padding: .2rem 0;
-                border-radius: .7rem;
-
-                font-size: 2.3rem;
-                font-weight: 500;
+            .descricao {
+                margin: 0;
+                color: #53645d;
+                font-size: 1.1rem;
+                line-height: 1.6;
             }
         }
 
-        .animais {
+        .carrossel-animais {
             display: flex;
-            align-items: start; 
-            justify-content: space-around;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            width: min(100%, 38rem);
 
-            width: 100%;
+            .janela-carrossel {
+                width: 100%;
+                overflow: hidden;
+                border-radius: 1.4rem;
+            }
+
+            .trilho-carrossel {
+                display: flex;
+                align-items: stretch;
+                transition: transform .5s cubic-bezier(.22, .75, .25, 1);
+            }
+
+            .slide-animal {
+                flex: 0 0 100%;
+                min-width: 0;
+            }
+
+            .controles-carrossel {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 1.25rem;
+            }
+
+            .seta-carrossel {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: 2.8rem;
+                height: 2.8rem;
+                border: 1px solid var(--corAzulPrimario);
+                border-radius: 50%;
+                background: white;
+                color: var(--corAzulPrimario);
+                cursor: pointer;
+                transition: background-color .2s ease, color .2s ease, transform .2s ease;
+
+                &:hover {
+                    transform: translateY(-2px);
+                    background: var(--corAzulPrimario);
+                    color: white;
+                }
+
+                &:focus-visible {
+                    outline: 3px solid rgba(21, 105, 87, .3);
+                    outline-offset: 3px;
+                }
+            }
+
+            .indicadores-carrossel {
+                display: flex;
+                align-items: center;
+                gap: .55rem;
+            }
+
+            .indicador-carrossel {
+                width: .65rem;
+                height: .65rem;
+                border: 0;
+                border-radius: 999px;
+                padding: 0;
+                background: #b7c8c0;
+                cursor: pointer;
+                transition: width .25s ease, background-color .25s ease;
+
+                &.ativo {
+                    width: 1.7rem;
+                    background: var(--corLaranjaContraste);
+                }
+
+                &:focus-visible {
+                    outline: 3px solid rgba(248, 86, 31, .3);
+                    outline-offset: 3px;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 760px) {
+    .comp-animal-preview {
+        .container-animais {
+            gap: 2rem;
+            padding: 3.5rem 1rem;
+
+            .carrossel-animais {
+                width: 100%;
+
+                .controles-carrossel {
+                    gap: 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .comp-animal-preview .carrossel-animais {
+        .trilho-carrossel,
+        .seta-carrossel,
+        .indicador-carrossel {
+            transition: none;
         }
     }
 }

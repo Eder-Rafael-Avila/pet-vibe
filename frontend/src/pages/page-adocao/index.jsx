@@ -726,7 +726,7 @@ export default function Adocao({
 
       <section className="sobreNos">
         <div className="img">
-          <img src="./public/assets/images/choro.webp" alt="" />
+          <img src="/assets/images/choro.webp" alt="Cachorro acolhido, representando as histórias por trás da adoção" />
         </div>
 
         <div className="conteudo-sobre">
