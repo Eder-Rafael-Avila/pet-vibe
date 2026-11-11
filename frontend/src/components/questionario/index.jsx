@@ -1,8 +1,10 @@
 
 import './index.scss';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export default function Questionario() {
+    const navigate = useNavigate ();
 
     // ESTADOS
     const [indicePergunta, setIndicePergunta] = useState(0);
@@ -11,7 +13,7 @@ export default function Questionario() {
     const [carregando, setCarregando] = useState(false);
     const [erro, setErro] = useState('');
 
-    // PERGUNTAS
+   
     const perguntas = [
         {
             id: "moradia",
@@ -93,6 +95,7 @@ export default function Questionario() {
 
  
     async function CriarQuestionario() {
+        
 
         try {
             setCarregando(true);
@@ -133,25 +136,28 @@ export default function Questionario() {
             setConcluido(true);
 
             
+            
             setTimeout(() => {
-                window.location.href = '/Adocao';
+                navigate('/Adocao');
             }, 3000);
 
         } catch (err) {
 
             setErro(err.message);
 
-        } 
+        } finally{
+            setCarregando(false)
+        }
     }
 
 
 
     function selecionarResposta(opcao) {
 
-        setRespostas({
-            ...respostas,
+        setRespostas((prev) =>({
+            ...prev,
             [perguntaAtual.id]: opcao
-        });
+        }));
 
     }
 
