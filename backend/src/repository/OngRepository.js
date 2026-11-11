@@ -15,14 +15,36 @@ FROM ong
     return resposta;
 }
 
-export async function BuscarOngPorNome(nome) {
+export async function BuscarOngPorId(id) {
     const comando = `
-        SELECT nome, email, telefone, descricao, site
+        SELECT nome, email, telefone, cnpj, imagem
         FROM ong
-        WHERE nome LIKE ?
+        WHERE id_ong = ?
     `;
 
-    const [linhas] = await con.query(comando, [`%${nome}%`]);
+    const [linhas] = await con.query(comando, [id]);
+    return linhas;
+}
+
+export async function BuscarEmailPorIdOng(idOng) {
+    const comando = `
+        SELECT email
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [idOng]);
+    return linhas[0]?.email;
+}
+
+export async function NomeImgPorId(id) {
+    const comando = `
+        SELECT nome, email, telefone,
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [`%${id}%`]);
     return linhas;
 }
 
@@ -50,6 +72,17 @@ export async function BuscarPorEmail(email) {
     `;
 
     const [linhas] = await con.query(command, [email]);
+    return linhas[0];
+}
+
+export async function BuscarEmailPorId(idOng) {
+    const command = `
+        SELECT email
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(command, [idOng]);
     return linhas[0];
 }
 
@@ -92,6 +125,28 @@ export async function AlterarSenhaOng(id, ong) {
     `
 
     let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}
+
+export async function AlterarNomeOng(id, nome) {
+    const comando = `
+        UPDATE ong
+        SET nome = ?
+        WHERE id_ong = ?
+    `;
+
+    const [resposta] = await con.query(comando, [nome, id]);
+    return resposta.affectedRows;
+}
+
+export async function AlterarTelefoneOng(id, telefone) {
+    const comando = `
+        UPDATE ong
+        SET telefone = ?
+        WHERE id_ong = ?
+    `;
+
+    const [resposta] = await con.query(comando, [telefone, id]);
     return resposta.affectedRows;
 }
 

@@ -1,12 +1,7 @@
 import { Router } from 'express';
-const endpoints = Router();
-
-
-
-const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 import multer from 'multer';
 
-import { gerarTokenOng, validarTokenOng } from '../utils/TokenEvalidacao.js';
+import { gerarTokenOng, validarTokenOng, validarTokenValidacaoOng } from '../utils/TokenEvalidacao.js';
 
 import { ListarOngService } from '../service/ong/ListarOngService.js';
 import { ListarOngsService } from '../service/ong/ListarOngsService.js';
@@ -18,27 +13,29 @@ import { AlterarDescOngService } from '../service/ong/AlterarDescOngService.js';
 import { AlterarEmailOngService } from '../service/ong/AlterarEmailOngService.js';
 import { AlterarSenhaOngService } from '../service/ong/AlterarSenhaOngService.js';
 import { AlterarSiteOngService } from '../service/ong/AlterarSiteOngService.js';
+import { AlterarNomeOngService } from '../service/ong/AlterarNomeOngService.js';
+import { AlterarTelefoneOngService } from '../service/ong/AlterarTelefoneOngService.js';
+import { EnviarCodigoVerificacaoOngService, LiberarPermissaoOngService } from '../service/ong/VerificacaoOngService.js';
+
+const endpoints = Router();
+const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 
 endpoints.get('/ongs', async (req, resp) => {
     try {
-
         let resposta = await ListarOngsService();
 
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.get('/ongs/nome/:nome', async (req, resp) => {
+endpoints.get('/ongs/consultar/:id', async (req, resp) => {
     try {
-        const nome = req.params.nome;
-
-        const resposta = await ListarOngService(nome)
+        const id = req.params.id;
+        const resposta = await ListarOngService(id);
 
         resp.send({ resposta });
     }
@@ -51,22 +48,19 @@ endpoints.get('/ongs/nome/:nome', async (req, resp) => {
 endpoints.post('/ong/criar', async (req, resp) => {
     try {
         let ong = req.body;
+        let resposta = await CriarOngService(ong);
 
-        let resposta = await CriarOngService(ong)
-
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.put('/ong/imagem', validarTokenOng, uploadOng.single('imagem'), async (req, resp) => {
     try {
-        const imagem = await ImagemOngService(req.usuario.id_ong, req.file)
+        const imagem = await ImagemOngService(req.usuario.id_ong, req.file);
 
         resp.send({ imagem });
     }
@@ -74,18 +68,14 @@ endpoints.put('/ong/imagem', validarTokenOng, uploadOng.single('imagem'), async 
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.post('/ong/login', async (req, resp) => {
     try {
         const { email, senha } = req.body;
+        const ong = await LoginOngService(email, senha);
 
-        const ong = await LoginOngService(email, senha)
-
-
-        const token = gerarTokenOng({
-            id_ong: ong.id_ong,
-        });
+        const token = gerarTokenOng({ id_ong: ong.id_ong });
 
         resp.send({ token });
     }
@@ -93,92 +83,133 @@ endpoints.post('/ong/login', async (req, resp) => {
         logError(err);
         return resp.status(400).send(erroJson(err));
     }
+});
 
-})
-
-endpoints.delete('/ong/excluir', validarTokenOng, async (req, resp) => {
+endpoints.delete('/ong/excluir', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
-        const idOng = req.usuario.id_ong
+        const idOng = req.usuario.id_ong;
 
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(idOng);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
 
-        const resposta = await ExcluirOngService(idOng)
+        const resposta = await ExcluirOngService(idOng);
 
-        resp.send({
-            resposta: resposta
-        });
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.put('/ong/alterarEmail', validarTokenOng, async (req, resp) => {
+endpoints.put('/ong/alterarEmail', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
-        let id = req.usuario.id_ong
+        const id = req.usuario.id_ong;
         const { email } = req.body;
 
-        let resposta = await AlterarEmailOngService(id, email)
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(id);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
 
-        resp.send({
-            resposta: resposta
-        })
+        const resposta = await AlterarEmailOngService(id, email);
+
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.put('/ong/alterarSenha', validarTokenOng, async (req, resp) => {
+endpoints.put('/ong/alterarSenha', validarTokenOng, validarTokenValidacaoOng, async (req, resp) => {
     try {
-        let id = req.usuario.id_ong
+        const id = req.usuario.id_ong;
         const { senha } = req.body;
 
-        let resposta = await AlterarSenhaOngService(id, senha)
+        if (!req.headers.tokenpermitidoong) {
+            await EnviarCodigoVerificacaoOngService(id);
+            return resp.status(202).send({ resposta: 'Foi enviado um e-mail com o código de verificação.' });
+        }
 
-        resp.send({
-            resposta: resposta
-        })
+        const resposta = await AlterarSenhaOngService(id, senha);
+
+        resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
+});
+
+endpoints.get('/ong/liberarPermissao', validarTokenOng, async (req, resp) => {
+    try {
+        const idOng = req.usuario.id_ong;
+        const codigo = req.query.codigo;
+        const token = await LiberarPermissaoOngService(idOng, codigo);
+
+        resp.send({ token });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
+
+endpoints.put('/ong/alterarNome', validarTokenOng, async (req, resp) => {
+    try {
+        const resposta = await AlterarNomeOngService(req.usuario.id_ong, req.body.nome);
+
+        return resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
+});
+
+endpoints.put('/ong/alterarTelefone', validarTokenOng, async (req, resp) => {
+    try {
+        const resposta = await AlterarTelefoneOngService(req.usuario.id_ong, req.body.telefone);
+
+        return resp.send({ resposta });
+    }
+    catch (err) {
+        logError(err);
+        return resp.status(400).send(erroJson(err));
+    }
+});
 
 endpoints.put('/ong/alterarSite', validarTokenOng, async (req, resp) => {
     try {
-        let id = req.usuario.id_ong
+        const id = req.usuario.id_ong;
         const { site } = req.body;
 
-        let resposta = await AlterarSiteOngService(id, site);
+        const resposta = await AlterarSiteOngService(id, site);
 
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 endpoints.put('/ong/alterarDesc', validarTokenOng, async (req, resp) => {
     try {
-        let id = req.usuario.id_ong
+        const id = req.usuario.id_ong;
         const { descricao } = req.body;
 
-        let resposta = await AlterarDescOngService(id, descricao);
+        const resposta = await AlterarDescOngService(id, descricao);
 
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-export default endpoints
+export default endpoints;

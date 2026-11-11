@@ -17,31 +17,29 @@ async function listarAdocoesOngPorSituacao(idOng, situacao) {
             perfil_animal.id_animal,
             perfil_animal.nome AS nome_animal,
             perfil_animal.idade AS idade_animal,
-            adocoes.situacao
+            adocoes.situação AS situacao
         FROM adocoes
         INNER JOIN usuarios ON adocoes.id_usuario = usuarios.id_usuario
         INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
-        WHERE adocoes.id_ong = ?
-          AND perfil_animal.id_ong = ?
-          AND adocoes.situacao = ?
+        WHERE perfil_animal.id_ong = ?
+          AND adocoes.situação = ?
     `;
 
-    const [resultado] = await con.query(comando, [idOng, idOng, situacao]);
+    const [resultado] = await con.query(comando, [idOng, situacao]);
     return resultado;
 }
 
 export async function aprovarAdocao(idOng, idAdocao) {
-    // Confere a ONG da solicitação e do animal antes de alterar a situação.
+    // Confere se o animal pertence à ONG autenticada antes de alterar a situação.
     const comando = `
         UPDATE adocoes
         INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
-        SET adocoes.situacao = 'aprovada'
+        SET adocoes.situação = 'aprovada'
         WHERE adocoes.id_adocao = ?
-          AND adocoes.id_ong = ?
           AND perfil_animal.id_ong = ?
     `;
 
-    const [resultado] = await con.query(comando, [idAdocao, idOng, idOng]);
+    const [resultado] = await con.query(comando, [idAdocao, idOng]);
     return resultado.affectedRows;
 }
 
@@ -49,13 +47,12 @@ export async function reprovarAdocao(idOng, idAdocao) {
     const comando = `
         UPDATE adocoes
         INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
-        SET adocoes.situacao = 'reprovada'
+        SET adocoes.situação = 'reprovada'
         WHERE adocoes.id_adocao = ?
-          AND adocoes.id_ong = ?
           AND perfil_animal.id_ong = ?
     `;
 
-    const [resultado] = await con.query(comando, [idAdocao, idOng, idOng]);
+    const [resultado] = await con.query(comando, [idAdocao, idOng]);
     return resultado.affectedRows;
 }
 
@@ -63,21 +60,34 @@ export async function listarAdocoesPendentesOng(idOng) {
     const comando = `
         SELECT
             adocoes.id_adocao,
+            usuarios.imagem AS imagem_usuario,
             usuarios.nome AS nome_usuario,
+            usuarios.email AS email_usuario,
+            usuarios.telefone AS telefone_usuario,
+            usuarios.cpf AS cpf_usuario,
+            DATE_FORMAT(usuarios.data_nascimento, '%d/%m/%Y') AS data_nascimento_usuario,
+            COALESCE(NULLIF(CONCAT_WS(', ',
+                CONCAT('CEP: ', NULLIF(TRIM(endereco_usuarios.cep), '')),
+                CONCAT('Nº ', NULLIF(TRIM(endereco_usuarios.numero), '')),
+                NULLIF(TRIM(endereco_usuarios.complemento), ''),
+                NULLIF(TRIM(endereco_usuarios.bairro), ''),
+                NULLIF(TRIM(endereco_usuarios.cidade), ''),
+                NULLIF(TRIM(endereco_usuarios.estado), '')
+            ), ''), 'Endereço não informado') AS endereco_usuario,
             perfil_animal.id_animal,
             perfil_animal.nome AS nome_animal,
             perfil_animal.idade AS idade_animal,
-            adocoes.situacao
+            adocoes.situação AS situacao
         FROM adocoes
         INNER JOIN usuarios ON adocoes.id_usuario = usuarios.id_usuario
+        LEFT JOIN endereco_usuarios ON usuarios.id_usuario = endereco_usuarios.id_usuario
         INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
-        WHERE adocoes.id_ong = ?
-          AND perfil_animal.id_ong = ?
-          AND adocoes.situacao = 'pendente'
+        WHERE perfil_animal.id_ong = ?
+          AND adocoes.situação = 'pendente'
     `;
 
     // O ID vem do token: retorna apenas solicitações pendentes dessa ONG.
-    const [resultado] = await con.query(comando, [idOng, idOng]);
+    const [resultado] = await con.query(comando, [idOng]);
     return resultado;
 }
 
@@ -87,7 +97,7 @@ export async function excluirAdocao(idUsuario, idAdocao) {
         DELETE FROM adocoes
         WHERE id_adocao = ?
           AND id_usuario = ?
-          AND situacao = 'pendente'
+          AND situação = 'pendente'
     `;
 
     const [resultado] = await con.query(comando, [idAdocao, idUsuario]);
@@ -104,7 +114,7 @@ export async function listarAdocoesUsuario(idUsuario) {
             ong.telefone AS telefone_ong,
             perfil_animal.nome AS nome_animal,
             perfil_animal.idade AS idade_animal,
-            adocoes.situacao
+            adocoes.situação AS situacao
         FROM adocoes
         INNER JOIN usuarios ON adocoes.id_usuario = usuarios.id_usuario
         INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
@@ -129,11 +139,10 @@ export async function listarAdocoesUsuario(idUsuario) {
 
 // O controller deve receber idUsuario do token validado e idAnimal da requisição.
 export async function criarAdocao(idUsuario, idAnimal) {
-    // Busca o animal e copia o id_ong já salvo no perfil dele.
-    // O usuário não precisa enviar o ID da ONG na requisição.
+    // A ONG é identificada pelo perfil do animal, sem duplicar seu ID na adoção.
     const comando = `
-        INSERT INTO adocoes (id_usuario, id_animal, id_ong, situacao)
-        SELECT ?, id_animal, id_ong, 'pendente'
+        INSERT INTO adocoes (id_usuario, id_animal, situação)
+        SELECT ?, id_animal, 'pendente'
         FROM perfil_animal
         WHERE id_animal = ?
           AND id_ong IS NOT NULL
