@@ -196,7 +196,7 @@ export default function Questionario() {
 
                         <div className="logo-concluido">
 
-                            <span className="patinha">🐾</span>
+                            <span className="logo"><img src="/assets/images/logo4.png" alt="" /></span>
 
                             <h2>
                                 Pet<span>Vibe</span>
@@ -213,7 +213,7 @@ export default function Questionario() {
 
                     <div className="conteudo-concluido">
 
-                        <div className="icone-check">
+                        <div className="check">
                             ✓
                         </div>
 
@@ -226,7 +226,7 @@ export default function Questionario() {
                             Agora vamos encontrar um novo amigo para você!
                         </p>
 
-                        <div className="botao-concluido">
+                        <div className="concluido">
 
                             Questionário concluído
 
@@ -234,7 +234,7 @@ export default function Questionario() {
 
                         </div>
 
-                        <span className="mensagem-redirecionamento">
+                        <span className="redirecionamento">
                             Você será redirecionado em alguns segundos...
                         </span>
 
@@ -242,7 +242,7 @@ export default function Questionario() {
 
                             <span></span>
 
-                            <strong>🐾 Pet-Vibe</strong>
+                            <strong><img src="/assets/images/logo4.png" alt="" /> Pet-Vibe</strong>
 
                             <span></span>
 
