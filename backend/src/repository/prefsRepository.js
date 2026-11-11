@@ -17,74 +17,67 @@ export async function ListarPrefs(id_usuario) {
 export async function CriarPrefs(id_usuario, prefs) {
     const command = `
         INSERT INTO prefs
-        (id_usuario, animal_procurado, tempo_sozinho, possui_animais, possui_crianca)
-        VALUES (?, ?, ?, ?, ?)
+        (id_usuario, Onde_Mora, Animal_Sozinho_Tempo, possui_animais, possui_crianca, Ja_Teve_animais)
+        VALUES (?, ?, ?, ?, ?,?)
     `;
 
     const [resposta] = await con.query(command, [
         id_usuario,
-        prefs.animal_procurado,
-        prefs.tempo_sozinho,
+        prefs.Onde_Mora,
+        prefs.Animal_Sozinho_Tempo,
         prefs.possui_animais,
-        prefs.possui_crianca
+        prefs.possui_crianca,
+        prefs.Ja_Teve_animais,
     ]);
 
     return resposta;
 }
 
 
+
 export async function AlterarPrefs(id_usuario, prefs) {
 
-    let campos = []
-    let valores = []
+    let campos = [];
+    let valores = [];
 
-    if (prefs.animal_procurado !== undefined) {
-        campos.push('animal_procurado = ?')
-        valores.push(prefs.animal_procurado)
+    if (prefs.Onde_Mora !== undefined) {
+        campos.push('Onde_Mora = ?');
+        valores.push(prefs.Onde_Mora);
     }
 
-    if (prefs.tempo_sozinho !== undefined) {
-        campos.push('tempo_sozinho = ?')
-        valores.push(prefs.tempo_sozinho)
+    if (prefs.Animal_Sozinho_Tempo !== undefined) {
+        campos.push('Animal_Sozinho_Tempo = ?');
+        valores.push(prefs.Animal_Sozinho_Tempo);
     }
 
     if (prefs.possui_animais !== undefined) {
-        campos.push('possui_animais = ?')
-        valores.push(prefs.possui_animais)
+        campos.push('possui_animais = ?');
+        valores.push(prefs.possui_animais);
     }
 
     if (prefs.possui_crianca !== undefined) {
-        campos.push('possui_crianca = ?')
-        valores.push(prefs.possui_crianca)
+        campos.push('possui_crianca = ?');
+        valores.push(prefs.possui_crianca);
+    }
+
+    if (prefs.Ja_Teve_animais !== undefined) {
+        campos.push('Ja_Teve_animais = ?');
+        valores.push(prefs.Ja_Teve_animais);
     }
 
     if (campos.length === 0) {
-        throw new Error('Nenhuma preferência foi informada')
+        throw new Error('Nenhuma preferência foi informada');
     }
 
-    valores.push(id_usuario)
+    valores.push(id_usuario);
 
     const command = `
         UPDATE prefs
         SET ${campos.join(', ')}
         WHERE id_usuario = ?
-    `
-
-    const [resposta] = await con.query(command, valores)
-
-    return resposta
-}
-
-
-export async function ExcluirPrefs(id_usuario) {
-    const command = `
-        DELETE FROM prefs
-        WHERE id_usuario = ?
     `;
 
-    const [resposta] = await con.query(command, [
-        id_usuario
-    ]);
+    const [resposta] = await con.query(command, valores);
 
     return resposta;
 }

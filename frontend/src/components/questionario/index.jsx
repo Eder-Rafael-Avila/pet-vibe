@@ -2,6 +2,33 @@ import './index.scss';
 import { useState } from 'react';
 
 export default function Questionario() {
+   async function CriarQuestionario(e) {
+    e.preventDefault();
+
+    const resposta = await fetch('http://localhost:3000/prefs/criar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            Onde_Mora: respostas.moradia,
+            Animal_Sozinho_Tempo: respostas.tempo_sozinho,
+            possui_animais: respostas.possui_animais,
+            possui_crianca: respostas.possui_criancas,
+            Ja_Teve_animais: respostas.experiencia
+        })
+    });
+
+    const dados = await resposta.json();
+
+    console.log(dados);
+
+    if (dados?.erro) {
+        alert(dados.erro);
+    } else {
+        window.location.href = '/Login';
+    }
+}
 
    
     const perguntas = [
@@ -24,10 +51,12 @@ export default function Questionario() {
             pergunta: "Durante um dia comum, por quanto tempo o animal ficará sozinho?",
             opcoes: [
                 {
-                    nome: "Até 4 horas por dia"
+                    nome: "Até 4 horas por dia",
+                    imagem: "/assets/images/ate4Hrs.webp"
                 },
                 {
-                    nome: "Mais de 4 horas por dia"
+                    nome: "Mais de 4 horas por dia",
+                    imagem: "/assets/images/MaisDe4hrs.webp"
                 }
             ]
         },
@@ -35,24 +64,37 @@ export default function Questionario() {
             id: "possui_animais",
             pergunta: "Você possui outros animais?",
             opcoes: [
-                { nome: "Sim" },
-                { nome: "Não" }
-            ]
+                { nome: "Sim",
+                    imagem:"/assets/images/AnimaisSim.webp" 
+                 },
+                { nome: "Não",
+                    imagem:"/assets/images/AnimaisNao.webp"
+                 }
+            ],
+            
         },
         {
             id: "possui_criancas",
             pergunta: "Existem crianças na residência?",
             opcoes: [
-                { nome: "Sim" },
-                { nome: "Não" }
+                { nome: "Sim",
+                    imagem:"/assets/images/CriancaSim.webp"
+                 },
+                { nome: "Não",
+                    imagem:"/assets/images/CriancaNao.webp"
+                 }
             ]
         },
         {
             id: "experiencia",
-            pergunta: "Você já teve animais?",
+            pergunta: "Você já teve experiencia animais?",
             opcoes: [
-                { nome: "Sim" },
-                { nome: "Não" }
+                { nome: "Sim",
+                    imagem:"/assets/images/ExperienciaSim.webp"
+                 },
+                { nome: "Não",
+                    imagem:"/assets/images/ExperienciaNao.webp"
+                 }
             ]
         }
     ];
@@ -79,23 +121,22 @@ export default function Questionario() {
 
     }
 
-    function proximaPergunta() {
+    async function proximaPergunta() {
 
-        if (!respostas[perguntaAtual.id]) {
-            return;
-        }
+    if (!respostas[perguntaAtual.id]) {
+        return;
+    }
 
-        if (indicePergunta < perguntas.length - 1) {
+    if (indicePergunta < perguntas.length - 1) {
 
-            setIndicePergunta(indicePergunta + 1);
+        setIndicePergunta(indicePergunta + 1);
 
-        } else {
+    } else {
 
-            console.log("Questionário finalizado:", respostas);
-
-        }
+        await CriarQuestionario(new Event('submit'));
 
     }
+}
 
     function voltarPergunta() {
 
@@ -134,8 +175,10 @@ export default function Questionario() {
 
                 </div>
 
+
             </div>
             <div className="conteudo-questionario">
+                
                 <div className="progresso-container">
 
                     <div className="barra-progresso">
