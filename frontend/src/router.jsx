@@ -111,7 +111,11 @@ export default function Router() {
 
                         <Route
                             path="/PainelONG"
-                            element={<ONGPanel />}
+                            element={
+                                <ONGPanel
+                                    setUsuarioLogado={setTipoUsuarioLogado}
+                                />
+                            }
                         />
                     </Route>
                 </Route>

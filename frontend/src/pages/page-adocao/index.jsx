@@ -16,6 +16,8 @@ import Header from "../../components/header/index.jsx";
 import CardAnimais from "../../components/card-animal/index.jsx";
 import Footer from '../../components/footer';
 import { obterImagem } from "../../utils/obterImagem.js";
+import { validarToken } from "../../utils/validarToken.js";
+import { obterDadosToken } from "../../utils/obterInfoToken.js";
 
 export default function Adocao({
     usuarioLogado,
@@ -58,6 +60,13 @@ export default function Adocao({
 
   const enderecoJaCadastrado = Boolean(
     tokenEnderecoCriado && tokenEnderecoCriado === localStorage.getItem("token")
+  );
+  const tokenSessao = localStorage.getItem("token");
+  const usuarioAutenticado = Boolean(
+    usuarioLogado === "USUARIO"
+    && tokenSessao
+    && validarToken(tokenSessao)
+    && obterDadosToken()?.tipo === "USUARIO"
   );
 
   function normalizar(valor) {
@@ -212,9 +221,9 @@ export default function Adocao({
     if (!declarouMaioridade) return;
 
     const token = localStorage.getItem("token");
-    if (!token) {
+    if (!usuarioAutenticado || !token) {
       setPrecisaLogin(true);
-      setErroAdocao("Entre na sua conta para solicitar a adoção.");
+      setErroAdocao("Entre com uma conta de usuário para informar seu endereço e solicitar a adoção.");
       return;
     }
 
@@ -234,7 +243,7 @@ export default function Adocao({
         });
         const dadosEndereco = await respostaEndereco.json();
 
-        if (respostaEndereco.status === 401) {
+        if (respostaEndereco.status === 401 || respostaEndereco.status === 403) {
           localStorage.removeItem("token");
           setUsuarioLogado(false);
           setPrecisaLogin(true);
@@ -258,7 +267,7 @@ export default function Adocao({
       });
 
       const dados = await resposta.json();
-      if (resposta.status === 401) {
+      if (resposta.status === 401 || resposta.status === 403) {
         localStorage.removeItem("token");
         setUsuarioLogado(false);
         setPrecisaLogin(true);
@@ -523,6 +532,13 @@ export default function Adocao({
               <div className="modal-adocao-resultado" role="status">
                 <p>Sua solicitação de adoção foi enviada com sucesso!</p>
                 <button type="button" onClick={fecharModalAdocao}>Concluir</button>
+              </div>
+            ) : !usuarioAutenticado ? (
+              <div className="modal-adocao-login" role="status">
+                <p>
+                  Para informar seu endereço e confirmar a solicitação, entre em uma conta de usuário.
+                </p>
+                <NavLink to="/Login">Entrar na minha conta</NavLink>
               </div>
             ) : (
               <form className="modal-adocao-formulario" onSubmit={solicitarAdocao}>
