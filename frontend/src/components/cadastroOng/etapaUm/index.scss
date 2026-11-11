@@ -91,6 +91,22 @@
         }
     }
 
+    .input textarea {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 100px;
+        padding: 10px;
+        border: 1px solid black;
+        border-radius: 10px;
+        margin-top: 7px;
+        resize: vertical;
+        font: inherit;
+
+        @media (max-width: 490px) {
+            font-size: 1.2rem;
+        }
+    }
+
     .input,
     .input-senha {
         margin-bottom: 20px;
@@ -277,8 +293,9 @@
             gap: 14px 16px;
         }
 
-        .linha-documentos,
         .linha-senha,
+        .campos-cadastro > .input-nome,
+        .campos-cadastro > .input-descricao,
         .campos-cadastro > .button,
         .campos-cadastro > .entrar {
             grid-column: 1 / -1;
@@ -298,6 +315,7 @@
         }
 
         .campos-cadastro .input input,
+        .campos-cadastro .input textarea,
         .linha-senha .campo input {
             box-sizing: border-box;
             height: 42px;
@@ -305,10 +323,9 @@
             font-size: 1.2rem;
         }
 
-        .linha-documentos {
-            display: grid;
-            grid-template-columns: repeat(2, minmax(0, 1fr));
-            gap: 16px;
+        .campos-cadastro .input textarea {
+            height: auto;
+            min-height: 100px;
         }
 
         .linha-senha {
@@ -367,12 +384,17 @@
         }
 
         .campos-cadastro .input input,
+        .campos-cadastro .input textarea,
         .linha-senha .campo input {
             height: 44px;
             font-size: 1.3rem;
         }
 
-        .linha-documentos,
+        .campos-cadastro .input textarea {
+            height: auto;
+            min-height: 110px;
+        }
+
         .linha-senha {
             gap: 20px;
         }
@@ -494,5 +516,71 @@
         margin-top: 20px;
         align-self: flex-start;
     }
+}
+
+.indicador-etapa {
+    margin: 6px 0 0;
+    color: #666;
+    font-size: 0.95rem;
+}
+
+.campos-cadastro > .input-nome {
+    grid-column: 1 / -1;
+}
+
+.linha-senha .campo .botao-olho {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    display: grid;
+    place-items: center;
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    transform: translateY(-50%);
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.linha-senha .campo .botao-olho svg {
+    width: 18px;
+    height: 18px;
+}
+
+.aceite-termos label {
+    cursor: pointer;
+}
+
+.aceite-termos .link-termos {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--corLaranjaSecundario);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.acoes-etapa {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.botao-voltar-etapa {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border: 0;
+    background: transparent;
+    color: var(--corPretoGeral);
+    cursor: pointer;
+}
+
+.botao-voltar-etapa:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
 }
 }
