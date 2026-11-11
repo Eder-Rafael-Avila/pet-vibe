@@ -95,13 +95,28 @@ export async function ImagemUsuario(idUsuario, imagem) {
 }
 
 export async function ExcluirUsuario(idUsuario) {
-    const command = `
-        DELETE FROM usuarios
-        WHERE id_usuario = ?
-    `;
+    const conexao = await con.getConnection();
 
-    const [resposta] = await con.query(command, [idUsuario]);
-    return resposta.affectedRows;
+    try {
+        await conexao.beginTransaction();
+
+        await conexao.query('DELETE FROM adocoes WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM carteira WHERE ID_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM endereco_usuarios WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM prefs WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM busca WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM contribuidores WHERE ID_usuario = ?', [idUsuario]);
+
+        const [resposta] = await conexao.query('DELETE FROM usuarios WHERE id_usuario = ?', [idUsuario]);
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function AlterarSenha(senha, idUsuario) {

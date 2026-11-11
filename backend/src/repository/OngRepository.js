@@ -110,13 +110,37 @@ export async function ImagemOng(idOng, imagem) {
 }
 
 export async function ExcluirOng(id) {
-    let command = `
-    DELETE FROM ong
-    WHERE id_ong = ?
-    `
+    const conexao = await con.getConnection();
 
-    let [resposta] = await con.query(command, [id])
-    return resposta.effectedRows
+    try {
+        await conexao.beginTransaction();
+
+        await conexao.query(`
+            DELETE adocoes FROM adocoes
+            INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
+            WHERE perfil_animal.id_ong = ?
+        `, [id]);
+
+        await conexao.query(`
+            DELETE contribuidores FROM contribuidores
+            INNER JOIN campanhas ON contribuidores.ID_campanha = campanhas.ID_campanha
+            WHERE campanhas.ID_ONG = ?
+        `, [id]);
+
+        await conexao.query('DELETE FROM perfil_animal WHERE id_ong = ?', [id]);
+        await conexao.query('DELETE FROM campanhas WHERE ID_ONG = ?', [id]);
+        await conexao.query('DELETE FROM endereco_ong WHERE id_ong = ?', [id]);
+
+        const [resposta] = await conexao.query('DELETE FROM ong WHERE id_ong = ?', [id]);
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function AlterarEmailOng(id, ong) {
