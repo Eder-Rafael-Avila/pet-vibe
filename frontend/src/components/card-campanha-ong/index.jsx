@@ -1,5 +1,5 @@
 import './index.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { obterImagem } from '../../utils/obterImagem';
 
 function formatarReal(valor) {
@@ -12,10 +12,51 @@ function formatarReal(valor) {
 export default function CardCampanhaOng({ campanha, aoExcluir }) {
     const [processando, setProcessando] = useState(false);
     const [erro, setErro] = useState('');
+    const [modalAberto, setModalAberto] = useState(false);
+    const [contribuidores, setContribuidores] = useState([]);
+    const [carregandoContribuidores, setCarregandoContribuidores] = useState(false);
+    const [erroContribuidores, setErroContribuidores] = useState('');
+
+    useEffect(() => {
+        if (!modalAberto) return;
+
+        function fecharComEsc(event) {
+            if (event.key === 'Escape') setModalAberto(false);
+        }
+
+        document.addEventListener('keydown', fecharComEsc);
+        return () => document.removeEventListener('keydown', fecharComEsc);
+    }, [modalAberto]);
 
     const meta = Number(campanha.valor) || 0;
     const arrecadado = Number(campanha.valor_arrecadado) || 0;
     const progresso = meta > 0 ? Math.min((arrecadado / meta) * 100, 100) : 0;
+
+    async function listarContribuidores() {
+        setModalAberto(true);
+        setCarregandoContribuidores(true);
+        setErroContribuidores('');
+        setContribuidores([]);
+
+        try {
+            const resposta = await fetch(`http://localhost:6767/campanha/${campanha.ID_campanha}/contribuidores`, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados.erro || 'Não foi possível listar os contribuidores.');
+            }
+
+            setContribuidores(dados.resposta);
+        } catch (err) {
+            setErroContribuidores(err.message);
+        } finally {
+            setCarregandoContribuidores(false);
+        }
+    }
 
     async function excluirCampanha() {
         setProcessando(true);
@@ -88,14 +129,40 @@ export default function CardCampanhaOng({ campanha, aoExcluir }) {
                     </button>
                     <button
                         type="button"
-                        className="excluir"
-                        onClick={excluirCampanha}
-                        disabled={processando}
+                        className="listar-contribuidores"
+                        onClick={listarContribuidores}
+                        disabled={processando || carregandoContribuidores}
                     >
-                        Excluir campanha
+                        Listar contribuidores
                     </button>
                 </div>
             </div>
+
+            {modalAberto && (
+                <div className="modal-contribuidores">
+                    <section className="card-modal">
+                        <h2>Contribuidores</h2>
+                        <p className="titulo-campanha">{campanha.titulo}</p>
+
+                        {carregandoContribuidores && <p>Carregando...</p>}
+                        {erroContribuidores && <p className="mensagem-erro">{erroContribuidores}</p>}
+                        {!carregandoContribuidores && !erroContribuidores && contribuidores.length === 0 && (
+                            <p>Esta campanha ainda não recebeu contribuições.</p>
+                        )}
+
+                        <ul>
+                            {contribuidores.map(contribuidor => (
+                                <li key={contribuidor.id_usuario}>
+                                    <span>{contribuidor.nome}</span>
+                                    <strong>{formatarReal(Number(contribuidor.valor_doado) || 0)}</strong>
+                                </li>
+                            ))}
+                        </ul>
+
+                        <button type="button" onClick={() => setModalAberto(false)}>Fechar</button>
+                    </section>
+                </div>
+            )}
         </article>
     );
 }
