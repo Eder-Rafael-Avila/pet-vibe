@@ -17,37 +17,104 @@ export default function Cadastro(){
     const [confirmarSenha, setConfirmarSenha] = useState('');
     const [dataNasc, setDataNasc] = useState('');
     const [erro, setErro] = useState('');
+    const [usuarioCadastro, setUsuarioCadastro] = useState(null);
+    const [codigo, setCodigo] = useState('');
+    const [tokenCadastro, setTokenCadastro] = useState('');
+    const [enviando, setEnviando] = useState(false);
+
+    async function enviarCadastro(usuario, token = '') {
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers.cadastropermitido = token;
+        const resposta = await fetch('http://localhost:6767/usuario/cadastrar', {
+            method: 'POST',
+            headers,
+            body: JSON.stringify(usuario)
+        });
+        const dados = await resposta.json();
+
+        if (!resposta.ok) {
+            throw new Error(dados.erro || 'Não foi possível concluir o cadastro.');
+        }
+
+        return dados;
+    }
 
     async function cadastrarUsuario(e) {
         e.preventDefault();
+        if (enviando) return;
 
-        const resposta = await fetch('http://localhost:6767/usuario/cadastrar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                nome,
-                email,
-                telefone,
-                cpf,
-                senha,
-                confirmar_senha: confirmarSenha,
-                data_nascimento: dataNasc
-            })
-        });
+        const usuario = {
+            nome, email, telefone, cpf, senha,
+            confirmar_senha: confirmarSenha,
+            data_nascimento: dataNasc
+        };
 
-        const dados = await resposta.json();
-        console.log(dados);
+        setEnviando(true);
+        setErro('');
 
-        if (dados?.erro) {
-            setErro(dados.erro);
-        } else {
-            setErro('');
+        try {
+            await enviarCadastro(usuario);
+            setUsuarioCadastro(usuario);
+            setCodigo('');
+            setTokenCadastro('');
+        } catch (err) {
+            setErro(err.message);
+        } finally {
+            setEnviando(false);
         }
+    }
 
-        if (dados?.resposta === 'ok') {
+    async function confirmarCadastro(e) {
+        e.preventDefault();
+        if (enviando) return;
+
+        setEnviando(true);
+        setErro('');
+
+        try {
+            let token = tokenCadastro;
+
+            if (!token) {
+                const resposta = await fetch('http://localhost:6767/verificar/cadastro', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: usuarioCadastro.email, codigo })
+                });
+                const dados = await resposta.json();
+
+                if (!resposta.ok || !dados.token) {
+                    throw new Error(dados.erro || 'Não foi possível verificar o código.');
+                }
+
+                token = dados.token;
+                setTokenCadastro(token);
+            }
+
+            const dados = await enviarCadastro(usuarioCadastro, token);
+            if (dados.resposta !== 'ok') {
+                throw new Error('Não foi possível concluir o cadastro.');
+            }
             window.location.href = '/Login';
+        } catch (err) {
+            setErro(err.message);
+        } finally {
+            setEnviando(false);
+        }
+    }
+
+    async function reenviarCodigo() {
+        if (enviando) return;
+        setEnviando(true);
+        setErro('');
+
+        try {
+            await enviarCadastro(usuarioCadastro);
+            setCodigo('');
+            setTokenCadastro('');
+        } catch (err) {
+            setErro(err.message);
+        } finally {
+            setEnviando(false);
         }
     }
 
@@ -157,11 +224,13 @@ export default function Cadastro(){
                         </div>
 
                         <div className="button">
-                            {erro ? (
+                            {erro && !usuarioCadastro ? (
                                 <p id='mensagem-erro'>{erro}</p>
                             ) : (<></>)}
 
-                            <button>Criar minha conta</button>
+                            <button disabled={enviando}>
+                                {enviando ? 'Enviando...' : 'Criar minha conta'}
+                            </button>
                         </div>
 
                         <div className="entrar">
@@ -179,7 +248,49 @@ export default function Cadastro(){
                                                         <NavLink to="/"  ><button className="Voltar-pagina" ><b> <FaArrowLeft className="seta" /> Voltar</b></button></NavLink>
 
             </div>
-            
+
+            {usuarioCadastro && (
+                <div className="modal-verificacao-cadastro">
+                    <form className="card-verificacao" onSubmit={confirmarCadastro}>
+                        <h2>Confirme seu e-mail</h2>
+                        <p>Enviamos um código de quatro dígitos para <strong>{usuarioCadastro.email}</strong>.</p>
+                        <p>Confira sua caixa de entrada ou spam. O código expira em 10 minutos.</p>
+
+                        <label htmlFor="codigo-cadastro">Código de verificação</label>
+                        <input
+                            id="codigo-cadastro"
+                            type="text"
+                            inputMode="numeric"
+                            autoComplete="one-time-code"
+                            placeholder="0000"
+                            maxLength={4}
+                            pattern="[0-9]{4}"
+                            value={codigo}
+                            onChange={e => setCodigo(e.target.value.replace(/\D/g, '').slice(0, 4))}
+                            disabled={enviando || Boolean(tokenCadastro)}
+                            required
+                        />
+
+                        {erro && <p className="erro-verificacao">{erro}</p>}
+
+                        <button type="submit" disabled={enviando}>
+                            {enviando ? 'Aguarde...' : 'Confirmar e criar conta'}
+                        </button>
+                        <button type="button" className="botao-secundario" onClick={reenviarCodigo} disabled={enviando}>
+                            Reenviar código
+                        </button>
+                        <button type="button" className="botao-secundario" disabled={enviando} onClick={() => {
+                            setUsuarioCadastro(null);
+                            setCodigo('');
+                            setTokenCadastro('');
+                            setErro('');
+                        }}>
+                            Voltar ao cadastro
+                        </button>
+                    </form>
+                </div>
+            )}
+
         </div>
     )
 }
