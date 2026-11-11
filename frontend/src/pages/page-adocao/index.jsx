@@ -106,7 +106,7 @@ export default function Adocao({
 
   async function listarAnimais() {
     try {
-      const resposta = await fetch('http://localhost:6767/animais/disponiveis', {
+      const resposta = await fetch('http://localhost:6767/animais/listar', {
         method: 'GET'
       });
 
@@ -126,10 +126,6 @@ export default function Adocao({
       setCarregandoAnimais(false);
     }
   }
-
-      console.log('Resposta completa da API:', dados);
-      console.log('Dados dos Animais:', dados.resposta);
-      console.log('É um array?', Array.isArray(dados.resposta))
 
   useEffect(() => {
     Promise.resolve().then(listarAnimais);
@@ -274,7 +270,6 @@ export default function Adocao({
       }
 
       setAdocaoEnviada(true);
-      setAnimais(lista => lista.filter(animal => animal.id_animal !== animalSelecionado.id_animal));
     } catch (erro) {
       setErroAdocao(erro instanceof TypeError
         ? "Não foi possível conectar ao servidor. Tente novamente."
