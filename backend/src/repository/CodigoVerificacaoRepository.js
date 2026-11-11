@@ -1,5 +1,21 @@
 const codigosUsuarios = {};
 const codigosOngs = {};
+const codigosCadastroUsuarios = new Map();
+
+export function SalvarCodigoCadastroUsuario(email, codigo) {
+    codigosCadastroUsuarios.set(email, {
+        codigo: String(codigo),
+        expiraEm: Date.now() + 600000
+    });
+}
+
+export function BuscarCodigoCadastroUsuario(email) {
+    return codigosCadastroUsuarios.get(email);
+}
+
+export function ExcluirCodigoCadastroUsuario(email) {
+    codigosCadastroUsuarios.delete(email);
+}
 
 export function SalvarCodigoUsuario(idUsuario, codigo) {
     codigosUsuarios[idUsuario] = {

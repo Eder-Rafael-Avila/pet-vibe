@@ -19,3 +19,7 @@ export function CodigoVerificacaoUsuarioErrors(codigo, verificacao) {
 export function CodigoVerificacaoOngErrors(codigo, verificacao) {
     CodigoVerificacaoErrors(codigo, verificacao);
 }
+
+export function CodigoVerificacaoCadastroUsuarioErrors(codigo, verificacao) {
+    CodigoVerificacaoErrors(codigo, verificacao);
+}

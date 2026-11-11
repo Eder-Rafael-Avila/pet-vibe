@@ -9,7 +9,7 @@ const mailjet = Mailjet.apiConnect(
 
 
 
-export async function EnviarEmail(email, codigo) {
+export async function EnviarEmail(email, codigo, mensagem = 'Recebemos uma solicitação de verificação para sua conta. Utilize o código abaixo para continuar e aproveitar tudo que a PetVibe tem para você.') {
     const logo = await readFile(new URL('../../public/assets/images/logo.png', import.meta.url));
 
     const resposta = await mailjet
@@ -27,7 +27,7 @@ export async function EnviarEmail(email, codigo) {
                         }
                     ],
                     Subject: 'Código de verificação PetVibe',
-                    TextPart: `Seu código é ${codigo} Ele expira em 10 minutos.`,
+                    TextPart: `${mensagem} Seu código é ${codigo}. Ele expira em 10 minutos.`,
                     InlinedAttachments: [
                         {
                             ContentType: 'image/png',
@@ -136,10 +136,7 @@ HTMLPart: `
                 font-size: 15px;
                 line-height: 1.8;
             ">
-                Recebemos uma solicitação de verificação
-                para sua conta. Utilize o código abaixo
-                para continuar e aproveitar tudo que a
-                PetVibe tem para você.
+                ${mensagem}
             </p>
 
             <!-- CAIXA DO CÓDIGO -->
@@ -244,4 +241,10 @@ Seu código de verificação
 
 export async function EnviarEmailOng(email, codigo) {
     return EnviarEmail(email, codigo);
+}
+
+export async function EnviarEmailCadastro(email, codigo) {
+    const mensagem = 'Falta pouco para concluir seu cadastro na PetVibe! Utilize o código abaixo para confirmar seu e-mail e finalizar a criação da sua conta.';
+
+    return EnviarEmail(email, codigo, mensagem);
 }
