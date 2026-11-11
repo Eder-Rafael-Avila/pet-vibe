@@ -106,7 +106,7 @@ export default function Adocao({
 
   async function listarAnimais() {
     try {
-      const resposta = await fetch('http://localhost:6767/animais/listar', {
+      const resposta = await fetch('http://localhost:6767/animais/disponiveis', {
         method: 'GET'
       });
 
@@ -245,7 +245,7 @@ export default function Adocao({
           throw new Error("Sua sessão expirou. Entre novamente para solicitar a adoção.");
         }
 
-        if (!respostaEndereco.ok) {
+        if (!respostaEndereco.ok && dadosEndereco.erro !== "Endereço já cadastrado.") {
           throw new Error(dadosEndereco.erro || "Não foi possível cadastrar seu endereço.");
         }
 
@@ -274,6 +274,7 @@ export default function Adocao({
       }
 
       setAdocaoEnviada(true);
+      setAnimais(lista => lista.filter(animal => animal.id_animal !== animalSelecionado.id_animal));
     } catch (erro) {
       setErroAdocao(erro instanceof TypeError
         ? "Não foi possível conectar ao servidor. Tente novamente."

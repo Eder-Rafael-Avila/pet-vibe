@@ -3,6 +3,7 @@ const endpoints = Router();
 import { validarTokenOng } from '../utils/TokenEvalidacao.js';
 import multer from 'multer';
 import { ListarAnimaisService } from '../service/perfil_animal/ListarAnimaisService.js';
+import { ListarAnimaisDisponiveisService } from '../service/perfil_animal/ListarAnimaisDisponiveisService.js';
 import { ListarAnimalPorNomeService } from '../service/perfil_animal/ListarAnimalPorNomeService.js';
 import { CriarAnimalService } from '../service/perfil_animal/CriarAnimalService.js';
 import { ExcluirAnimalService } from '../service/perfil_animal/ExcluirAnimalService.js';
@@ -22,6 +23,16 @@ endpoints.get('/animais/listar', async (req, resp) => {
         resp.status(400).send(erroJson(err));
     }
 })
+
+endpoints.get('/animais/disponiveis', async (req, resp) => {
+    try {
+        const resposta = await ListarAnimaisDisponiveisService();
+        resp.send({ resposta });
+    } catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
 
 endpoints.get('/animal/listar/:nome', async (req, resp) => {
     try {
