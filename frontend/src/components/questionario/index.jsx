@@ -1,36 +1,17 @@
+
 import './index.scss';
 import { useState } from 'react';
 
 export default function Questionario() {
-   async function CriarQuestionario(e) {
-    e.preventDefault();
 
-    const resposta = await fetch('http://localhost:3000/prefs/criar', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            Onde_Mora: respostas.moradia,
-            Animal_Sozinho_Tempo: respostas.tempo_sozinho,
-            possui_animais: respostas.possui_animais,
-            possui_crianca: respostas.possui_criancas,
-            Ja_Teve_animais: respostas.experiencia
-        })
-    });
+    // ESTADOS
+    const [indicePergunta, setIndicePergunta] = useState(0);
+    const [respostas, setRespostas] = useState({});
+    const [concluido, setConcluido] = useState(false);
+    const [carregando, setCarregando] = useState(false);
+    const [erro, setErro] = useState('');
 
-    const dados = await resposta.json();
-
-    console.log(dados);
-
-    if (dados?.erro) {
-        alert(dados.erro);
-    } else {
-        window.location.href = '/Login';
-    }
-}
-
-   
+    // PERGUNTAS
     const perguntas = [
         {
             id: "moradia",
@@ -64,52 +45,105 @@ export default function Questionario() {
             id: "possui_animais",
             pergunta: "Você possui outros animais?",
             opcoes: [
-                { nome: "Sim",
-                    imagem:"/assets/images/AnimaisSim.webp" 
-                 },
-                { nome: "Não",
-                    imagem:"/assets/images/AnimaisNao.webp"
-                 }
-            ],
-            
+                {
+                    nome: "Sim",
+                    imagem: "/assets/images/AnimaisSim.webp"
+                },
+                {
+                    nome: "Não",
+                    imagem: "/assets/images/AnimaisNao.webp"
+                }
+            ]
         },
         {
             id: "possui_criancas",
             pergunta: "Existem crianças na residência?",
             opcoes: [
-                { nome: "Sim",
-                    imagem:"/assets/images/CriancaSim.webp"
-                 },
-                { nome: "Não",
-                    imagem:"/assets/images/CriancaNao.webp"
-                 }
+                {
+                    nome: "Sim",
+                    imagem: "/assets/images/CriancaSim.webp"
+                },
+                {
+                    nome: "Não",
+                    imagem: "/assets/images/CriancaNao.webp"
+                }
             ]
         },
         {
             id: "experiencia",
-            pergunta: "Você já teve experiencia animais?",
+            pergunta: "Você já teve experiência com animais?",
             opcoes: [
-                { nome: "Sim",
-                    imagem:"/assets/images/ExperienciaSim.webp"
-                 },
-                { nome: "Não",
-                    imagem:"/assets/images/ExperienciaNao.webp"
-                 }
+                {
+                    nome: "Sim",
+                    imagem: "/assets/images/ExperienciaSim.webp"
+                },
+                {
+                    nome: "Não",
+                    imagem: "/assets/images/ExperienciaNao.webp"
+                }
             ]
         }
     ];
 
-
-    const [indicePergunta, setIndicePergunta] = useState(0);
-
-
-    const [respostas, setRespostas] = useState({});
-
-  
     const perguntaAtual = perguntas[indicePergunta];
 
+    const progresso =
+        ((indicePergunta + 1) / perguntas.length) * 100;
 
-    const progresso = ((indicePergunta + 1) / perguntas.length) * 100;
+
+ 
+    async function CriarQuestionario() {
+
+        try {
+            setCarregando(true);
+            setErro('');
+
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                throw new Error('Você precisa estar logado para salvar suas preferências.');
+            }
+
+            const resposta = await fetch('http://localhost:3000/prefs', {
+                method: 'POST',
+
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+
+                body: JSON.stringify({
+                    Onde_Mora: respostas.moradia,
+                    Animal_Sozinho_Tempo: respostas.tempo_sozinho,
+                    possui_animais: respostas.possui_animais,
+                    possui_crianca: respostas.possui_criancas,
+                    Ja_Teve_animais: respostas.experiencia
+                })
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(
+                    dados.erro || 'Não foi possível salvar suas preferências.'
+                );
+            }
+
+            
+            setConcluido(true);
+
+            
+            setTimeout(() => {
+                window.location.href = '/Adocao';
+            }, 3000);
+
+        } catch (err) {
+
+            setErro(err.message);
+
+        } 
+    }
+
 
 
     function selecionarResposta(opcao) {
@@ -121,23 +155,27 @@ export default function Questionario() {
 
     }
 
-    async function proximaPergunta() {
 
-    if (!respostas[perguntaAtual.id]) {
-        return;
+   
+    function proximaPergunta() {
+
+        if (!respostas[perguntaAtual.id] || carregando) {
+            return;
+        }
+
+        if (indicePergunta < perguntas.length - 1) {
+
+            setIndicePergunta(indicePergunta + 1);
+
+        } else {
+
+            CriarQuestionario();
+
+        }
     }
 
-    if (indicePergunta < perguntas.length - 1) {
 
-        setIndicePergunta(indicePergunta + 1);
-
-    } else {
-
-        await CriarQuestionario(new Event('submit'));
-
-    }
-}
-
+    
     function voltarPergunta() {
 
         if (indicePergunta > 0) {
@@ -146,10 +184,84 @@ export default function Questionario() {
 
     }
 
+
+    if (concluido) {
+
+        return (
+            <div className="tela-concluido">
+
+                <div className="card-concluido">
+
+                    <div className="topo-concluido">
+
+                        <div className="logo-concluido">
+
+                            <span className="patinha">🐾</span>
+
+                            <h2>
+                                Pet<span>Vibe</span>
+                            </h2>
+
+                        </div>
+
+                        <img
+                            src="/assets/images/cachorro-e-gato.webp"
+                            alt="Cachorro e gato"
+                        />
+
+                    </div>
+
+                    <div className="conteudo-concluido">
+
+                        <div className="icone-check">
+                            ✓
+                        </div>
+
+                        <h1>Tudo pronto!</h1>
+
+                        <h2>Preferências concluídas!</h2>
+
+                        <p>
+                            Suas respostas foram salvas com sucesso.
+                            Agora vamos encontrar um novo amigo para você!
+                        </p>
+
+                        <div className="botao-concluido">
+
+                            Questionário concluído
+
+                            <span>→</span>
+
+                        </div>
+
+                        <span className="mensagem-redirecionamento">
+                            Você será redirecionado em alguns segundos...
+                        </span>
+
+                        <div className="rodape-concluido">
+
+                            <span></span>
+
+                            <strong>🐾 Pet-Vibe</strong>
+
+                            <span></span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        );
+    }
+
+
+   
     return (
+
         <div className="opcoes-moradia">
 
-          
             <div className="cabecalho">
 
                 <div className="Conheça">
@@ -175,10 +287,10 @@ export default function Questionario() {
 
                 </div>
 
-
             </div>
+
             <div className="conteudo-questionario">
-                
+
                 <div className="progresso-container">
 
                     <div className="barra-progresso">
@@ -195,6 +307,7 @@ export default function Questionario() {
                     </span>
 
                 </div>
+
                 <h2>{perguntaAtual.pergunta}</h2>
 
                 <div className="lista-opcoes">
@@ -217,12 +330,10 @@ export default function Questionario() {
 
                             </span>
 
-                            {opcao.imagem && (
-                                <img
-                                    src={opcao.imagem}
-                                    alt={opcao.nome}
-                                />
-                            )}
+                            <img
+                                src={opcao.imagem}
+                                alt={opcao.nome}
+                            />
 
                             <h3>{opcao.nome}</h3>
 
@@ -236,25 +347,35 @@ export default function Questionario() {
 
                     <button
                         onClick={voltarPergunta}
-                        disabled={indicePergunta === 0}
+                        disabled={indicePergunta === 0 || carregando}
                     >
                         Voltar
                     </button>
 
                     <button
                         onClick={proximaPergunta}
-                        disabled={!respostas[perguntaAtual.id]}
+                        disabled={!respostas[perguntaAtual.id] || carregando}
                     >
-                        {indicePergunta === perguntas.length - 1
-                            ? "Finalizar"
-                            : "Próximo"}
+                        {carregando
+                            ? "Salvando..."
+                            : indicePergunta === perguntas.length - 1
+                                ? "Finalizar"
+                                : "Próximo"
+                        }
                     </button>
 
                 </div>
 
+                {erro && (
+                    <p className="mensagem-erro">
+                        {erro}
+                    </p>
+                )}
+
             </div>
 
         </div>
+
     );
 
 }

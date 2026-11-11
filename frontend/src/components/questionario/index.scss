@@ -325,5 +325,292 @@
 
 }
 
+.tela-concluido {
+    min-height: 100vh;
+    width: 100%;
+    padding: 40px 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #f8f4eb;
+
+    .card-concluido {
+        width: 100%;
+        max-width: 1000px;
+        background-color: #fffdf8;
+        border-radius: 30px;
+        overflow: hidden;
+
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.13);
+    }
+
+    .topo-concluido {
+        height: 195px;
+        background: linear-gradient(120deg, #08796b, #168f80);
+
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+
+        padding: 20px 45px;
+        position: relative;
+
+        border: 6px solid #fffdf8;
+        border-radius: 30px;
+
+        .logo-concluido {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: white;
+
+            h2 {
+                font-size: 38px;
+                margin: 0;
+
+                span {
+                    color: #ff743e;
+                }
+            }
+
+            .patinha {
+                font-size: 55px;
+            }
+        }
+
+        img {
+            height: 220px;
+            max-width: 45%;
+            object-fit: contain;
+            align-self: flex-end;
+        }
+    }
+
+    .conteudo-concluido {
+        padding: 25px 50px 35px;
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+
+        .icone-check {
+            width: 100px;
+            height: 100px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+            background-color: #2da995;
+            color: white;
+
+            font-size: 65px;
+            font-weight: bold;
+
+            animation: aparecer 0.6s ease;
+        }
+
+        h1 {
+            color: #08685e;
+            font-size: 48px;
+            margin: 8px 0;
+        }
+
+        h2 {
+            color: #444;
+            font-size: 27px;
+            margin: 8px 0;
+        }
+
+        p {
+            color: #555;
+            font-size: 21px;
+            line-height: 1.5;
+            max-width: 780px;
+            margin: 10px 0 25px;
+        }
+
+        .botao-concluido {
+            width: 400px;
+            max-width: 100%;
+            padding: 16px 25px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            background-color: #08796b;
+            color: white;
+
+            border-radius: 35px;
+            font-size: 21px;
+            font-weight: bold;
+
+            span {
+                font-size: 30px;
+            }
+        }
+
+        .mensagem-redirecionamento {
+            color: #666;
+            font-size: 17px;
+            margin-top: 20px;
+        }
+
+        .rodape-concluido {
+            width: 65%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 25px;
+
+            margin-top: 30px;
+
+            strong {
+                color: #08796b;
+                font-size: 23px;
+                white-space: nowrap;
+            }
+
+            span {
+                height: 2px;
+                width: 100%;
+                background-color: #ddd;
+            }
+        }
+    }
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: scale(0.5);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+// RESPONSIVIDADE
+
+@media (max-width: 768px) {
+
+    .tela-concluido {
+        padding: 20px;
+
+        .topo-concluido {
+            height: 150px;
+            padding: 15px;
+
+            .logo-concluido h2 {
+                font-size: 27px;
+            }
+
+            .logo-concluido .patinha {
+                font-size: 35px;
+            }
+
+            img {
+                height: 160px;
+            }
+        }
+
+        .conteudo-concluido {
+            padding: 25px 20px;
+
+            h1 {
+                font-size: 36px;
+            }
+
+            h2 {
+                font-size: 21px;
+            }
+
+            p {
+                font-size: 16px;
+            }
+
+            .botao-concluido {
+                font-size: 17px;
+            }
+
+            .rodape-concluido {
+                width: 90%;
+            }
+        }
+    }
+}
+
+@media (max-width: 490px) {
+
+    .tela-concluido {
+
+        .card-concluido {
+            border-radius: 20px;
+        }
+
+        .topo-concluido {
+            height: 125px;
+
+            .logo-concluido {
+                gap: 5px;
+
+                h2 {
+                    font-size: 21px;
+                }
+
+                .patinha {
+                    font-size: 27px;
+                }
+            }
+
+            img {
+                height: 125px;
+                max-width: 48%;
+            }
+        }
+
+        .conteudo-concluido {
+
+            .icone-check {
+                width: 75px;
+                height: 75px;
+                font-size: 48px;
+            }
+
+            h1 {
+                font-size: 32px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            p {
+                font-size: 15px;
+            }
+
+            .mensagem-redirecionamento {
+                font-size: 13px;
+            }
+
+            .rodape-concluido {
+                width: 100%;
+                gap: 10px;
+
+                strong {
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}
+
 
 }
