@@ -109,6 +109,13 @@
     .default-nav {
         flex: 4;
 
+
+        a{
+            font-weight: bold;
+            color: var(--corAzulPrimario);
+            text-decoration: none;
+        }
+
         @media (max-width: 768px) {
             display: none;
         }

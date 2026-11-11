@@ -20,8 +20,8 @@ import { validarToken } from "../../utils/validarToken.js";
 import { obterDadosToken } from "../../utils/obterInfoToken.js";
 
 export default function Adocao({
-    usuarioLogado,
-    setUsuarioLogado
+  usuarioLogado,
+  setUsuarioLogado
 }) {
   const [animal, setAnimal] = useState("");
   const [castrado, setCastrado] = useState("");
@@ -118,7 +118,7 @@ export default function Adocao({
       const resposta = await fetch('http://localhost:6767/animais/listar', {
         method: 'GET'
       });
-  
+
       if (!resposta.ok) {
         throw new Error('Não foi possível listar os animais.');
       }
@@ -250,7 +250,7 @@ export default function Adocao({
           throw new Error("Sua sessão expirou. Entre novamente para solicitar a adoção.");
         }
 
-        if (!respostaEndereco.ok) {
+        if (!respostaEndereco.ok && dadosEndereco.erro !== "Endereço já cadastrado.") {
           throw new Error(dadosEndereco.erro || "Não foi possível cadastrar seu endereço.");
         }
 
@@ -324,7 +324,7 @@ export default function Adocao({
         </div>
 
         <div className="linha-filtros">
-        <div className="quadros search">
+          <div className="quadros search">
             <h3>Raça</h3>
 
             <div className="icons-input">
@@ -366,7 +366,7 @@ export default function Adocao({
               </button>
             </div>
           </div>
-          
+
           <div className="quadros">
             <h3>Sexo</h3>
             <div className="opcoes">
@@ -722,7 +722,7 @@ export default function Adocao({
 
       <hr />
 
-      
+
 
       <section className="sobreNos">
         <div className="img">
@@ -754,7 +754,7 @@ export default function Adocao({
             </p>
           </div>
 
-          <NavLink to="/SobreNos" className="link-iniciativa">
+          <NavLink to="/#sobre" id="link-iniciativa">
             <p>
               Conheça a iniciativa <FaArrowRight />
             </p>
@@ -784,7 +784,7 @@ export default function Adocao({
         <div className="perguntas">
           <div className={`pergunta ${aberta === 1 ? 'aberto' : ''}`}>
             <button onClick={() => setAberta(aberta === 1 ? 0 : 1)}
-              id="initial"  
+              id="initial"
             >
               O que preciso para adotar um animal?
               <span>{aberta === 1 ? '−' : '+'}</span>
@@ -852,7 +852,7 @@ export default function Adocao({
 
           <div className={`pergunta ${aberta === 5 ? 'aberto' : ''}`}>
             <button onClick={() => setAberta(aberta === 5 ? 0 : 5)}
-              id="end"  
+              id="end"
             >
               Como funciona a adaptação em casa?
               <span>{aberta === 5 ? '−' : '+'}</span>
@@ -909,7 +909,10 @@ export default function Adocao({
 
           <p>Um lar muda a vida de um animal. E esse encontro pode mudar a sua também.</p>
 
-          <NavLink to="/Adocao" className="btn-baixo">
+          <NavLink to="#" onClick={() => window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          })} className='btn-baixo'>
             Encontrar meu companheiro <FaArrowRight />
           </NavLink>
         </div>

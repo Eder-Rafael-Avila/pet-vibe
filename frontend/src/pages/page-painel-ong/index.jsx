@@ -4,6 +4,7 @@ import Header from '../../components/painel-ong/header';
 import CadastreAnimal from '../../components/painel-ong/cadastreAnimal';
 import AjudeONGs from '../../components/painel-ong/ajudeONGs';
 import SolicitacoesAdocao from '../../components/painel-ong/solicitacoesAdocao';
+import ListarCampanhas from '../../components/campanhas-listagem';
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +42,11 @@ export default function PageONGPanel({ setUsuarioLogado }) {
                             </button>
                         </li>
                         <li className='nav-item'>
+                            <button onClick={() => setPaginaSelecionada('ListarCampanhas')}>
+                                Listar campanhas
+                            </button>
+                        </li>
+                        <li className='nav-item'>
                             <button
                                 onClick={() => setPaginaSelecionada('SolicitacoesAdocao')}
                             >
@@ -62,6 +68,10 @@ export default function PageONGPanel({ setUsuarioLogado }) {
 
                         {paginaSelecionada == 'PedidoAjuda' && (
                             <AjudeONGs />
+                        )}
+
+                        {paginaSelecionada == 'ListarCampanhas' && (
+                            <ListarCampanhas />
                         )}
 
                         {paginaSelecionada == 'SolicitacoesAdocao' && (

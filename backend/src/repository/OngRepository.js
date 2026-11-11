@@ -61,8 +61,8 @@ export async function NomeImgPorId(id) {
 
 export async function CriarOrg(ong) {
     let command = `
-    INSERT INTO ong(nome,email,telefone,cnpj,senha)
-    VALUES(? ,? ,? ,? ,? )
+    INSERT INTO ong(nome,email,telefone,cnpj,senha,descricao,site)
+    VALUES(? ,? ,? ,? ,?, ?, ? )
     `
 
     let [resposta] = await con.query(command, [
@@ -70,7 +70,9 @@ export async function CriarOrg(ong) {
         ong.email,
         ong.telefone,
         ong.cnpj,
-        ong.senha
+        ong.senha,
+        ong.descricao,
+        ong.site
     ])
     return resposta.insertId
 }

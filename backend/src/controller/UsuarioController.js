@@ -6,6 +6,7 @@ import { gerarToken, gerarTokenOng, validarToken, validarTokenValidacaoUsuario }
 import { ListarUsuariosService } from '../service/usuario/ListarUsuariosService.js';
 import { ListarUsuarioService } from '../service/usuario/ListarUsuarioService.js';
 import { CriarUsuarioService } from '../service/usuario/CriarUsuarioService.js';
+import { VerificarCadastroUsuarioService } from '../service/usuario/CadastroUsuarioService.js';
 import { LoginUsuarioService } from '../service/usuario/LoginUsuarioService.js';
 import { ImagemUsuarioService } from '../service/usuario/ImagemUsuarioService.js';
 import { ExcluirUsuarioService } from '../service/usuario/ExcluirUsuarioService.js';
@@ -47,12 +48,24 @@ endpoints.get('/usuario/nome/:nome', async (req, resp) => {
 endpoints.post('/usuario/cadastrar', async (req, resp) => {
     try {
         const usuario = req.body;
-        const resposta = await CriarUsuarioService(usuario);
+        const cadastroPermitido = req.headers.cadastropermitido;
+        const resposta = await CriarUsuarioService(usuario, cadastroPermitido);
 
-        console.log(resposta);
-        resp.send({ resposta });
+        resp.status(cadastroPermitido ? 200 : 202).send({ resposta });
     }
     catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+
+endpoints.post('/verificar/cadastro', async (req, resp) => {
+    try {
+        const { email, codigo } = req.body || {};
+        const token = VerificarCadastroUsuarioService(email, codigo);
+
+        resp.send({ token });
+    } catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }

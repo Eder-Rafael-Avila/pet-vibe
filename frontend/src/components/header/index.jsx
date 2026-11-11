@@ -134,38 +134,33 @@ export default function Header({
             <nav className='default-nav'>
                 <ul>
                     <li>
-                        <NavLink
+                        <NavLink id='inicio'
                         to="/"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
-                        })}
+                        })} end
                         ><p>Início</p></NavLink>
                     </li>
+
+                    
+                    <li>
+                        <a href='/#sobre'><p>Sobre Nós</p></a>
+                    </li>
                     <li>
                         <NavLink
-                        to="/sobreNos"
+                        to="/campanhas"
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',
                             textDecoration: 'none'
                         })}
-                        ><p>Sobre Nós</p></NavLink>
+                        ><p>Campanhas de ONGs</p></NavLink>
                     </li>
                     <li>
                         <NavLink
-                        to="/ajudeONGs"
-                        style={({ isActive }) => ({
-                            fontWeight: 'bold',
-                            color: isActive ? '#F8561F' : '#156957',
-                            textDecoration: 'none'
-                        })}
-                        ><p>Ajude ONGs</p></NavLink>
-                    </li>
-                    <li>
-                        <NavLink
-                        to="/Adocao"
+                        to="/Adocao" id='Adocao'
                         style={({ isActive }) => ({
                             fontWeight: 'bold',
                             color: isActive ? '#F8561F' : '#156957',

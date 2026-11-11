@@ -1,32 +1,41 @@
 import { Router } from "express";
-const endpoints = Router();
-import { validarTokenOng } from '../utils/TokenEvalidacao.js';
 import multer from 'multer';
+
+import { validarTokenOng } from '../utils/TokenEvalidacao.js';
+
 import { ListarAnimaisService } from '../service/perfil_animal/ListarAnimaisService.js';
 import { ListarAnimaisOngService } from '../service/perfil_animal/ListarAnimaisOngService.js';
+import { ListarAnimaisDisponiveisService } from '../service/perfil_animal/ListarAnimaisDisponiveisService.js';
 import { ListarAnimalPorNomeService } from '../service/perfil_animal/ListarAnimalPorNomeService.js';
 import { CriarAnimalService } from '../service/perfil_animal/CriarAnimalService.js';
 import { ExcluirAnimalService } from '../service/perfil_animal/ExcluirAnimalService.js';
+
+const endpoints = Router();
+
 const uploadAnimal = multer({ dest: 'src/uploads/ImagemAnimais' });
 
+
+// LISTAR TODOS OS ANIMAIS
 endpoints.get('/animais/listar', async (req, resp) => {
     try {
-
-        let resposta = await ListarAnimaisService()
+        let resposta = await ListarAnimaisService();
 
         resp.send({
             resposta: resposta
-        })
+        });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
+
+// LISTAR ANIMAIS DE UMA ONG
 endpoints.get('/animais/ong/listar', validarTokenOng, async (req, resp) => {
     try {
         const idOng = req.usuario.id_ong;
+
         const resposta = await ListarAnimaisOngService(idOng);
 
         resp.send({ resposta });
@@ -35,25 +44,42 @@ endpoints.get('/animais/ong/listar', validarTokenOng, async (req, resp) => {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
-endpoints.get('/animal/listar/:nome', async (req, resp) => {
+
+// LISTAR ANIMAIS DISPONÍVEIS PARA ADOÇÃO
+endpoints.get('/animais/disponiveis', async (req, resp) => {
     try {
+        const resposta = await ListarAnimaisDisponiveisService();
 
-        let nome = req.params.nome;
-
-        let resposta = await ListarAnimalPorNomeService(nome)
-
-        resp.send({
-            resposta: resposta
-        })
+        resp.send({ resposta });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
+
+// BUSCAR ANIMAL PELO NOME
+endpoints.get('/animal/listar/:nome', async (req, resp) => {
+    try {
+        let nome = req.params.nome;
+
+        let resposta = await ListarAnimalPorNomeService(nome);
+
+        resp.send({
+            resposta: resposta
+        });
+    }
+    catch (err) {
+        logError(err);
+        resp.status(400).send(erroJson(err));
+    }
+});
+
+
+// CADASTRAR ANIMAL
 endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem'), async (req, resp) => {
     try {
         if (!req.file) {
@@ -61,7 +87,9 @@ endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem
         }
 
         let dados = JSON.parse(req.body?.dados || '{}');
-        const idOng = req.usuario.id_ong
+
+        const idOng = req.usuario.id_ong;
+
         let animal = {
             id_ong: idOng,
             imagem: req.file.filename,
@@ -87,10 +115,10 @@ endpoints.post('/animal/cadastrar', validarTokenOng, uploadAnimal.single('imagem
         logError(err);
         resp.status(400).send(erroJson(err));
     }
+});
 
-}
-);
 
+// EXCLUIR ANIMAL
 endpoints.delete('/animal/excluir/:id', validarTokenOng, async (req, resp) => {
     try {
         const idAnimal = req.params.id;
@@ -99,17 +127,19 @@ endpoints.delete('/animal/excluir/:id', validarTokenOng, async (req, resp) => {
         const resposta = await ExcluirAnimalService(idAnimal, idOng);
 
         if (resposta === 0) {
-            return resp.status(404).send({ erro: 'Animal não encontrado para esta ONG.' });
+            return resp.status(404).send({
+                erro: 'Animal não encontrado para esta ONG.'
+            });
         }
 
         resp.send({
             resposta: resposta
-        })
+        });
     }
     catch (err) {
         logError(err);
         resp.status(400).send(erroJson(err));
     }
-})
+});
 
 export default endpoints;

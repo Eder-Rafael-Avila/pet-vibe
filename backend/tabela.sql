@@ -88,10 +88,12 @@ foreign key (id_usuario) references usuarios(id_usuario)
 CREATE TABLE prefs(
 id_preferencia INT AUTO_INCREMENT PRIMARY KEY,
 id_usuario INT NOT NULL UNIQUE,
-animal_procurado VARCHAR(100),
-tempo_sozinho DECIMAL(4,2),
-possui_animais BOOLEAN,
-possui_crianca BOOLEAN,
+Onde_Mora ENUM ('Apartamento','Casa') ,
+Animal_Sozinho_Tempo ENUM ('Até 4 horas por dia','Mais de 4 horas por dia') ,
+possui_animais ENUM ('Sim','Não') ,
+possui_crianca ENUM ('Sim','Não') ,
+Ja_Teve_animais ENUM ('Sim','Não') ,
+
 
 FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 

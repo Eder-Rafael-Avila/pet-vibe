@@ -77,7 +77,6 @@ endpoints.put('/adocoes/reprovar/:id', validarTokenOng, async (req, resp) => {
 
 endpoints.get('/adocoes/ong/pendentes', validarTokenOng, async (req, resp) => {
     try {
-        // O middleware valida o token da ONG e disponibiliza seu ID.
         const idOng = req.usuario.id_ong;
         const resposta = await ListarAdocoesPendentesOngService(idOng);
 

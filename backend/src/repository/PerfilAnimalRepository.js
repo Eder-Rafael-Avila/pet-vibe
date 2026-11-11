@@ -1,6 +1,6 @@
 import con from './conection/connect.js';
 
-export async function ListarAnimais() {
+export async function ListarAnimais(apenasDisponiveis = false) {
     let command = `
 SELECT
     ong.nome AS nome_ong,
@@ -17,8 +17,19 @@ SELECT
     perfil_animal.descricao
 FROM perfil_animal
 INNER JOIN ong
-ON perfil_animal.id_ong = ong.id_ong;
+ON perfil_animal.id_ong = ong.id_ong
     `
+
+    if (apenasDisponiveis) {
+        command += `
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM adocoes
+    WHERE adocoes.id_animal = perfil_animal.id_animal
+      AND adocoes.situação IN ('pendente', 'aprovada')
+)
+        `;
+    }
 
     let [resposta] = await con.query(command, []);
     return resposta;
