@@ -1,5 +1,4 @@
 import './index.scss';
-import { FaPaw } from 'react-icons/fa';
 import { obterImagem } from '../../../utils/obterImagem.js';
 
 function formatarIdade(idade) {
@@ -27,7 +26,7 @@ function formatarCastracao(castrado) {
     return estaCastrado ? 'Castrado' : 'Não castrado';
 }
 
-export default function CardSolicitacoes({ animal }) {
+export default function CardAnimaisCadastrados({ animal }) {
     return (
         <article className="card-solicitacao">
             <div className="imagem-animal">
@@ -65,8 +64,6 @@ export default function CardSolicitacoes({ animal }) {
                 )}
 
                 {animal.descricao && <p className="descricao">{animal.descricao}</p>}
-
-                <p className="id-animal"><FaPaw aria-hidden="true" /> Cadastro #{animal.id_animal}</p>
             </div>
         </article>
     );

@@ -1,14 +1,14 @@
 .comp-solic-adocao {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 
-    width: min(90%, 76rem);
-    min-height: 28rem;
+    width: min(100%, 96rem);
+    min-height: 36rem;
     margin: auto;
-    padding: 1rem;
+    padding: 1.5rem;
     border: 2px solid var(--corAzulPrimario);
-    border-radius: 1.5rem;
+    border-radius: 1.75rem;
     background-color: var(--corVerdeHero);
 
     .titulo-adocoes {
@@ -16,20 +16,24 @@
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: .8rem;
+        gap: 1rem;
 
-        padding: 2rem 1rem;
-        border-radius: 1rem;
+        min-height: 10rem;
+        padding: 2.5rem 1.5rem;
+        border-radius: 1.25rem;
         background-color: white;
         text-align: center;
 
         h1 {
+            margin: 0;
             color: var(--corAzulPrimario);
+            font-size: clamp(2rem, 3vw, 2.75rem);
         }
 
         p {
+            margin: 0;
             color: var(--corPretoGeral);
-            font-size: 1.05rem;
+            font-size: 1.15rem;
             font-weight: 500;
         }
     }
@@ -37,7 +41,40 @@
     .lista-adocoes {
         background-color: white;
         flex: 1;
-        padding: .5rem;
+        padding: 1.5rem;
+        border-radius: 1.25rem;
+    }
+
+    .secao-solicitacoes-pendentes {
+        margin-top: .5rem;
+        border-top: 1px solid #d5e2dc;
+        padding: 1rem;
+        border-radius: 1rem;
+    }
+
+    .subtitulo-adocoes {
+        margin: .25rem 0 1rem;
+        color: var(--corAzulPrimario);
+        font-size: 1.6rem;
+    }
+
+    .descricao-solicitacoes {
+        margin: 0 0 1rem;
+        color: #52635b;
+    }
+
+    .erro-acao-solicitacao,
+    .sucesso-acao-solicitacao {
+        margin: 0 0 1rem;
+        font-weight: 600;
+    }
+
+    .erro-acao-solicitacao {
+        color: #a12815;
+    }
+
+    .sucesso-acao-solicitacao {
+        color: #23804d;
     }
 
     .total-adocoes {
@@ -79,8 +116,27 @@
 
     .grade-adocoes {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
-        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 24rem), 1fr));
+        gap: 1.25rem;
+    }
+
+    .grade-adocoes-unica {
+        grid-template-columns: minmax(0, 36rem);
+    }
+}
+
+@media (min-width: 1200px) {
+    .comp-solic-adocao {
+        min-height: calc(100vh - 13rem);
+        padding: 2rem;
+
+        .lista-adocoes {
+            padding: 2rem;
+        }
+
+        .grade-adocoes {
+            gap: 1.5rem;
+        }
     }
 }
 
