@@ -37,6 +37,34 @@ export async function BuscarNomeOngPorId(id) {
     return linhas[0];
 }
 
+export async function BuscarPerfilOngPorId(id) {
+    const comando = `
+        SELECT
+            ong.nome,
+            ong.email,
+            ong.telefone,
+            ong.cnpj,
+            ong.imagem,
+            ong.descricao,
+            ong.site,
+            endereco_ong.cep,
+            endereco_ong.rua,
+            endereco_ong.numero,
+            endereco_ong.complemento,
+            endereco_ong.bairro,
+            endereco_ong.cidade,
+            endereco_ong.estado
+        FROM ong
+        LEFT JOIN endereco_ong
+            ON endereco_ong.id_ong = ong.id_ong
+        WHERE ong.id_ong = ?
+        LIMIT 1
+    `;
+
+    const [linhas] = await con.query(comando, [id]);
+    return linhas[0];
+}
+
 export async function BuscarEmailPorIdOng(idOng) {
     const comando = `
         SELECT email

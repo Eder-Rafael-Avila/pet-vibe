@@ -190,14 +190,19 @@ export async function listarAdocoesUsuario(idUsuario) {
 
     const comando = `
         SELECT
+            adocoes.id_adocao,
+            perfil_animal.id_animal,
             usuarios.nome AS nome_usuario,
 
             ong.nome AS nome_ong,
             ong.email AS email_ong,
             ong.telefone AS telefone_ong,
 
+            perfil_animal.imagem AS imagem_animal,
             perfil_animal.nome AS nome_animal,
             perfil_animal.idade AS idade_animal,
+            perfil_animal.tipo AS tipo_animal,
+            perfil_animal.raca AS raca_animal,
 
             adocoes.\`situação\` AS situacao
 
@@ -213,6 +218,8 @@ export async function listarAdocoesUsuario(idUsuario) {
             ON perfil_animal.id_ong = ong.id_ong
 
         WHERE adocoes.id_usuario = ?
+
+        ORDER BY adocoes.id_adocao DESC
     `;
 
     const [resultado] = await con.query(comando, [idUsuario]);
@@ -234,29 +241,74 @@ export async function listarAdocoesUsuario(idUsuario) {
 
 // CRIAR SOLICITAÇÃO DE ADOÇÃO
 export async function criarAdocao(idUsuario, idAnimal) {
+    const conexao = await con.getConnection();
+    let transacaoAberta = false;
 
-    // A ONG é identificada pelo perfil do animal.
-    // O usuário é identificado pelo token autenticado.
+    try {
+        await conexao.beginTransaction();
+        transacaoAberta = true;
 
-    const comando = `
-        INSERT INTO adocoes (
-            id_usuario,
-            id_animal,
-            \`situação\`
-        )
+        const [animais] = await conexao.query(`
+            SELECT id_animal
+            FROM perfil_animal
+            WHERE id_animal = ?
+              AND id_ong IS NOT NULL
+            FOR UPDATE
+        `, [idAnimal]);
 
-        SELECT
-            ?,
-            id_animal,
-            'pendente'
+        if (animais.length === 0) {
+            await conexao.rollback();
+            transacaoAberta = false;
+            return { status: 'animal_nao_encontrado' };
+        }
 
-        FROM perfil_animal
+        const [solicitacoesDoUsuario] = await conexao.query(`
+            SELECT id_adocao
+            FROM adocoes
+            WHERE id_usuario = ?
+              AND id_animal = ?
+            LIMIT 1
+        `, [idUsuario, idAnimal]);
 
-        WHERE id_animal = ?
-          AND id_ong IS NOT NULL
-    `;
+        if (solicitacoesDoUsuario.length > 0) {
+            await conexao.rollback();
+            transacaoAberta = false;
+            return { status: 'duplicada' };
+        }
 
-    const [resultado] = await con.query(comando, [idUsuario, idAnimal]);
+        const [solicitacoesAtivas] = await conexao.query(`
+            SELECT id_adocao
+            FROM adocoes
+            WHERE id_animal = ?
+              AND \`situação\` IN ('pendente', 'aprovada')
+            LIMIT 1
+        `, [idAnimal]);
 
-    return resultado.insertId;
+        if (solicitacoesAtivas.length > 0) {
+            await conexao.rollback();
+            transacaoAberta = false;
+            return { status: 'indisponivel' };
+        }
+
+        const [resultado] = await conexao.query(`
+            INSERT INTO adocoes (
+                id_usuario,
+                id_animal,
+                \`situação\`
+            )
+            VALUES (?, ?, 'pendente')
+        `, [idUsuario, idAnimal]);
+
+        await conexao.commit();
+        transacaoAberta = false;
+
+        return { status: 'criada', idAdocao: resultado.insertId };
+    } catch (erro) {
+        if (transacaoAberta) {
+            await conexao.rollback();
+        }
+        throw erro;
+    } finally {
+        conexao.release();
+    }
 }

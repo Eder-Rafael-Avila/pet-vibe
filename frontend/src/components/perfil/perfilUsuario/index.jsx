@@ -376,7 +376,6 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
 
             const dados = await resposta.json();
             const usuario = dados.resposta;
-            console.log(usuario);
 
             return usuario;
 
@@ -743,6 +742,40 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                             value={formatarData(userInfo.data_nascimento)}
                         />
                     </div>
+
+                    <section className="grupo-endereco" aria-labelledby="usuario-endereco-titulo">
+                        <h2 id="usuario-endereco-titulo">Endereço cadastrado</h2>
+                        <dl className="dados-endereco">
+                            <div>
+                                <dt>CEP</dt>
+                                <dd>{userInfo.cep || 'Não informado'}</dd>
+                            </div>
+                            <div>
+                                <dt>Rua</dt>
+                                <dd>{userInfo.rua || 'Não informada'}</dd>
+                            </div>
+                            <div>
+                                <dt>Número</dt>
+                                <dd>{userInfo.numero || 'Não informado'}</dd>
+                            </div>
+                            <div>
+                                <dt>Complemento</dt>
+                                <dd>{userInfo.complemento || 'Não informado'}</dd>
+                            </div>
+                            <div>
+                                <dt>Bairro</dt>
+                                <dd>{userInfo.bairro || 'Não informado'}</dd>
+                            </div>
+                            <div>
+                                <dt>Cidade</dt>
+                                <dd>{userInfo.cidade || 'Não informada'}</dd>
+                            </div>
+                            <div>
+                                <dt>Estado</dt>
+                                <dd>{userInfo.estado || 'Não informado'}</dd>
+                            </div>
+                        </dl>
+                    </section>
 
                     {erro && (
                         <div className="erro">

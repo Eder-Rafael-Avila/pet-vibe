@@ -19,6 +19,8 @@ import { obterImagem } from "../../utils/obterImagem.js";
 import { validarToken } from "../../utils/validarToken.js";
 import { obterDadosToken } from "../../utils/obterInfoToken.js";
 
+const ANIMAIS_POR_PAGINA = 12;
+
 export default function Adocao({
   usuarioLogado,
   setUsuarioLogado
@@ -57,6 +59,7 @@ export default function Adocao({
   const [animais, setAnimais] = useState([]);
   const [carregandoAnimais, setCarregandoAnimais] = useState(true);
   const [erroAnimais, setErroAnimais] = useState("");
+  const [paginaAtual, setPaginaAtual] = useState(1);
 
   const enderecoJaCadastrado = Boolean(
     tokenEnderecoCriado && tokenEnderecoCriado === localStorage.getItem("token")
@@ -107,10 +110,12 @@ export default function Adocao({
       raca: "",
       porte: ""
     });
+    setPaginaAtual(1);
   }
 
   function buscarAnimais() {
     setFiltrosAplicados({ animal, castrado, sexo, raca, porte });
+    setPaginaAtual(1);
   }
 
   async function listarAnimais() {
@@ -218,7 +223,7 @@ export default function Adocao({
   async function solicitarAdocao(evento) {
     evento.preventDefault();
 
-    if (!declarouMaioridade) return;
+    if (!declarouMaioridade || enviandoAdocao || adocaoEnviada) return;
 
     const token = localStorage.getItem("token");
     if (!usuarioAutenticado || !token) {
@@ -278,6 +283,9 @@ export default function Adocao({
         throw new Error(dados.erro || "Não foi possível solicitar a adoção.");
       }
 
+      setAnimais(atual => atual.filter(
+        animal => String(animal.id_animal) !== String(animalSelecionado.id_animal)
+      ));
       setAdocaoEnviada(true);
     } catch (erro) {
       setErroAdocao(erro instanceof TypeError
@@ -304,6 +312,13 @@ export default function Adocao({
 
     return criterios.every(Boolean);
   });
+  const totalPaginas = Math.max(1, Math.ceil(animaisFiltrados.length / ANIMAIS_POR_PAGINA));
+  const paginaAtualVisivel = Math.min(paginaAtual, totalPaginas);
+  const indiceInicial = (paginaAtualVisivel - 1) * ANIMAIS_POR_PAGINA;
+  const animaisDaPagina = animaisFiltrados.slice(
+    indiceInicial,
+    indiceInicial + ANIMAIS_POR_PAGINA
+  );
 
   return (
     <div className="page-adocao">
@@ -473,7 +488,7 @@ export default function Adocao({
               {animaisFiltrados.length} {animaisFiltrados.length === 1 ? 'animal encontrado' : 'animais encontrados'}
             </p>
             <div className="cont-cards">
-          {animaisFiltrados.map((animal) => (
+          {animaisDaPagina.map((animal) => (
             <CardAnimais
               key={animal.id_animal}
               imagem={animal.imagem}
@@ -492,6 +507,27 @@ export default function Adocao({
             />
           ))}
             </div>
+            {totalPaginas > 1 && (
+              <nav className="paginacao-animais" aria-label="Paginação dos animais">
+                <button
+                  type="button"
+                  onClick={() => setPaginaAtual(Math.max(1, paginaAtualVisivel - 1))}
+                  disabled={paginaAtualVisivel === 1}
+                >
+                  Anterior
+                </button>
+                <span aria-live="polite">
+                  Página {paginaAtualVisivel} de {totalPaginas}
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setPaginaAtual(Math.min(totalPaginas, paginaAtualVisivel + 1))}
+                  disabled={paginaAtualVisivel === totalPaginas}
+                >
+                  Próxima
+                </button>
+              </nav>
+            )}
           </>
         ) : (
           <div className="animals-not-found">

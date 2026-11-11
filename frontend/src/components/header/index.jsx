@@ -176,6 +176,15 @@ export default function Header({
                             >
                                 <button>Painel ONG</button>
                             </NavLink>
+                        ) : logado === 'USUARIO' ? (
+                            <NavLink
+                            to="/SolicitacoesAdocao"
+                            style={({ isActive }) => ({
+                                fontWeight: 'bold',
+                                color: isActive ? '#F8561F' : '#156957',
+                                textDecoration: 'none'
+                            })}
+                            ><p>Veja suas solicitações</p></NavLink>
                         ) : (
                             <NavLink
                             to="/CadastroOng"

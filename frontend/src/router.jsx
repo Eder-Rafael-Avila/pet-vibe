@@ -14,6 +14,7 @@ import Campanhas from "./pages/page-campanhas";
 import Adocao from "./pages/page-adocao";
 import CadastroOng from "./pages/page-cadastroOng";
 import ONGPanel from "./pages/page-painel-ong";
+import SolicitacoesAdocaoUsuario from "./pages/page-solicitacoesAdocaoUsuario/index.jsx";
 
 import ScrollToTop from "./components/scrollToTop";
 
@@ -98,6 +99,16 @@ export default function Router() {
                         />
                     }
                 >
+
+                    <Route
+                        path="/SolicitacoesAdocao"
+                        element={
+                            <SolicitacoesAdocaoUsuario
+                                logado={tipoUsuarioLogado}
+                                setUsuarioLogado={setTipoUsuarioLogado}
+                            />
+                        }
+                    />
 
                     {/* PERFIL DO USUÁRIO */}
                     <Route

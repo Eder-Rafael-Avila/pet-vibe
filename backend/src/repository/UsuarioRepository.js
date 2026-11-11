@@ -148,9 +148,24 @@ export async function ListarImagemENome(id){
 
 export async function ListarTudoUsuario(id) {
   const command = `
-SELECT imagem, nome, email, telefone, cpf, data_nascimento
+SELECT
+    usuarios.imagem,
+    usuarios.nome,
+    usuarios.email,
+    usuarios.telefone,
+    usuarios.cpf,
+    usuarios.data_nascimento,
+    endereco_usuarios.cep,
+    endereco_usuarios.rua,
+    endereco_usuarios.numero,
+    endereco_usuarios.complemento,
+    endereco_usuarios.bairro,
+    endereco_usuarios.cidade,
+    endereco_usuarios.estado
 FROM usuarios
-WHERE id_usuario = ?
+LEFT JOIN endereco_usuarios
+    ON endereco_usuarios.id_usuario = usuarios.id_usuario
+WHERE usuarios.id_usuario = ?
 `
 
   let [resposta] = await con.query(command, [id])

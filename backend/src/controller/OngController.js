@@ -23,7 +23,7 @@ const uploadOng = multer({ dest: 'src/uploads/ImagemOngs' });
 
 endpoints.get('/ong/perfil', validarTokenOng, async (req, resp) => {
     try {
-        const ong = await DBOng.BuscarNomeOngPorId(req.usuario.id_ong);
+        const ong = await DBOng.BuscarPerfilOngPorId(req.usuario.id_ong);
 
         if (!ong) {
             return resp.status(404).send({ erro: 'ONG não encontrada.' });

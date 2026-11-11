@@ -183,9 +183,42 @@
 
     .cont-cards {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 320px));
+      grid-template-columns: repeat(4, minmax(0, 1fr));
       gap: 1.25rem;
+      width: min(100%, 1400px);
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .paginacao-animais {
+      display: flex;
+      align-items: center;
       justify-content: center;
+      gap: 1rem;
+      margin: 2rem auto 0;
+
+      span {
+        color: #105f56;
+        font-size: 1.3rem;
+        font-weight: 700;
+      }
+
+      button {
+        min-width: 8rem;
+        padding: .75rem 1rem;
+        border: 1px solid #105f56;
+        border-radius: .6rem;
+        background: #fff;
+        color: #105f56;
+        font-size: 1.2rem;
+        font-weight: 700;
+        cursor: pointer;
+
+        &:disabled {
+          cursor: not-allowed;
+          opacity: .5;
+        }
+      }
     }
 
     .animals-not-found {
@@ -563,6 +596,18 @@
     }
   }
 
+  @media (max-width: 1100px) {
+    .VerAnimais .cont-cards {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 850px) {
+    .VerAnimais .cont-cards {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
   @media (max-width: 600px) {
     .filtros {
       width: 90%;
@@ -600,6 +645,10 @@
           width: 100%;
         }
       }
+    }
+
+    .VerAnimais .cont-cards {
+      grid-template-columns: minmax(0, 320px);
     }
   }
 

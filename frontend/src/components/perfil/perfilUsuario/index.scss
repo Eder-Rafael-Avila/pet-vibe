@@ -358,6 +358,49 @@
 
             padding: 1.5rem;
 
+            .grupo-endereco {
+                width: 100%;
+                padding: 1.5rem;
+                border: 1px solid rgba(16, 95, 86, .14);
+                border-radius: 1rem;
+                background: #f7faf8;
+
+                h2 {
+                    margin: 0 0 1rem;
+                    color: var(--corAzulPrimario);
+                    font-size: 1.7rem;
+                }
+
+                .dados-endereco {
+                    display: grid;
+                    grid-template-columns: repeat(2, minmax(0, 1fr));
+                    gap: .8rem;
+                    margin: 0;
+
+                    > div {
+                        min-width: 0;
+                        padding: .8rem 1rem;
+                        border: 1px solid rgba(16, 95, 86, .12);
+                        border-radius: .75rem;
+                        background: #fff;
+                    }
+
+                    dt {
+                        margin-bottom: .25rem;
+                        color: #687670;
+                        font-size: 1.1rem;
+                        font-weight: 600;
+                    }
+
+                    dd {
+                        margin: 0;
+                        color: var(--corPretoGeral);
+                        font-size: 1.4rem;
+                        overflow-wrap: anywhere;
+                    }
+                }
+            }
+
             .campo {
                 width: 100%;
                 
@@ -775,6 +818,10 @@
                     > input {
                         font-size: 1.3rem;
                     }
+                }
+
+                .grupo-endereco .dados-endereco {
+                    grid-template-columns: 1fr;
                 }
             }
 

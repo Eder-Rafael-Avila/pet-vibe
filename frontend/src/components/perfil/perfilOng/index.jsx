@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { obterImagem } from '../../../utils/obterImagem.js';
-import { obterDadosToken } from '../../../utils/obterInfoToken.js';
 import { formatarTelefone } from '../../../utils/formatacaoUtils.js';
 import Cropper from 'react-easy-crop';
 import recortarImagem from '../../../utils/recortarImagem.js';
@@ -48,17 +47,16 @@ export default function PerfilOng({ setUsuarioLogado }) {
     useEffect(() => {
         async function carregarDados() {
             const token = localStorage.getItem('token');
-            const dadosToken = obterDadosToken();
 
-            if (!dadosToken?.id_ong) {
-                setErro('Não foi possível identificar a ONG da conta.');
+            if (!token) {
+                setErro('Entre novamente com sua conta de ONG para consultar seus dados.');
                 setCarregando(false);
                 return;
             }
 
             try {
                 const resposta = await fetch(
-                    `http://localhost:6767/ongs/consultar/${dadosToken.id_ong}`,
+                    'http://localhost:6767/ong/perfil',
                     {
                         method: 'GET',
                         headers: {
@@ -72,7 +70,7 @@ export default function PerfilOng({ setUsuarioLogado }) {
                 }
 
                 const dados = await resposta.json();
-                const ong = dados.resposta?.[0];
+                const ong = dados.resposta;
 
                 if (!ong) {
                     throw new Error('Não foram encontrados dados para esta ONG.');
@@ -617,6 +615,68 @@ export default function PerfilOng({ setUsuarioLogado }) {
                                 <label htmlFor="ong-cnpj">CNPJ</label>
                                 <input id="ong-cnpj" type="text" value={ongInfo.cnpj || ''} disabled />
                             </div>
+
+                            <hr />
+
+                            <div className="campo campo-descricao">
+                                <label htmlFor="ong-descricao">Descrição da ONG</label>
+                                <textarea
+                                    id="ong-descricao"
+                                    rows={4}
+                                    value={ongInfo.descricao || ''}
+                                    placeholder="Descrição não informada"
+                                    disabled
+                                />
+                            </div>
+
+                            <hr />
+
+                            <div className="campo">
+                                <label htmlFor="ong-site">Site da ONG</label>
+                                <input
+                                    id="ong-site"
+                                    type="url"
+                                    value={ongInfo.site || ''}
+                                    placeholder="Site não informado"
+                                    disabled
+                                />
+                            </div>
+
+                            <hr />
+
+                            <section className="grupo-endereco" aria-labelledby="ong-endereco-titulo">
+                                <h2 id="ong-endereco-titulo">Endereço cadastrado</h2>
+                                <dl className="dados-endereco">
+                                    <div>
+                                        <dt>CEP</dt>
+                                        <dd>{ongInfo.cep || 'Não informado'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Rua</dt>
+                                        <dd>{ongInfo.rua || 'Não informada'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Número</dt>
+                                        <dd>{ongInfo.numero || 'Não informado'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Complemento</dt>
+                                        <dd>{ongInfo.complemento || 'Não informado'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Bairro</dt>
+                                        <dd>{ongInfo.bairro || 'Não informado'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Cidade</dt>
+                                        <dd>{ongInfo.cidade || 'Não informada'}</dd>
+                                    </div>
+                                    <div>
+                                        <dt>Estado</dt>
+                                        <dd>{ongInfo.estado || 'Não informado'}</dd>
+                                    </div>
+                                </dl>
+                            </section>
 
                             <hr />
 
