@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Questionario() {
     const navigate = useNavigate ();
 
-    // ESTADOS
+
     const [indicePergunta, setIndicePergunta] = useState(0);
     const [respostas, setRespostas] = useState({});
     const [concluido, setConcluido] = useState(false);
@@ -107,7 +107,7 @@ export default function Questionario() {
                 throw new Error('Você precisa estar logado para salvar suas preferências.');
             }
 
-            const resposta = await fetch('http://localhost:3000/prefs', {
+            const resposta = await fetch('http://localhost:6767/prefs', {
                 method: 'POST',
 
                 headers: {
@@ -202,7 +202,7 @@ export default function Questionario() {
 
                         <div className="logo-concluido">
 
-                            <span className="logo"><img src="/assets/images/logo4.png" alt="" /></span>
+                            <span className="logo"><img src="/assets/images/logo4.png" alt="" width="200px"/></span>
 
                             <h2>
                                 Pet<span>Vibe</span>
@@ -213,6 +213,7 @@ export default function Questionario() {
                         <img
                             src="/assets/images/cachorro-e-gato.webp"
                             alt="Cachorro e gato"
+                            width="200px"
                         />
 
                     </div>

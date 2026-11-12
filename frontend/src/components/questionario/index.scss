@@ -1,12 +1,11 @@
+
 .opcoes-moradia {
     background: url("/assets/images/fundo-questionario.webp")
         no-repeat center center;
 
     background-size: cover;
-
     width: 100%;
     min-height: 130vh;
-
     padding: 30px 5%;
     box-sizing: border-box;
 
@@ -15,18 +14,14 @@
     align-items: center;
 }
 
-
 .cabecalho {
     width: 100%;
-
     display: flex;
     justify-content: space-between;
     align-items: center;
-
     padding: 20px 30px;
     box-sizing: border-box;
 }
-
 
 .Conheça {
     width: 55%;
@@ -52,7 +47,7 @@
 }
 
 .cachorro-e-gato {
-    width: 400px;
+    width: 600px;
     max-width: 40%;
     position: relative;
     bottom: 30px;
@@ -64,7 +59,6 @@
     }
 }
 
-
 .conteudo-questionario {
     width: 100%;
     max-width: 850px;
@@ -72,7 +66,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-
     gap: 35px;
 
     margin-top: 30px;
@@ -84,12 +77,10 @@
     }
 }
 
-
 .lista-opcoes {
     display: flex;
     justify-content: center;
     align-items: center;
-
     gap: 40px;
     width: 100%;
 }
@@ -97,9 +88,7 @@
 .opcao {
     width: 310px;
     height: 220px;
-
     background-color: #FCF8F3;
-
     border: 2px solid transparent;
     border-radius: 20px;
 
@@ -107,12 +96,10 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
     gap: 12px;
 
     cursor: pointer;
     position: relative;
-
     transition: 0.3s;
 
     img {
@@ -136,7 +123,6 @@
         background-color: #e8f5f1;
     }
 }
-
 
 .radio {
     position: absolute;
@@ -167,12 +153,10 @@
 
     display: flex;
     justify-content: space-between;
-
     margin-top: 10px;
 
     button {
         padding: 12px 35px;
-
         border: none;
         border-radius: 20px;
 
@@ -187,6 +171,11 @@
 
         &:hover {
             background-color: #e85b15;
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
     }
 }
@@ -221,114 +210,27 @@
         #105F56,
         #12a58c
     );
+
     border-radius: 20px;
     transition: width 0.5s ease-in-out;
 }
 
-
-
-@media (max-width: 700px) {
-
-    .cabecalho {
-        flex-direction: column;
-        text-align: center;
-        gap: 20px;
-    }
-
-    .Conheça {
-        width: 100%;
-
-        h1 {
-            font-size: 28px;
-        }
-    }
-
-    .cachorro-e-gato {
-        width: 300px;
-        max-width: 90%;
-    }
-
-    .conteudo-questionario {
-        margin-top: 20px;
-    }
-
-    .lista-opcoes {
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .opcao {
-        width: 90%;
-        max-width: 310px;
-    }
-
-    .botoes {
-        gap: 15px;
-
-        button {
-            padding: 10px 25px;
-        }
-    }
-
-    
-.progresso-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+.mensagem-erro {
+    color: #c62828;
+    background-color: #ffebee;
+    padding: 12px 18px;
+    border-radius: 8px;
+    text-align: center;
     width: 100%;
-    margin-bottom: 45px;
-
-    span {
-        font-size: 18px;
-        font-weight: 600;
-        color: #2E2E2E;
-        white-space: nowrap;
-    }
+    box-sizing: border-box;
 }
 
-.barra-progresso {
-    width: 100%;
-    height: 12px;
-    background-color: #D9D9D9;
-    border-radius: 20px;
-    overflow: hidden;
-}
-
-.progresso {
-    height: 100%;
-    background-color: #105F56;
-    border-radius: 20px;
-    transition: width 0.4s ease;
-}
-
-.opcao {
-    cursor: pointer;
-    transition: 0.3s ease;
-
-    &.selecionada {
-        border: 2px solid #105F56;
-        background-color: #E5F3EF;
-    }
-}
-
-.botoes {
-
-    button {
-        cursor: pointer;
-        transition: 0.3s ease;
-
-        &:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-    }
-
-}
 
 .tela-concluido {
-    min-height: 100vh;
     width: 100%;
-    padding: 40px 20px;
+    min-height: 100vh;
+    padding: 30px 20px;
+    box-sizing: border-box;
 
     display: flex;
     align-items: center;
@@ -338,67 +240,83 @@
 
     .card-concluido {
         width: 100%;
-        max-width: 1000px;
+        max-width: 650px;
+
         background-color: #fffdf8;
-        border-radius: 30px;
+        border-radius: 24px;
         overflow: hidden;
 
-        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.13);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
     }
 
     .topo-concluido {
-        height: 195px;
-        background: linear-gradient(120deg, #08796b, #168f80);
+        width: 100%;
+        min-height: 145px;
+
+        background: linear-gradient(
+            120deg,
+            #08796b,
+            #168f80
+        );
 
         display: flex;
         align-items: center;
-        justify-content: space-around;
+        justify-content: space-between;
 
-        padding: 20px 45px;
-        position: relative;
-
-        border: 6px solid #fffdf8;
-        border-radius: 30px;
+        padding: 15px 35px;
+        box-sizing: border-box;
 
         .logo-concluido {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             color: white;
 
+            .logo {
+                display: flex;
+                align-items: center;
+
+                img {
+                    width: 55px;
+                    height: 55px;
+                    object-fit: contain;
+                }
+            }
+
             h2 {
-                font-size: 38px;
+                font-size: 30px;
                 margin: 0;
+                color: white;
 
                 span {
                     color: #ff743e;
                 }
             }
-
-            .patinha {
-                font-size: 55px;
-            }
         }
 
-        img {
-            height: 220px;
-            max-width: 45%;
+        > img {
+            width: 155px;
+            height: 120px;
+            max-width: 40%;
             object-fit: contain;
-            align-self: flex-end;
         }
     }
 
     .conteudo-concluido {
-        padding: 25px 50px 35px;
+        width: 100%;
+        padding: 35px 45px 25px;
+        box-sizing: border-box;
 
         display: flex;
         flex-direction: column;
         align-items: center;
         text-align: center;
+        gap: 8px;
 
-        .icone-check {
-            width: 100px;
-            height: 100px;
+        .check {
+            width: 75px;
+            height: 75px;
+            flex-shrink: 0;
 
             display: flex;
             align-items: center;
@@ -408,7 +326,7 @@
             background-color: #2da995;
             color: white;
 
-            font-size: 65px;
+            font-size: 48px;
             font-weight: bold;
 
             animation: aparecer 0.6s ease;
@@ -416,69 +334,86 @@
 
         h1 {
             color: #08685e;
-            font-size: 48px;
-            margin: 8px 0;
+            font-size: 36px;
+            margin: 10px 0 0;
         }
 
         h2 {
             color: #444;
-            font-size: 27px;
-            margin: 8px 0;
+            font-size: 21px;
+            margin: 5px 0;
         }
 
         p {
-            color: #555;
-            font-size: 21px;
-            line-height: 1.5;
-            max-width: 780px;
-            margin: 10px 0 25px;
+            color: #666;
+            font-size: 16px;
+            line-height: 1.6;
+
+            max-width: 450px;
+            margin: 5px 0 15px;
         }
 
-        .botao-concluido {
-            width: 400px;
-            max-width: 100%;
-            padding: 16px 25px;
+        .concluido {
+            width: 100%;
+            max-width: 380px;
+
+            padding: 14px 22px;
+            box-sizing: border-box;
 
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            gap: 12px;
 
-            background-color: #08796b;
-            color: white;
+            background-color: #e8f5f1;
+            color: #08796b;
 
-            border-radius: 35px;
-            font-size: 21px;
+            border: 1px solid #c8e6dc;
+            border-radius: 12px;
+
+            font-size: 16px;
             font-weight: bold;
 
-            span {
-                font-size: 30px;
+            .icone-concluido {
+                font-size: 20px;
             }
         }
 
-        .mensagem-redirecionamento {
-            color: #666;
-            font-size: 17px;
-            margin-top: 20px;
+        .redirecionamento {
+            color: #888;
+            font-size: 13px;
+            margin-top: 12px;
         }
 
         .rodape-concluido {
-            width: 65%;
+            width: 100%;
+
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 25px;
+            gap: 15px;
 
-            margin-top: 30px;
+            margin-top: 15px;
 
             strong {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+
                 color: #08796b;
-                font-size: 23px;
+                font-size: 17px;
                 white-space: nowrap;
+
+                img {
+                    width: 25px;
+                    height: 25px;
+                    object-fit: contain;
+                }
             }
 
             span {
-                height: 2px;
-                width: 100%;
+                height: 1px;
+                flex: 1;
                 background-color: #ddd;
             }
         }
@@ -497,51 +432,111 @@
     }
 }
 
-// RESPONSIVIDADE
+
+@media (max-width: 700px) {
+
+    .opcoes-moradia {
+        min-height: 100vh;
+    }
+
+    .cabecalho {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+
+    .Conheça {
+        width: 100%;
+        bottom: 0;
+
+        h1 {
+            font-size: 28px;
+        }
+
+        p {
+            font-size: 16px;
+        }
+    }
+
+    .cachorro-e-gato {
+        width: 300px;
+        max-width: 90%;
+        bottom: 0;
+    }
+
+    .conteudo-questionario {
+        margin-top: 20px;
+        gap: 25px;
+
+        h2 {
+            font-size: 25px;
+        }
+    }
+
+    .lista-opcoes {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .opcao {
+        width: 90%;
+        max-width: 310px;
+    }
+
+    .botoes {
+        width: 90%;
+        gap: 15px;
+
+        button {
+            padding: 10px 25px;
+        }
+    }
+
+    .progresso-container {
+        margin-bottom: 20px;
+
+        span {
+            font-size: 15px;
+        }
+    }
+}
+
 
 @media (max-width: 768px) {
 
     .tela-concluido {
         padding: 20px;
 
+        .card-concluido {
+            max-width: 550px;
+        }
+
         .topo-concluido {
-            height: 150px;
-            padding: 15px;
+            padding: 15px 20px;
 
             .logo-concluido h2 {
-                font-size: 27px;
+                font-size: 25px;
             }
 
-            .logo-concluido .patinha {
-                font-size: 35px;
-            }
-
-            img {
-                height: 160px;
+            > img {
+                width: 125px;
+                height: 100px;
             }
         }
 
         .conteudo-concluido {
-            padding: 25px 20px;
+            padding: 30px 25px;
 
             h1 {
-                font-size: 36px;
+                font-size: 30px;
             }
 
             h2 {
-                font-size: 21px;
+                font-size: 19px;
             }
 
             p {
-                font-size: 16px;
-            }
-
-            .botao-concluido {
-                font-size: 17px;
-            }
-
-            .rodape-concluido {
-                width: 90%;
+                font-size: 15px;
             }
         }
     }
@@ -550,67 +545,67 @@
 @media (max-width: 490px) {
 
     .tela-concluido {
+        padding: 15px;
 
         .card-concluido {
-            border-radius: 20px;
+            border-radius: 18px;
         }
 
         .topo-concluido {
-            height: 125px;
+            min-height: 110px;
+            padding: 12px 15px;
 
             .logo-concluido {
                 gap: 5px;
 
+                .logo img {
+                    width: 40px;
+                    height: 40px;
+                }
+
                 h2 {
                     font-size: 21px;
                 }
-
-                .patinha {
-                    font-size: 27px;
-                }
             }
 
-            img {
-                height: 125px;
-                max-width: 48%;
+            > img {
+                width: 105px;
+                height: 85px;
             }
         }
 
         .conteudo-concluido {
+            padding: 25px 18px;
 
-            .icone-check {
-                width: 75px;
-                height: 75px;
-                font-size: 48px;
+            .check {
+                width: 60px;
+                height: 60px;
+                font-size: 38px;
             }
 
             h1 {
-                font-size: 32px;
+                font-size: 27px;
             }
 
             h2 {
-                font-size: 18px;
+                font-size: 17px;
             }
 
             p {
-                font-size: 15px;
+                font-size: 14px;
             }
 
-            .mensagem-redirecionamento {
-                font-size: 13px;
+            .concluido {
+                font-size: 14px;
             }
 
             .rodape-concluido {
-                width: 100%;
-                gap: 10px;
+                gap: 8px;
 
                 strong {
-                    font-size: 18px;
+                    font-size: 15px;
                 }
             }
         }
     }
-}
-
-
 }

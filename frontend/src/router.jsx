@@ -34,7 +34,7 @@ export default function Router() {
                 <Route path="/Cadastro" element={<Cadastro />} />
                 <Route path='/Adocao' element={<Adocao />} />
                 <Route path='/CadastroOng' element={<CadastroOng />} />
-                <Route path='/Questionario' element={<Questionarioo />} />
+                <Route path='/Questionario' element={<Questionarioo usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado} />} />
                 <Route path='/Adocao' element={<Adocao usuarioLogado={usuarioLogado} setUsuarioLogado={setUsuarioLogado}/>} />
 
                 <Route element={<RotaProtegida logado={usuarioLogado} />}>
