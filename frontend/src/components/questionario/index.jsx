@@ -232,16 +232,9 @@ export default function Questionario() {
           </h1>
 
           <p>
-            Responda algumas perguntas para nos ajudar <br />a encontrar o pet
+            Responda algumas perguntas para ajudar as ONGs <br />a encontrarem o pet
             ideal para você.
           </p>
-        </div>
-
-        <div className="cachorro-e-gato">
-          <img
-            src="/assets/images/cachorro-e-gato.webp"
-            alt="Cachorro e gato"
-          />
         </div>
       </div>
 

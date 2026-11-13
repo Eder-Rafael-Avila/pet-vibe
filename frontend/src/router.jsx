@@ -11,7 +11,7 @@ import RotaProtegida from "./components/rotaProtegida";
 import Adocao from './pages/page-adocao';
 import CadastroOng from './pages/page-cadastroOng';
 import ONGPanel from './pages/page-painel-ong';
-import Questionarioo from './pages/questionario';
+import Questionarioo from './pages/page-questionario';
 
 export default function Router() {
     const [usuarioLogado, setUsuarioLogado] = useState(() => {
