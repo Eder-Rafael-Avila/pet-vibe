@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 
 import { obterImagem } from '../../utils/obterImagem';
 import { obterDadosToken } from '../../utils/obterInfoToken.js';
+import Carteira from '../../components/carteira-preview';
 
 
 export default function Header({ 
@@ -223,10 +224,13 @@ export default function Header({
                     </button></NavLink>
                 </div>
             ) : logado === 'USUARIO' ? (
-                <div className="conta-preview">
-                    <div className={`temp ${dropdownAtivo ? 'absolute' : ''}`}>
+                <div className="conta-preview" >
+                    <div className={`temp ${dropdownAtivo ? 'absolute isActive' : ''} ${isActive ? 'isActive' : ''}`}>
                         <div className="nome">
                             <p>{nomeUsuario}</p>
+                            <div className="carteira">
+                                <Carteira/>
+                            </div>
                         </div>
                         <div className="icone">
                             <img src={profileImg} alt="PFP" />

@@ -109,7 +109,6 @@
     .default-nav {
         flex: 4;
 
-
         a{
             font-weight: bold;
             color: var(--corAzulPrimario);
@@ -268,6 +267,10 @@
                 gap: .5rem;
             }
 
+            &.isActive {
+                background-color: white;
+            }
+
             .dropdown-arrow {
                 border: none;
                 outline: none;
@@ -287,9 +290,12 @@
     
             .nome {
                 min-width: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
 
                 p {
-                    font-size: 1.2rem;
+                    font-size: 1.4rem;
                     font-weight: 600;
                     color: var(--corPretoGeral);
 
