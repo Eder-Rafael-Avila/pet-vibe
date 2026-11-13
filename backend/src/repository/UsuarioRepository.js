@@ -95,13 +95,28 @@ export async function ImagemUsuario(idUsuario, imagem) {
 }
 
 export async function ExcluirUsuario(idUsuario) {
-    const command = `
-        DELETE FROM usuarios
-        WHERE id_usuario = ?
-    `;
+    const conexao = await con.getConnection();
 
-    const [resposta] = await con.query(command, [idUsuario]);
-    return resposta.affectedRows;
+    try {
+        await conexao.beginTransaction();
+
+        await conexao.query('DELETE FROM adocoes WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM carteira WHERE ID_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM endereco_usuarios WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM prefs WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM busca WHERE id_usuario = ?', [idUsuario]);
+        await conexao.query('DELETE FROM contribuidores WHERE ID_usuario = ?', [idUsuario]);
+
+        const [resposta] = await conexao.query('DELETE FROM usuarios WHERE id_usuario = ?', [idUsuario]);
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function AlterarSenha(senha, idUsuario) {
@@ -148,9 +163,24 @@ export async function ListarImagemENome(id){
 
 export async function ListarTudoUsuario(id) {
   const command = `
-SELECT imagem, nome, email, telefone, cpf, data_nascimento
+SELECT
+    usuarios.imagem,
+    usuarios.nome,
+    usuarios.email,
+    usuarios.telefone,
+    usuarios.cpf,
+    usuarios.data_nascimento,
+    endereco_usuarios.cep,
+    endereco_usuarios.rua,
+    endereco_usuarios.numero,
+    endereco_usuarios.complemento,
+    endereco_usuarios.bairro,
+    endereco_usuarios.cidade,
+    endereco_usuarios.estado
 FROM usuarios
-WHERE id_usuario = ?
+LEFT JOIN endereco_usuarios
+    ON endereco_usuarios.id_usuario = usuarios.id_usuario
+WHERE usuarios.id_usuario = ?
 `
 
   let [resposta] = await con.query(command, [id])

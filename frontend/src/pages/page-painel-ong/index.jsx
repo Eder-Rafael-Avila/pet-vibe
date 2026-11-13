@@ -4,12 +4,21 @@ import Header from '../../components/painel-ong/header';
 import CadastreAnimal from '../../components/painel-ong/cadastreAnimal';
 import AjudeONGs from '../../components/painel-ong/ajudeONGs';
 import SolicitacoesAdocao from '../../components/painel-ong/solicitacoesAdocao';
+import ListarCampanhas from '../../components/campanhas-listagem';
 
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-export default function PageONGPanel() {
+export default function PageONGPanel({ setUsuarioLogado }) {
+    const navegar = useNavigate();
 
     const [paginaSelecionada, setPaginaSelecionada] = useState('');
+
+    function sairDaConta() {
+        localStorage.removeItem('token');
+        setUsuarioLogado(false);
+        navegar('/Login', { replace: true });
+    }
 
     return (
         <div className="page-panel-ong">
@@ -33,14 +42,19 @@ export default function PageONGPanel() {
                             </button>
                         </li>
                         <li className='nav-item'>
-                            <button
-                                onClick={() => setPaginaSelecionada('SolicitacoesAdocao')}
-                            >
-                                Solicitações de adoção
+                            <button onClick={() => setPaginaSelecionada('ListarCampanhas')}>
+                                Listar campanhas
                             </button>
                         </li>
                         <li className='nav-item'>
-                            <button className='logout'>
+                            <button
+                                onClick={() => setPaginaSelecionada('SolicitacoesAdocao')}
+                            >
+                                Animais e solicitações
+                            </button>
+                        </li>
+                        <li className='nav-item'>
+                            <button className='logout' onClick={sairDaConta}>
                                 Sair da conta
                             </button>
                         </li>
@@ -54,6 +68,10 @@ export default function PageONGPanel() {
 
                         {paginaSelecionada == 'PedidoAjuda' && (
                             <AjudeONGs />
+                        )}
+
+                        {paginaSelecionada == 'ListarCampanhas' && (
+                            <ListarCampanhas />
                         )}
 
                         {paginaSelecionada == 'SolicitacoesAdocao' && (

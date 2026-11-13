@@ -1,11 +1,13 @@
 import { randomInt } from 'node:crypto';
 
 export function GerarCodigo(){
-const codigo = randomInt(0, 10000).toString().padStart(4, '0');
+  return randomInt(0, 10000).toString().padStart(4, '0');
+}
 
-setInterval(() => {
-  codigo = GerarCodigo();
-}, 10 * 60 * 1000);
+export function GerarCodigoOng(){
+  return randomInt(0, 10000).toString().padStart(4, '0');
+}
 
-return codigo;
+export function GerarCodigoCadastroUsuario() {
+  return randomInt(0, 10000).toString().padStart(4, '0');
 }

@@ -1,0 +1,23 @@
+.Voltar-pagina {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    padding: 10px 35px;
+    border-radius: 20px;
+    background-color: var(--corLaranjaContraste);
+    color: #fff;
+    text-decoration: none;
+
+    &:hover {
+        filter: brightness(.95);
+    }
+
+    &:focus-visible {
+        outline: 3px solid #fff;
+        outline-offset: 3px;
+    }
+}

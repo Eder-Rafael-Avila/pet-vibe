@@ -77,7 +77,6 @@ endpoints.put('/adocoes/reprovar/:id', validarTokenOng, async (req, resp) => {
 
 endpoints.get('/adocoes/ong/pendentes', validarTokenOng, async (req, resp) => {
     try {
-        // O middleware valida o token da ONG e disponibiliza seu ID.
         const idOng = req.usuario.id_ong;
         const resposta = await ListarAdocoesPendentesOngService(idOng);
 
@@ -109,11 +108,33 @@ endpoints.post('/adocoes/criar', validarToken, async (req, resp) => {
         const idAnimal = req.body?.id_animal;
 
         // O repository obtém a ONG pelo animal e cria a solicitação pendente.
-        const idAdocao = await CriarAdocaoService(idUsuario, idAnimal);
+        const resultado = await CriarAdocaoService(idUsuario, idAnimal);
+
+        if (resultado.status === 'duplicada') {
+            return resp.status(409).send({
+                erro: 'Você já enviou uma solicitação para este animal.'
+            });
+        }
+
+        if (resultado.status === 'indisponivel') {
+            return resp.status(409).send({
+                erro: 'Este animal já possui uma solicitação ativa ou foi adotado.'
+            });
+        }
+
+        if (resultado.status === 'animal_nao_encontrado') {
+            return resp.status(404).send({
+                erro: 'Animal não encontrado ou indisponível para adoção.'
+            });
+        }
+
+        if (resultado.status !== 'criada') {
+            throw new Error('Resultado inesperado ao criar a solicitação de adoção.');
+        }
 
         resp.send({
             mensagem: 'Solicitação de adoção criada com sucesso!',
-            id_adocao: idAdocao
+            id_adocao: resultado.idAdocao
         });
     }
     catch (err) {
@@ -128,6 +149,12 @@ endpoints.delete('/adocoes/excluir/:id', validarToken, async (req, resp) => {
         const idAdocao = Number(req.params.id);
 
         const excluidas = await ExcluirAdocaoService(idUsuario, idAdocao);
+
+        if (excluidas === 0) {
+            return resp.status(404).send({
+                erro: 'Solicitação não encontrada ou não pode ser excluída.'
+            });
+        }
 
         resp.send({ mensagem: 'Solicitação de adoção excluída com sucesso!' });
     }

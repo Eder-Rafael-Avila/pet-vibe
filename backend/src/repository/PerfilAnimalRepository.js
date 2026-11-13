@@ -1,6 +1,6 @@
 import con from './conection/connect.js';
 
-export async function ListarAnimais() {
+export async function ListarAnimais(apenasDisponiveis = false) {
     let command = `
 SELECT
     ong.nome AS nome_ong,
@@ -17,10 +17,44 @@ SELECT
     perfil_animal.descricao
 FROM perfil_animal
 INNER JOIN ong
-ON perfil_animal.id_ong = ong.id_ong;
+ON perfil_animal.id_ong = ong.id_ong
     `
 
+    if (apenasDisponiveis) {
+        command += `
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM adocoes
+    WHERE adocoes.id_animal = perfil_animal.id_animal
+      AND adocoes.situação IN ('pendente', 'aprovada')
+)
+        `;
+    }
+
     let [resposta] = await con.query(command, []);
+    return resposta;
+}
+
+export async function ListarAnimaisOng(idOng) {
+    const command = `
+        SELECT
+            perfil_animal.id_animal,
+            perfil_animal.imagem,
+            perfil_animal.nome AS nome_animal,
+            perfil_animal.tipo,
+            perfil_animal.idade,
+            perfil_animal.raca,
+            DATE_FORMAT(perfil_animal.data_de_nascimento, '%d/%m/%Y') AS data_nascimento,
+            perfil_animal.castrado,
+            perfil_animal.sexo,
+            perfil_animal.porte,
+            perfil_animal.descricao
+        FROM perfil_animal
+        WHERE perfil_animal.id_ong = ?
+        ORDER BY perfil_animal.id_animal DESC
+    `;
+
+    const [resposta] = await con.query(command, [idOng]);
     return resposta;
 }
 
@@ -84,13 +118,14 @@ export async function CriarAnimal(id, animal) {
     return resultado.insertId;
 }
 
-export async function ExcluirAnimal(id) {
+export async function ExcluirAnimal(id, idOng) {
     let command = `
     DELETE FROM  perfil_animal
     WHERE id_animal = ?
+      AND id_ong = ?
     `
 
-    let [resultado] = await con.query(command, [id])
+    let [resultado] = await con.query(command, [id, idOng])
     return resultado.affectedRows;
 }
 

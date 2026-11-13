@@ -1,0 +1,140 @@
+.card-solicitacao-adocao {
+    display: grid;
+    grid-template-columns: minmax(9rem, 0.8fr) minmax(0, 1.5fr);
+    min-width: 0;
+    min-height: 23rem;
+    overflow: hidden;
+    border: 1px solid #c6d9d2;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 5px 16px rgba(16, 95, 86, .1);
+
+    &__imagem {
+        min-height: 100%;
+        background: #e8f1ee;
+
+        img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            min-height: 14rem;
+            object-fit: cover;
+        }
+    }
+
+    &__conteudo {
+        display: flex;
+        min-width: 0;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1.4rem;
+    }
+
+    &__rotulo {
+        color: #6a7973;
+        font-size: .85rem;
+        font-weight: 700;
+        letter-spacing: .06em;
+        text-transform: uppercase;
+    }
+
+    h3 {
+        margin: .25rem 0;
+        overflow-wrap: anywhere;
+        color: #105f56;
+        font-size: 1.6rem;
+    }
+
+    &__animal {
+        margin: 0;
+        color: #4b5c56;
+        font-size: 1rem;
+    }
+
+    &__usuario {
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+        color: #34443e;
+        font-size: 1.05rem;
+
+        strong {
+            font-size: 1.2rem;
+        }
+
+        a,
+        .card-solicitacao-adocao__cidade {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            overflow-wrap: anywhere;
+        }
+
+        a {
+            color: #105f56;
+            text-decoration: none;
+        }
+    }
+
+    &__cidade {
+        color: #34443e;
+    }
+
+    &__id {
+        display: flex;
+        align-items: center;
+        gap: .4rem;
+        margin: 0;
+        color: #6a7973;
+        font-size: .95rem;
+    }
+
+    &__acoes {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .6rem;
+        margin-top: auto;
+
+        button {
+            display: inline-flex;
+            flex: 1;
+            align-items: center;
+            justify-content: center;
+            gap: .45rem;
+            min-width: 7rem;
+            min-height: 2.9rem;
+            padding: .75rem .9rem;
+            border: 0;
+            border-radius: .55rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+
+            &:disabled {
+                cursor: wait;
+                opacity: .65;
+            }
+        }
+
+        .aprovar {
+            background: #23804d;
+        }
+
+        .reprovar {
+            background: #a12815;
+        }
+    }
+}
+
+@media (max-width: 520px) {
+    .card-solicitacao-adocao {
+        grid-template-columns: 1fr;
+        min-height: 0;
+
+        &__imagem img {
+            height: 11rem;
+            min-height: 0;
+        }
+    }
+}

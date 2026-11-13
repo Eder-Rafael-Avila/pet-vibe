@@ -15,21 +15,82 @@ FROM ong
     return resposta;
 }
 
-export async function BuscarOngPorNome(nome) {
+export async function BuscarOngPorId(id) {
     const comando = `
-        SELECT nome, email, telefone, descricao, site
+        SELECT nome, email, telefone, cnpj, imagem
         FROM ong
-        WHERE nome LIKE ?
+        WHERE id_ong = ?
     `;
 
-    const [linhas] = await con.query(comando, [`%${nome}%`]);
+    const [linhas] = await con.query(comando, [id]);
+    return linhas;
+}
+
+export async function BuscarNomeOngPorId(id) {
+    const comando = `
+        SELECT nome
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [id]);
+    return linhas[0];
+}
+
+export async function BuscarPerfilOngPorId(id) {
+    const comando = `
+        SELECT
+            ong.nome,
+            ong.email,
+            ong.telefone,
+            ong.cnpj,
+            ong.imagem,
+            ong.descricao,
+            ong.site,
+            endereco_ong.cep,
+            endereco_ong.rua,
+            endereco_ong.numero,
+            endereco_ong.complemento,
+            endereco_ong.bairro,
+            endereco_ong.cidade,
+            endereco_ong.estado
+        FROM ong
+        LEFT JOIN endereco_ong
+            ON endereco_ong.id_ong = ong.id_ong
+        WHERE ong.id_ong = ?
+        LIMIT 1
+    `;
+
+    const [linhas] = await con.query(comando, [id]);
+    return linhas[0];
+}
+
+export async function BuscarEmailPorIdOng(idOng) {
+    const comando = `
+        SELECT email
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [idOng]);
+    return linhas[0]?.email;
+}
+
+export async function NomeImgPorId(id) {
+    const comando = `
+        SELECT nome, email, telefone,
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(comando, [`%${id}%`]);
     return linhas;
 }
 
 export async function CriarOrg(ong) {
     let command = `
-    INSERT INTO ong(nome,email,telefone,cnpj,senha)
-    VALUES(? ,? ,? ,? ,? )
+    INSERT INTO ong(nome,email,telefone,cnpj,senha,descricao,site)
+    VALUES(? ,? ,? ,? ,?, ?, ? )
     `
 
     let [resposta] = await con.query(command, [
@@ -37,7 +98,9 @@ export async function CriarOrg(ong) {
         ong.email,
         ong.telefone,
         ong.cnpj,
-        ong.senha
+        ong.senha,
+        ong.descricao,
+        ong.site
     ])
     return resposta.insertId
 }
@@ -53,6 +116,17 @@ export async function BuscarPorEmail(email) {
     return linhas[0];
 }
 
+export async function BuscarEmailPorId(idOng) {
+    const command = `
+        SELECT email
+        FROM ong
+        WHERE id_ong = ?
+    `;
+
+    const [linhas] = await con.query(command, [idOng]);
+    return linhas[0];
+}
+
 export async function ImagemOng(idOng, imagem) {
     const command = `
         UPDATE ong
@@ -64,13 +138,37 @@ export async function ImagemOng(idOng, imagem) {
 }
 
 export async function ExcluirOng(id) {
-    let command = `
-    DELETE FROM ong
-    WHERE id_ong = ?
-    `
+    const conexao = await con.getConnection();
 
-    let [resposta] = await con.query(command, [id])
-    return resposta.effectedRows
+    try {
+        await conexao.beginTransaction();
+
+        await conexao.query(`
+            DELETE adocoes FROM adocoes
+            INNER JOIN perfil_animal ON adocoes.id_animal = perfil_animal.id_animal
+            WHERE perfil_animal.id_ong = ?
+        `, [id]);
+
+        await conexao.query(`
+            DELETE contribuidores FROM contribuidores
+            INNER JOIN campanhas ON contribuidores.ID_campanha = campanhas.ID_campanha
+            WHERE campanhas.ID_ONG = ?
+        `, [id]);
+
+        await conexao.query('DELETE FROM perfil_animal WHERE id_ong = ?', [id]);
+        await conexao.query('DELETE FROM campanhas WHERE ID_ONG = ?', [id]);
+        await conexao.query('DELETE FROM endereco_ong WHERE id_ong = ?', [id]);
+
+        const [resposta] = await conexao.query('DELETE FROM ong WHERE id_ong = ?', [id]);
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function AlterarEmailOng(id, ong) {
@@ -92,6 +190,28 @@ export async function AlterarSenhaOng(id, ong) {
     `
 
     let [resposta] = await con.query(command, [ong, id])
+    return resposta.affectedRows;
+}
+
+export async function AlterarNomeOng(id, nome) {
+    const comando = `
+        UPDATE ong
+        SET nome = ?
+        WHERE id_ong = ?
+    `;
+
+    const [resposta] = await con.query(comando, [nome, id]);
+    return resposta.affectedRows;
+}
+
+export async function AlterarTelefoneOng(id, telefone) {
+    const comando = `
+        UPDATE ong
+        SET telefone = ?
+        WHERE id_ong = ?
+    `;
+
+    const [resposta] = await con.query(comando, [telefone, id]);
     return resposta.affectedRows;
 }
 

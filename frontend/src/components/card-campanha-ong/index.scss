@@ -1,0 +1,175 @@
+.comp-card-campanha-ong {
+
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 0 12px 32px rgba(16, 95, 86, 0.08);
+
+    > img {
+        display: block;
+        width: 100%;
+        height: 230px;
+        border-radius: 6px 6px 0 0;
+        object-fit: cover;
+    }
+
+    .campanha-conteudo {
+        padding: 24px;
+
+
+        h2 {
+            margin-top: 4px;
+            color: var(--corAzulPrimario);
+            font-size: 2.2rem;
+        }
+
+        .descricao {
+            min-height: 48px;
+            margin-top: 10px;
+            color: #66736f;
+            font-size: 1.4rem;
+        }
+    }
+
+    .valores {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 24px;
+
+        div {
+            padding: 14px;
+            border-radius: 6px;
+            background-color: var(--corBrancoGeral);
+        }
+
+        span,
+        strong {
+            display: block;
+        }
+
+        span {
+            color: #66736f;
+            font-size: 1.2rem;
+        }
+
+        strong {
+            margin-top: 4px;
+            color: var(--corAzulPrimario);
+            font-size: 1.6rem;
+        }
+    }
+
+    .barra-progresso {
+        width: 100%;
+        height: 10px;
+        margin-top: 20px;
+        border-radius: 10px;
+        background-color: #e2e9e7;
+
+        div {
+            height: 100%;
+            border-radius: 10px;
+            background-color: var(--corLaranjaContraste);
+        }
+    }
+
+    .porcentagem {
+        margin-top: 8px;
+        color: #66736f;
+        font-size: 1.2rem;
+        text-align: right;
+    }
+
+    .mensagem-erro {
+        margin-top: 12px;
+        color: #a12815;
+        font-size: 1.3rem;
+    }
+
+    .acoes-campanha {
+        display: flex;
+        gap: 10px;
+        margin-top: 22px;
+
+        button {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 14px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+
+            &:disabled {
+                opacity: 0.65;
+                cursor: wait;
+            }
+        }
+    }
+
+    .pegar-fundos {
+        background-color: var(--corAzulPrimario);
+        color: #fff;
+    }
+
+    .listar-contribuidores {
+        background-color: #e9f2ef;
+        color: var(--corAzulPrimario);
+    }
+
+    .modal-contribuidores {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.6);
+
+        .card-modal {
+            width: 460px;
+            padding: 24px;
+            border-radius: 6px;
+            background-color: #fff;
+            font-size: 14px;
+        }
+
+        h2 {
+            color: var(--corAzulPrimario);
+            font-size: 22px;
+        }
+
+        .titulo-campanha {
+            margin: 8px 0 20px;
+            color: #66736f;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 12px 0;
+        }
+
+        strong {
+            color: var(--corAzulPrimario);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: var(--corAzulPrimario);
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+
+}

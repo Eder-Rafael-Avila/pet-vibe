@@ -3,8 +3,8 @@ import { cnpj } from "cpf-cnpj-validator";
 const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const regexCelular = /^[1-9]{2}9\d{8}$/;
 
-export function ListarOngErrors(nome) {
-    if (!nome) {
+export function ListarOngErrors(id) {
+    if (!id) {
         throw new Error("Informe o nome da ONG.");
     }
 }
@@ -79,6 +79,18 @@ export function AlterarSenhaOngErrors(senha) {
 
     if (senha.length < 8) {
         throw new Error("A senha deve ter pelo menos 8 caracteres.");
+    }
+}
+
+export function AlterarNomeOngErrors(nome) {
+    if (!nome || !String(nome).trim()) throw new Error("Informe o nome da ONG.");
+}
+
+export function AlterarTelefoneOngErrors(telefone) {
+    const telefoneSemMascara = String(telefone || "").replace(/\D/g, "");
+
+    if (!regexCelular.test(telefoneSemMascara)) {
+        throw new Error("O telefone informado é inválido. Verifique o DDD e o número.");
     }
 }
 

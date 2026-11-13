@@ -19,7 +19,11 @@ export async function CriarCampanha(campanha,id) {
 
 export async function ListarCampanhas() {
     let command = `
-    SELECT ID_campanha,imagem,titulo,descricao,valor,valor_arrecadado FROM campanhas
+    SELECT campanhas.ID_campanha, campanhas.imagem, campanhas.titulo,
+           campanhas.descricao, campanhas.valor, campanhas.valor_arrecadado,
+           ong.nome AS nome_ong, ong.imagem AS imagem_ong
+    FROM campanhas
+    INNER JOIN ong ON ong.id_ong = campanhas.ID_ONG
     `
 
     let [resposta] = await con.query(command,[])
@@ -28,9 +32,12 @@ export async function ListarCampanhas() {
 
 export async function ListarCampanhasOng(idOng) {
     const command = `
-    SELECT ID_campanha,imagem,titulo,descricao,valor,valor_arrecadado
+    SELECT campanhas.ID_campanha, campanhas.imagem, campanhas.titulo,
+           campanhas.descricao, campanhas.valor, campanhas.valor_arrecadado,
+           ong.nome AS nome_ong, ong.imagem AS imagem_ong
     FROM campanhas
-    WHERE ID_ONG = ?
+    INNER JOIN ong ON ong.id_ong = campanhas.ID_ONG
+    WHERE campanhas.ID_ONG = ?
     `;
 
     let [resposta] = await con.query(command, [idOng]);
@@ -38,15 +45,39 @@ export async function ListarCampanhasOng(idOng) {
 }
 
 export async function ExcluirCampanha(ID_campanha, idOng) {
-    const command= `
-    DELETE FROM campanhas
-    WHERE ID_campanha = ? AND ID_ONG = ?
-    `
+    const conexao = await con.getConnection();
 
-    let [resposta] = await con.query(command,[
-        ID_campanha, idOng
-    ])
-    return resposta.affectedRows
+    try {
+        await conexao.beginTransaction();
+
+        const [campanhas] = await conexao.query(
+            'SELECT ID_campanha FROM campanhas WHERE ID_campanha = ? AND ID_ONG = ? FOR UPDATE',
+            [ID_campanha, idOng]
+        );
+
+        if (campanhas.length === 0) {
+            await conexao.rollback();
+            return 0;
+        }
+
+        await conexao.query(
+            'DELETE FROM contribuidores WHERE ID_campanha = ?',
+            [ID_campanha]
+        );
+
+        const [resposta] = await conexao.query(
+            'DELETE FROM campanhas WHERE ID_campanha = ? AND ID_ONG = ?',
+            [ID_campanha, idOng]
+        );
+
+        await conexao.commit();
+        return resposta.affectedRows;
+    } catch (err) {
+        await conexao.rollback();
+        throw err;
+    } finally {
+        conexao.release();
+    }
 }
 
 export async function BuscarCampanhaDaOng(idCampanha, idOng) {
