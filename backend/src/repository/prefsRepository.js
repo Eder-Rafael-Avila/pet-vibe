@@ -81,3 +81,14 @@ export async function AlterarPrefs(id_usuario, prefs) {
 
     return resposta;
 }
+
+export async function ExcluirPrefs(id_usuario) {
+    const command = `
+        DELETE FROM prefs
+        WHERE id_usuario = ?
+    `;
+
+    const [resposta] = await con.query(command, [id_usuario]);
+
+    return resposta;
+}

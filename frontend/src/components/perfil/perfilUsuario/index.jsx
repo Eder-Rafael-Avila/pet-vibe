@@ -20,7 +20,7 @@ function mascararCpf(cpf) {
     });
 }
 
-export default function PerfilUsuario({ setUsuarioLogado }) {
+export default function PerfilUsuario({ setUsuarioLogado, setQuestionarioRespondido }) {
 
     const navegar = useNavigate();
 
@@ -30,7 +30,12 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
     const [userInfo, setUserInfo] = useState({});
 
     const [email, setEmail] = useState('');
-    const [editandoEmail, setEditandoEmail] = useState(false);
+    const [alteracaoContato, setAlteracaoContato] = useState('');
+    const [codigoVerificacaoContato, setCodigoVerificacaoContato] = useState('');
+    const [mensagemContato, setMensagemContato] = useState('');
+    const [campoMensagemContato, setCampoMensagemContato] = useState('');
+    const [processandoContato, setProcessandoContato] = useState(false);
+    const [erroContato, setErroContato] = useState(false);
 
     const [senha, setSenha] = useState('');
     const [editandoSenha, setEditandoSenha] = useState(false);
@@ -40,7 +45,6 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
     const [erroSenha, setErroSenha] = useState(false);
 
     const [telefone, setTelefone] = useState('');
-    const [editandoTel, setEditandoTel] = useState(false);
 
     const [foto, setFoto] = useState(null);
     const [previewFoto, setPreviewFoto] = useState(null);
@@ -53,10 +57,15 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
 
     const [editorAberto, setEditorAberto] = useState(false);
 
-    const [erro, setErro] = useState('');
     const [confirmacaoExclusaoAberta, setConfirmacaoExclusaoAberta] = useState(false);
     const [excluindoConta, setExcluindoConta] = useState(false);
     const [erroExclusao, setErroExclusao] = useState('');
+
+    const [preferencias, setPreferencias] = useState([]);
+    const [carregandoPreferencias, setCarregandoPreferencias] = useState(false);
+    const [erroPreferencias, setErroPreferencias] = useState('');
+    const [confirmacaoExclusaoPreferenciasAberta, setConfirmacaoExclusaoPreferenciasAberta] = useState(false);
+    const [excluindoPreferencias, setExcluindoPreferencias] = useState(false);
 
     async function confirmarExclusao() {
         setExcluindoConta(true);
@@ -96,34 +105,106 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
 
     }
 
-    async function alterarTel(e) {
-        e.preventDefault();
-
+    async function solicitarCodigoContato(campo, valorAtual) {
+        const url = campo === 'email'
+            ? 'http://localhost:6767/usuario/alterarEmail'
+            : 'http://localhost:6767/usuario/alterarTelefone';
         const token = localStorage.getItem('token');
 
-        try {
+        setAlteracaoContato(campo);
+        setCodigoVerificacaoContato('');
+        setMensagemContato('');
+        setCampoMensagemContato(campo);
+        setErroContato(false);
+        setProcessandoContato(true);
 
-            const resposta = await fetch('http://localhost:6767/usuario/alterarTelefone', {
+        try {
+            const resposta = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    "Content-Type": "application/json",
+                    'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`
                 },
-                body: JSON.stringify({ telefone })
+                body: JSON.stringify({ [campo]: valorAtual })
             });
-    
             const dados = await resposta.json();
-    
-            if (!resposta.ok) {
-                setErro(dados?.erro);
-                throw new Error('Não foi possível alterar o telefone.')
+
+            if (resposta.status !== 202) {
+                throw new Error(dados.erro || 'Não foi possível enviar o código de verificação.');
             }
 
-            setEditandoTel(false);
-            window.location.reload();
-
+            setMensagemContato(dados.resposta || 'Enviamos um código de verificação para seu e-mail.');
         } catch (e) {
-            console.log(e);
+            console.error(`Erro ao solicitar código para alterar ${campo}: ${e.message}`);
+            setMensagemContato(e.message || 'Não foi possível enviar o código de verificação.');
+            setErroContato(true);
+        } finally {
+            setProcessandoContato(false);
+        }
+    }
+
+    async function confirmarAlteracaoContato(evento, campo) {
+        evento.preventDefault();
+
+        const token = localStorage.getItem('token');
+        const valor = campo === 'email' ? email : telefone;
+        const url = campo === 'email'
+            ? 'http://localhost:6767/usuario/alterarEmail'
+            : 'http://localhost:6767/usuario/alterarTelefone';
+
+        setProcessandoContato(true);
+        setMensagemContato('');
+        setCampoMensagemContato(campo);
+        setErroContato(false);
+
+        try {
+            const parametros = new URLSearchParams({
+                codigo: codigoVerificacaoContato.trim()
+            });
+            const respostaVerificacao = await fetch(
+                `http://localhost:6767/usuario/liberarPermissao?${parametros}`,
+                {
+                    method: 'GET',
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            const dadosVerificacao = await respostaVerificacao.json();
+
+            if (!respostaVerificacao.ok || !dadosVerificacao.token) {
+                throw new Error(
+                    dadosVerificacao.erro ||
+                    dadosVerificacao.resposta ||
+                    'O código de verificação está incorreto ou expirou.'
+                );
+            }
+
+            const resposta = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`,
+                    tokenpermitido: dadosVerificacao.token
+                },
+                body: JSON.stringify({ [campo]: valor })
+            });
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados.erro || `Não foi possível alterar ${campo === 'email' ? 'o e-mail' : 'o telefone'}.`);
+            }
+
+            setUserInfo(usuarioAtual => ({ ...usuarioAtual, [campo]: valor }));
+            setAlteracaoContato('');
+            setCodigoVerificacaoContato('');
+            setMensagemContato(`${campo === 'email' ? 'E-mail' : 'Telefone'} alterado com sucesso.`);
+        } catch (e) {
+            console.error(`Erro ao alterar ${campo}: ${e.message}`);
+            setMensagemContato(e.message || `Não foi possível alterar ${campo === 'email' ? 'o e-mail' : 'o telefone'}.`);
+            setErroContato(true);
+        } finally {
+            setProcessandoContato(false);
         }
     }
 
@@ -216,40 +297,6 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
         } finally {
             setProcessandoSenha(false);
         }
-    }
-
-    async function alterarEmail(e) {
-        console.log('Submit foi chamado')
-
-        e.preventDefault();
-
-        const token = localStorage.getItem('token');
-
-        try {
-
-            const resposta = await fetch('http://localhost:6767/usuario/alterarEmail', {
-                method: 'PUT',
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}`
-                },
-                body: JSON.stringify({ email }) 
-            });
-            
-            const dados = await resposta.json();
-
-            if (!resposta.ok) {
-                setErro(dados?.erro);
-                throw new Error('Erro ao mudar e-mail.');
-            }
-
-            setEditandoEmail(false);
-            window.location.reload();
-
-        } catch (e) {
-            console.log(`Erro ao mudar e-mail: ${e}`);
-        }
-
     }
 
     function selecionarFoto(e) {
@@ -384,10 +431,72 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
         }
     }
 
+    async function carregarPreferencias() {
+        const token = localStorage.getItem('token');
+
+        setCarregandoPreferencias(true);
+        setErroPreferencias('');
+
+        try {
+            const resposta = await fetch('http://localhost:6767/prefs', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados?.erro || 'Não foi possível carregar suas preferências.');
+            }
+
+            setPreferencias(Array.isArray(dados?.resposta) ? dados.resposta : []);
+        } catch (e) {
+            console.error('Erro ao carregar preferências:', e);
+            setErroPreferencias(e.message || 'Não foi possível carregar suas preferências.');
+            setPreferencias([]);
+        } finally {
+            setCarregandoPreferencias(false);
+        }
+    }
+
+    async function excluirPreferencias() {
+        const token = localStorage.getItem('token');
+
+        setExcluindoPreferencias(true);
+        setErroPreferencias('');
+
+        try {
+            const resposta = await fetch('http://localhost:6767/prefs', {
+                method: 'DELETE',
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const dados = await resposta.json();
+
+            if (!resposta.ok) {
+                throw new Error(dados?.erro || 'Não foi possível excluir suas preferências.');
+            }
+
+            setPreferencias([]);
+            setQuestionarioRespondido(false);
+            setConfirmacaoExclusaoPreferenciasAberta(false);
+        } catch (e) {
+            console.error('Erro ao excluir preferências:', e);
+            setErroPreferencias(e.message || 'Não foi possível excluir suas preferências.');
+        } finally {
+            setExcluindoPreferencias(false);
+        }
+    }
+
     useEffect(() => {
         async function carregarDados() {
             const usuario = await getAccountInfo();
             setUserInfo(usuario);
+            await carregarPreferencias();
         }
 
         carregarDados();
@@ -514,6 +623,45 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                 </div>
             )}
 
+            {confirmacaoExclusaoPreferenciasAberta && (
+                <div className="modal-exclusao modal-preferencias" role="presentation">
+                    <section
+                        className="conteudo-exclusao"
+                        role="alertdialog"
+                        aria-modal="true"
+                        aria-labelledby="titulo-exclusao-preferencias"
+                        aria-describedby="descricao-exclusao-preferencias"
+                    >
+                        <h2 id="titulo-exclusao-preferencias">Excluir preferências?</h2>
+                        <p id="descricao-exclusao-preferencias">
+                            Esta ação remove todas as suas preferências salvas e não pode ser desfeita.
+                        </p>
+                        {erroPreferencias && <p className="erro-exclusao" role="alert">{erroPreferencias}</p>}
+                        <div className="botoes-exclusao">
+                            <button
+                                type="button"
+                                className="cancelar"
+                                onClick={() => {
+                                    setErroPreferencias('');
+                                    setConfirmacaoExclusaoPreferenciasAberta(false);
+                                }}
+                                disabled={excluindoPreferencias}
+                            >
+                                Cancelar
+                            </button>
+                            <button
+                                type="button"
+                                className="confirmar"
+                                onClick={excluirPreferencias}
+                                disabled={excluindoPreferencias}
+                            >
+                                {excluindoPreferencias ? 'Excluindo...' : 'Sim, excluir preferências'}
+                            </button>
+                        </div>
+                    </section>
+                </div>
+            )}
+
             <main>
                 <header className="perfil-header">
                     <div className="desc">
@@ -567,42 +715,86 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
 
                 <section className="user-info">
                     <div className="campo">
-                        <label htmlFor="">E-mail</label>
-                        {editandoEmail ? (
-                            <form className='container editando'
-                                onSubmit={alterarEmail}
-                            >
-                                <button className="cancelar"
-                                    onClick={() => setEditandoEmail(!editandoEmail)}
+                        <label htmlFor="email-atual">E-mail</label>
+                        <div className="controle-contato">
+                            {alteracaoContato === 'email' ? (
+                                <form
+                                    className="verificacao-contato"
+                                    onSubmit={evento => confirmarAlteracaoContato(evento, 'email')}
                                 >
-                                    Cancelar
-                                </button>
-                                <button
-                                    type='submit' 
-                                    className='enviar'
-                                >
-                                    alterar
-                                </button>
-
-                                <input type='email'
-                                    value={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                />
-                            </form>
-                        ) : (
-                            <div className="container">
-                                <button className='editar'
-                                    onClick={() => setEditandoEmail(!editandoEmail)}
-                                >
-                                    editar
-                                </button>
-
-                                <input type="text"
-                                    value={userInfo.email}
-                                    disabled
-                                />
-                            </div>
-                        )}
+                                    <label htmlFor="novo-email">Novo e-mail</label>
+                                    <input
+                                        id="novo-email"
+                                        type="email"
+                                        autoComplete="email"
+                                        required
+                                        value={email}
+                                        onChange={evento => setEmail(evento.target.value)}
+                                    />
+                                    <label htmlFor="codigo-verificacao-email">Código enviado para seu e-mail atual</label>
+                                    <input
+                                        id="codigo-verificacao-email"
+                                        type="text"
+                                        inputMode="numeric"
+                                        autoComplete="one-time-code"
+                                        maxLength={4}
+                                        required
+                                        value={codigoVerificacaoContato}
+                                        onChange={evento => setCodigoVerificacaoContato(evento.target.value.replace(/\D/g, ''))}
+                                    />
+                                    {campoMensagemContato === 'email' && mensagemContato && (
+                                        <p className={`mensagem-contato ${erroContato ? 'erro' : 'sucesso'}`} role={erroContato ? 'alert' : 'status'}>
+                                            {mensagemContato}
+                                        </p>
+                                    )}
+                                    <div className="acoes-contato">
+                                        <button
+                                            type="button"
+                                            className="reenviar"
+                                            onClick={() => solicitarCodigoContato('email', email)}
+                                            disabled={processandoContato}
+                                        >
+                                            Reenviar código
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="cancelar"
+                                            onClick={() => {
+                                                setAlteracaoContato('');
+                                                setCodigoVerificacaoContato('');
+                                                setMensagemContato('');
+                                            }}
+                                            disabled={processandoContato}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" className="confirmar" disabled={processandoContato}>
+                                            {processandoContato ? 'Processando...' : 'Confirmar alteração'}
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="container">
+                                    <button
+                                        className="editar"
+                                        type="button"
+                                        onClick={() => {
+                                            setEmail(userInfo.email || '');
+                                            solicitarCodigoContato('email', userInfo.email || '');
+                                        }}
+                                        disabled={Boolean(alteracaoContato) || processandoContato}
+                                    >
+                                        {processandoContato && campoMensagemContato === 'email' ? 'Enviando código...' : 'Alterar com código'}
+                                    </button>
+                                    <input id="email-atual" type="text" value={userInfo.email || ''} disabled />
+                                </div>
+                            )}
+                            {alteracaoContato !== 'email' && campoMensagemContato === 'email' && mensagemContato && (
+                                <p className={`mensagem-contato ${erroContato ? 'erro' : 'sucesso'}`} role={erroContato ? 'alert' : 'status'}>
+                                    {mensagemContato}
+                                </p>
+                            )}
+                        </div>
                     </div>
 
                     <hr />
@@ -696,39 +888,86 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                     <hr />
 
                     <div className="campo">
-                        <label htmlFor="">Telefone</label>
-                        {editandoTel ? (
-                            <form className='container editando'
-                                onSubmit={alterarTel}
-                            >
-                                <button className="cancelar"
-                                    onClick={() => setEditandoTel(!editandoTel)}
+                        <label htmlFor="telefone-atual">Telefone</label>
+                        <div className="controle-contato">
+                            {alteracaoContato === 'telefone' ? (
+                                <form
+                                    className="verificacao-contato"
+                                    onSubmit={evento => confirmarAlteracaoContato(evento, 'telefone')}
                                 >
-                                    Cancelar
-                                </button>
-                                <button type='submit' className="enviar">
-                                    alterar
-                                </button>
-
-                                <input type='text'
-                                    value={telefone}
-                                    onChange={e => setTelefone(formatarTelefone(e.target.value))}
-                                />
-                            </form>
-                        ) : (
-                            <div className="container">
-                                <button className="editar"
-                                    onClick={() => setEditandoTel(!editandoTel)}
-                                >
-                                    editar
-                                </button>
-
-                                <input type="text"
-                                    value={userInfo.telefone}
-                                    disabled
-                                />
-                            </div>
-                        )}
+                                    <label htmlFor="novo-telefone">Novo telefone</label>
+                                    <input
+                                        id="novo-telefone"
+                                        type="tel"
+                                        autoComplete="tel"
+                                        required
+                                        value={telefone}
+                                        onChange={evento => setTelefone(formatarTelefone(evento.target.value))}
+                                    />
+                                    <label htmlFor="codigo-verificacao-telefone">Código enviado para seu e-mail</label>
+                                    <input
+                                        id="codigo-verificacao-telefone"
+                                        type="text"
+                                        inputMode="numeric"
+                                        autoComplete="one-time-code"
+                                        maxLength={4}
+                                        required
+                                        value={codigoVerificacaoContato}
+                                        onChange={evento => setCodigoVerificacaoContato(evento.target.value.replace(/\D/g, ''))}
+                                    />
+                                    {campoMensagemContato === 'telefone' && mensagemContato && (
+                                        <p className={`mensagem-contato ${erroContato ? 'erro' : 'sucesso'}`} role={erroContato ? 'alert' : 'status'}>
+                                            {mensagemContato}
+                                        </p>
+                                    )}
+                                    <div className="acoes-contato">
+                                        <button
+                                            type="button"
+                                            className="reenviar"
+                                            onClick={() => solicitarCodigoContato('telefone', telefone)}
+                                            disabled={processandoContato}
+                                        >
+                                            Reenviar código
+                                        </button>
+                                        <button
+                                            type="button"
+                                            className="cancelar"
+                                            onClick={() => {
+                                                setAlteracaoContato('');
+                                                setCodigoVerificacaoContato('');
+                                                setMensagemContato('');
+                                            }}
+                                            disabled={processandoContato}
+                                        >
+                                            Cancelar
+                                        </button>
+                                        <button type="submit" className="confirmar" disabled={processandoContato}>
+                                            {processandoContato ? 'Processando...' : 'Confirmar alteração'}
+                                        </button>
+                                    </div>
+                                </form>
+                            ) : (
+                                <div className="container">
+                                    <button
+                                        className="editar"
+                                        type="button"
+                                        onClick={() => {
+                                            setTelefone(userInfo.telefone || '');
+                                            solicitarCodigoContato('telefone', userInfo.telefone || '');
+                                        }}
+                                        disabled={Boolean(alteracaoContato) || processandoContato}
+                                    >
+                                        {processandoContato && campoMensagemContato === 'telefone' ? 'Enviando código...' : 'Alterar com código'}
+                                    </button>
+                                    <input id="telefone-atual" type="text" value={userInfo.telefone || ''} disabled />
+                                </div>
+                            )}
+                            {alteracaoContato !== 'telefone' && campoMensagemContato === 'telefone' && mensagemContato && (
+                                <p className={`mensagem-contato ${erroContato ? 'erro' : 'sucesso'}`} role={erroContato ? 'alert' : 'status'}>
+                                    {mensagemContato}
+                                </p>
+                            )}
+                        </div>
                     </div>
                     <div className="campo">
                         <label htmlFor="">CPF</label>
@@ -777,11 +1016,56 @@ export default function PerfilUsuario({ setUsuarioLogado }) {
                         </dl>
                     </section>
 
-                    {erro && (
-                        <div className="erro">
-                            <p>{erro}</p>
+                    <section className="secao-preferencias" aria-labelledby="titulo-minhas-preferencias">
+                        <div className="cabecalho-preferencias">
+                            <h2 id="titulo-minhas-preferencias">Minhas preferências</h2>
+                            {preferencias.length > 0 && (
+                                <button
+                                    type="button"
+                                    className="botao-excluir-preferencias"
+                                    onClick={() => {
+                                        setErroPreferencias('');
+                                        setConfirmacaoExclusaoPreferenciasAberta(true);
+                                    }}
+                                >
+                                    Excluir preferências
+                                </button>
+                            )}
                         </div>
-                    )}
+
+                        {carregandoPreferencias ? (
+                            <p className="preferencias-carregando">Carregando preferências...</p>
+                        ) : erroPreferencias ? (
+                            <p className="preferencias-erro" role="alert">{erroPreferencias}</p>
+                        ) : (() => {
+                            const preferenciaAtual = Array.isArray(preferencias) && preferencias.length > 0 ? preferencias[0] : null;
+                            const itensPreferencia = preferenciaAtual
+                                ? [
+                                    { chave: 'Onde_Mora', label: 'Onde mora', valor: preferenciaAtual.Onde_Mora },
+                                    { chave: 'Animal_Sozinho_Tempo', label: 'Tempo sozinho', valor: preferenciaAtual.Animal_Sozinho_Tempo },
+                                    { chave: 'possui_animais', label: 'Possui outros animais', valor: preferenciaAtual.possui_animais },
+                                    { chave: 'possui_crianca', label: 'Há crianças na residência', valor: preferenciaAtual.possui_crianca },
+                                    { chave: 'Ja_Teve_animais', label: 'Já teve animais', valor: preferenciaAtual.Ja_Teve_animais }
+                                ]
+                                : [];
+
+                            if (!itensPreferencia.length) {
+                                return <p className="preferencias-vazio">Você ainda não cadastrou preferências.</p>;
+                            }
+
+                            return (
+                                <ul className="lista-preferencias">
+                                    {itensPreferencia.map((item) => (
+                                        <li key={item.chave} className="item-preferencia">
+                                            <span className="label">{item.label}</span>
+                                            <strong>{item.valor || 'Não informado'}</strong>
+                                        </li>
+                                    ))}
+                                </ul>
+                            );
+                        })()}
+                    </section>
+
                 </section>
 
                 <hr />

@@ -1,6 +1,6 @@
 import "./index.scss";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import {
   FaPaw,
   FaCheck,
@@ -54,15 +54,33 @@ export default function Adocao({
     cidade: "",
     estado: ""
   });
-  const [tokenEnderecoCriado, setTokenEnderecoCriado] = useState("");
+  const [tokenEnderecoDisponivel, setTokenEnderecoDisponivel] = useState("");
+  const [consultandoEndereco, setConsultandoEndereco] = useState(false);
 
   const [animais, setAnimais] = useState([]);
   const [carregandoAnimais, setCarregandoAnimais] = useState(true);
   const [erroAnimais, setErroAnimais] = useState("");
   const [paginaAtual, setPaginaAtual] = useState(1);
+  const [ajustarScrollPaginacao, setAjustarScrollPaginacao] = useState(false);
+  const paginacaoRef = useRef(null);
+
+  useEffect(() => {
+    if (!ajustarScrollPaginacao) return;
+
+    paginacaoRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "center"
+    });
+    setAjustarScrollPaginacao(false);
+  }, [ajustarScrollPaginacao]);
+
+  function mudarPagina(novaPagina) {
+    setPaginaAtual(novaPagina);
+    setAjustarScrollPaginacao(true);
+  }
 
   const enderecoJaCadastrado = Boolean(
-    tokenEnderecoCriado && tokenEnderecoCriado === localStorage.getItem("token")
+    tokenEnderecoDisponivel && tokenEnderecoDisponivel === localStorage.getItem("token")
   );
   const tokenSessao = localStorage.getItem("token");
   const usuarioAutenticado = Boolean(
@@ -156,22 +174,76 @@ export default function Adocao({
     return () => window.removeEventListener("keydown", fecharComEscape);
   }, [animalSelecionado]);
 
-  function abrirModalAdocao(animalSelecionado) {
+  async function abrirModalAdocao(animalSelecionado) {
     setAnimalSelecionado(animalSelecionado);
     setErroAdocao("");
     setAdocaoEnviada(false);
     setPrecisaLogin(false);
     setDeclarouMaioridade(false);
-    if (tokenEnderecoCriado !== localStorage.getItem("token")) {
-      setEnderecoAdocao({
-        cep: "",
-        rua: "",
-        numero: "",
-        complemento: "",
-        bairro: "",
-        cidade: "",
-        estado: ""
+
+    const token = localStorage.getItem("token");
+    if (!usuarioAutenticado || !token || tokenEnderecoDisponivel === token) return;
+
+    setEnderecoAdocao({
+      cep: "",
+      rua: "",
+      numero: "",
+      complemento: "",
+      bairro: "",
+      cidade: "",
+      estado: ""
+    });
+    setConsultandoEndereco(true);
+
+    try {
+      const resposta = await fetch("http://localhost:6767/usuario/listarTudo", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
+      const dados = await resposta.json();
+
+      if (resposta.status === 401 || resposta.status === 403) {
+        localStorage.removeItem("token");
+        setUsuarioLogado(false);
+        setPrecisaLogin(true);
+        throw new Error("Sua sessão expirou. Entre novamente para solicitar a adoção.");
+      }
+
+      if (!resposta.ok) {
+        throw new Error(dados?.erro || "Não foi possível carregar seu endereço cadastrado.");
+      }
+
+      const endereco = dados?.resposta;
+      const possuiEndereco = Boolean(
+        endereco?.cep
+        || endereco?.rua
+        || endereco?.numero
+        || endereco?.complemento
+        || endereco?.bairro
+        || endereco?.cidade
+        || endereco?.estado
+      );
+
+      if (possuiEndereco) {
+        setEnderecoAdocao({
+          cep: endereco.cep || "",
+          rua: endereco.rua || "",
+          numero: endereco.numero || "",
+          complemento: endereco.complemento || "",
+          bairro: endereco.bairro || "",
+          cidade: endereco.cidade || "",
+          estado: endereco.estado || ""
+        });
+        setTokenEnderecoDisponivel(token);
+      }
+    } catch (erro) {
+      setErroAdocao(erro instanceof TypeError
+        ? "Não foi possível carregar seu endereço. Tente novamente."
+        : erro.message);
+    } finally {
+      setConsultandoEndereco(false);
     }
   }
 
@@ -223,7 +295,7 @@ export default function Adocao({
   async function solicitarAdocao(evento) {
     evento.preventDefault();
 
-    if (!declarouMaioridade || enviandoAdocao || adocaoEnviada) return;
+    if (!declarouMaioridade || enviandoAdocao || adocaoEnviada || consultandoEndereco) return;
 
     const token = localStorage.getItem("token");
     if (!usuarioAutenticado || !token) {
@@ -237,7 +309,7 @@ export default function Adocao({
     setPrecisaLogin(false);
 
     try {
-      if (tokenEnderecoCriado !== token) {
+      if (tokenEnderecoDisponivel !== token) {
         const respostaEndereco = await fetch("http://localhost:6767/endereco-usuario/criar", {
           method: "POST",
           headers: {
@@ -259,7 +331,7 @@ export default function Adocao({
           throw new Error(dadosEndereco.erro || "Não foi possível cadastrar seu endereço.");
         }
 
-        setTokenEnderecoCriado(token);
+        setTokenEnderecoDisponivel(token);
       }
 
       const resposta = await fetch("http://localhost:6767/adocoes/criar", {
@@ -508,10 +580,10 @@ export default function Adocao({
           ))}
             </div>
             {totalPaginas > 1 && (
-              <nav className="paginacao-animais" aria-label="Paginação dos animais">
+              <nav ref={paginacaoRef} className="paginacao-animais" aria-label="Paginação dos animais">
                 <button
                   type="button"
-                  onClick={() => setPaginaAtual(Math.max(1, paginaAtualVisivel - 1))}
+                  onClick={() => mudarPagina(Math.max(1, paginaAtualVisivel - 1))}
                   disabled={paginaAtualVisivel === 1}
                 >
                   Anterior
@@ -521,7 +593,7 @@ export default function Adocao({
                 </span>
                 <button
                   type="button"
-                  onClick={() => setPaginaAtual(Math.min(totalPaginas, paginaAtualVisivel + 1))}
+                  onClick={() => mudarPagina(Math.min(totalPaginas, paginaAtualVisivel + 1))}
                   disabled={paginaAtualVisivel === totalPaginas}
                 >
                   Próxima
@@ -605,7 +677,9 @@ export default function Adocao({
                 <fieldset className="modal-adocao-endereco" disabled={enderecoJaCadastrado}>
                   <legend>Seu endereço</legend>
                   <p>
-                    {enderecoJaCadastrado
+                    {consultandoEndereco
+                      ? "Verificando se você já possui um endereço cadastrado..."
+                      : enderecoJaCadastrado
                       ? "Endereço cadastrado e pronto para ser usado na solicitação."
                       : "Informe o endereço para contato sobre a adoção."}
                   </p>
@@ -746,7 +820,7 @@ export default function Adocao({
                   <button type="button" className="modal-adocao-cancelar" onClick={fecharModalAdocao} disabled={enviandoAdocao}>
                     Cancelar
                   </button>
-                  <button type="submit" className="modal-adocao-confirmar" disabled={enviandoAdocao || !declarouMaioridade}>
+                  <button type="submit" className="modal-adocao-confirmar" disabled={enviandoAdocao || consultandoEndereco || !declarouMaioridade}>
                     {enviandoAdocao ? "Enviando..." : "Confirmar solicitação"}
                   </button>
                 </div>

@@ -2,7 +2,7 @@ import "./index.scss";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function Questionario() {
+export default function Questionario({ setQuestionarioRespondido }) {
   const navigate = useNavigate();
 
   const [indicePergunta, setIndicePergunta] = useState(0);
@@ -128,6 +128,7 @@ export default function Questionario() {
       }
 
       setConcluido(true);
+      setQuestionarioRespondido?.(true);
 
       setTimeout(() => {
         navigate("/Adocao");

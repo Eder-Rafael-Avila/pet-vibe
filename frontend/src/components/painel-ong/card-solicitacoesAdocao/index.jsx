@@ -10,6 +10,14 @@ export default function CardSolicitacaoAdocao({
     onReprovar
 }) {
     const estaOcupado = Boolean(bloqueado || acaoEmAndamento);
+    const preferencias = [
+        ['Moradia', solicitacao.preferencia_moradia],
+        ['Tempo que ficará sozinho', solicitacao.preferencia_tempo_sozinho],
+        ['Possui outros animais', solicitacao.preferencia_outros_animais],
+        ['Há crianças na residência', solicitacao.preferencia_criancas],
+        ['Experiência com animais', solicitacao.preferencia_experiencia]
+    ];
+    const possuiPreferencias = preferencias.some(([, valor]) => valor);
 
     return (
         <article className="card-solicitacao-adocao">
@@ -51,6 +59,22 @@ export default function CardSolicitacaoAdocao({
                         </a>
                     )}
                 </div>
+
+                <section className="card-solicitacao-adocao__preferencias" aria-label="Preferências do questionário">
+                    <span className="card-solicitacao-adocao__rotulo">Preferências de adoção</span>
+                    {possuiPreferencias ? (
+                        <dl>
+                            {preferencias.map(([label, valor]) => (
+                                <div key={label}>
+                                    <dt>{label}</dt>
+                                    <dd>{valor || 'Não informado'}</dd>
+                                </div>
+                            ))}
+                        </dl>
+                    ) : (
+                        <p>Este usuário ainda não respondeu ao questionário.</p>
+                    )}
+                </section>
 
                 <div className="card-solicitacao-adocao__acoes">
                     <button

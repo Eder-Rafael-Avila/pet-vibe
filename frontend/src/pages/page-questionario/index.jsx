@@ -6,7 +6,9 @@ import Footer from '../../components/footer'
 
 export default function Questionarioo({
     usuarioLogado,
-    setUsuarioLogado
+    setUsuarioLogado,
+    questionarioRespondido,
+    setQuestionarioRespondido
 }){
     return(
         <div className='page-questionario'>
@@ -15,7 +17,10 @@ export default function Questionarioo({
         logado={usuarioLogado}
         setUsuarioLogado={setUsuarioLogado}
       />
-        <Questionario />
+        <Questionario
+            questionarioRespondido={questionarioRespondido}
+            setQuestionarioRespondido={setQuestionarioRespondido}
+        />
         <Footer />
         </>
         </div>

@@ -120,6 +120,12 @@ export async function listarAdocoesPendentesOng(idOng) {
 
             endereco_usuarios.cidade AS cidade_usuario,
 
+            prefs.Onde_Mora AS preferencia_moradia,
+            prefs.Animal_Sozinho_Tempo AS preferencia_tempo_sozinho,
+            prefs.possui_animais AS preferencia_outros_animais,
+            prefs.possui_crianca AS preferencia_criancas,
+            prefs.Ja_Teve_animais AS preferencia_experiencia,
+
             COALESCE(
                 NULLIF(
                     CONCAT_WS(', ',
@@ -151,6 +157,9 @@ export async function listarAdocoesPendentesOng(idOng) {
 
         LEFT JOIN endereco_usuarios
             ON usuarios.id_usuario = endereco_usuarios.id_usuario
+
+        LEFT JOIN prefs
+            ON usuarios.id_usuario = prefs.id_usuario
 
         INNER JOIN perfil_animal
             ON adocoes.id_animal = perfil_animal.id_animal

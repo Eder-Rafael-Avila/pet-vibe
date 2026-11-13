@@ -80,6 +80,40 @@
         color: #34443e;
     }
 
+    &__preferencias {
+        display: flex;
+        flex-direction: column;
+        gap: .6rem;
+        padding: .9rem;
+        border-radius: .65rem;
+        background: #f3f8f6;
+
+        dl {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: .55rem;
+            margin: 0;
+        }
+
+        dl > div {
+            min-width: 0;
+        }
+
+        dt {
+            color: #6a7973;
+            font-size: .85rem;
+            font-weight: 600;
+        }
+
+        dd,
+        p {
+            margin: .15rem 0 0;
+            overflow-wrap: anywhere;
+            color: #34443e;
+            font-size: .95rem;
+        }
+    }
+
     &__id {
         display: flex;
         align-items: center;
@@ -135,6 +169,10 @@
         &__imagem img {
             height: 11rem;
             min-height: 0;
+        }
+
+        &__preferencias dl {
+            grid-template-columns: 1fr;
         }
     }
 }
