@@ -41,7 +41,7 @@ export function validarToken(req, resp, next) {
 
         if (tipoToken.tipo !== 'USUARIO') {
             return resp.status(403).send({
-                erro: 'Token sem permissão para rotas de usuário'
+                erro: 'Você não pode acessar essa aba como ONG'
             });
         }
 
